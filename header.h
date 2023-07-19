@@ -29,14 +29,14 @@ class TextDisplay: public Display {
 class Player {
     GameBoard* gb;
     public: 
-        void notify () {
-
-        }
+        void notify ();
 };
 
 
-class TextDisplay {
-
+class TextDisplay: public Display {
+    GameBoard *gb;
+    public:
+        void notify();
 };
 
 class GameBoard {
