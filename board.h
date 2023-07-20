@@ -1,4 +1,9 @@
-#include <bits/stdc++.h>
+//#include <bits/stdc++.h>
+#include <string>
+#include <iostream>
+#include <vector>
+#include <random>
+
 
 class Tile {
     int num;

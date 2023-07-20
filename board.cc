@@ -1,5 +1,6 @@
-#include <bits/stdc++.h>
+//#include <bits/stdc++.h>
 #include "board.h"
+#include <random>
 
 // Methods in Tile
 void Tile::printNum() const { 
