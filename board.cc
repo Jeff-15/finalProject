@@ -1430,9 +1430,3 @@ void printGameBoard(/* This function will consumer three paremeters: Tile *tiles
     std::cout << '|' << std::endl;
 
 }
-
-
-int main() {
-    printGameBoard();
-    return 0;
-}
