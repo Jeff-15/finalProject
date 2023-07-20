@@ -124,8 +124,6 @@ void printGameBoard(/* This function will consumer three paremeters: Tile *tiles
         edges[i].setStatus(false);
         edges[i].setOwner("");
     }
-    // Initialization for display temporarily. Would be deleted later.
-
 
     // print line 1.
     std::cout << std::string(20, ' ');
@@ -1428,5 +1426,4 @@ void printGameBoard(/* This function will consumer three paremeters: Tile *tiles
         vertices[53].printNum();
     }
     std::cout << '|' << std::endl;
-
 }
