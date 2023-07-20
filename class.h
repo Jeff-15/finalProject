@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include "board.h"
 
 class Subject {
     protected: 
@@ -46,7 +47,11 @@ class GameBoard {
     void initializeDesert();
     void initialzeStone();
     void initialzeRolls();
-    Dice* d;
+    std::vector <Dice*> d;
+    std::vector <Tile*> d;
+    std::vector <Vertex*> d;
+    std::vector <Edge*> d;
+
     public: 
         void processCommand(int event,int target);
         void initialize();
