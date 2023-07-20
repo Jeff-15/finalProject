@@ -1,0 +1,12 @@
+Idea of process:
+*Turn Starts for player 1*
+GameBoard gb calls notifyPlayer(target = 1, event = *int represent this event*), which calls notify() for all players
+Player p1, upon calling notify(target = 1), is triggered, and react base on the event number.
+Since it is the start of his turn, p1 calls the turn function that outlines the order of actions in a turn. First it is the dice.
+p1 should do dice rolling, say they decides to do a loaded dice. 
+p1 calls gb->processCommand(*some parameter*) to initialize a loaded dice in gb
+p1 calls gb->processCommand(*some parameter*) to start rolling
+gb recieves, calls generate in dice, which asks for a number from p1. gb calls notifyPlayer(target = 1, *some parameter*) for input
+p1 recieves and input the loaded dice roll. it is sent using gb->processCommand
+Dice rolling is done. 
+gb process dice rolling: sending
