@@ -1,64 +1,118 @@
 #include <bits/stdc++.h>
+#include "board.h"
 
-class Tile {
-    int num;
-    std::string type;
-    int val;
-    bool goose;
+// Methods in Tile
+void Tile::printNum() const { 
+    if (num < 10) std::cout << ' ' << num; 
+    else std::cout << num;
+}
 
-  public:
-    void printNum() const { std::cout << num; }
-    void printType() const { std::cout << type; }
-    void printVal() const { std::cout << val; }
-    bool occupy() const { return goose; }
-    void setNum(int num) { this->num = num; }
-    void setType(std::string type) { this->type = type; }
-    void setVal(int val) { this->val = val; }
-    void setStatus(bool goose) { this->goose = goose; }
-};
+void Tile::printType() const { std::cout << type; }
 
-class Vertex {
-    int num;
-    bool occupy;
-    std::string owner;
+void Tile::printVal() const { std::cout << val; }
 
-  public:
-    void printNum() const { std::cout << num; }
-    void printOwner() const { std::cout << owner; }
-    bool own() const { return occupy; }
-    void setNum(int num) { this->num = num; }
-    void setStatus (bool occupy) { this->occupy = occupy; }
-    void setOwner(std::string owner) { this->owner = owner; }
-};
+bool Tile::occupy() const { return goose; }
 
-class Edge {
-    int num;
-    bool occupy;
-    std::string owner;
+int Tile::getVal() { return val; }
 
-  public:
-    void printNum() { std::cout << num; }
-    void printOwner() { std::cout << owner; }
-    bool own() { return occupy; }
-    void setNum(int num) { this->num = num; }
-    void setStatus (bool occupy) { this->occupy = occupy; }
-    void setOwner(std::string owner) { this->owner = owner; }
-};
+std::string Tile::getType() {return type; }
+
+int Tile::getLength() { return type.length(); }
+
+void Tile::setNum(int num) { this->num = num; }
+
+void Tile::setType(std::string type) { this->type = type; }
+
+void Tile::setVal(int val) { this->val = val; }
+
+void Tile::setStatus(bool goose) { this->goose = goose; }
 
 
+// Methods in Vertex
+void Vertex::printNum() const { 
+    if (num < 10) std::cout << ' ' << num; 
+    else std::cout << num;
+}
 
-void printGameBoard() {
+void Vertex::printOwner() const { std::cout << owner; }
+
+bool Vertex::own() const { return occupy; }
+
+void Vertex::setNum(int num) { this->num = num; }
+
+void Vertex::setStatus (bool occupy) { this->occupy = occupy; }
+
+void Vertex::setOwner(std::string owner) { this->owner = owner; }
+
+
+// Methods in Edge
+void Edge::printNum() const { 
+    if (num < 10) std::cout << ' ' << num; 
+    else std::cout << num;
+}
+void Edge::printOwner() { std::cout << owner; }
+bool Edge::own() { return occupy; }
+void Edge::setNum(int num) { this->num = num; }
+void Edge::setStatus (bool occupy) { this->occupy = occupy; }
+void Edge::setOwner(std::string owner) { this->owner = owner; }
+
+
+
+std::vector<int> generateNumbers() {
+    // Create a vector with the exact counts of each number
+    std::vector<int> numbers = {2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12};
+
+    // Create a random generator
+    std::mt19937 rng(std::random_device{}()); 
+
+    // Shuffle the vector to randomize the order of the numbers
+    std::shuffle(numbers.begin(), numbers.end(), rng);
+
+    return numbers;
+}
+
+std::vector<std::string> generateStrings() {
+    // Create a vector with the exact counts of each string
+    std::vector<std::string> strings = {"PARK", "BRICK", "BRICK", "BRICK", "BRICK", 
+                                        "ENERGY", "ENERGY", "ENERGY", "ENERGY",
+                                        "GLASS", "GLASS", "GLASS", "GLASS",
+                                        "HEAT", "HEAT", "HEAT",
+                                        "WIFI", "WIFI", "WIFI"};
+
+    // Create a random generator
+    std::mt19937 rng(std::random_device{}()); 
+
+    // Shuffle the vector to randomize the order of the strings
+    std::shuffle(strings.begin(), strings.end(), rng);
+
+    return strings;
+}
+
+
+void printGameBoard(/* This function will consumer three paremeters: Tile *tiles, Vertex *vertices, 
+                    Edge *edges to get the information to be printed*/) {
+    const int goose = 7;
     const int tileNum = 19;
     const int vertexNum = 54;
     const int edgeNum = 72;
     Tile tiles [tileNum];
     Vertex vertices [vertexNum];
     Edge edges [edgeNum];
+    std::vector<int> randomNumber = generateNumbers();
+    std::vector<std::string> randomString = generateStrings();
     for (int i = 0; i < tileNum; ++i) {
         tiles[i].setNum(i);
-        tiles[i].setType("");
-        tiles[i].setVal(i);
-        tiles[i].setStatus(false);
+        tiles[i].setType(randomString.back());
+        if (randomString.back() == "PARK") {
+            randomString.pop_back();
+            tiles[i].setVal(goose);
+            tiles[i].setStatus(true);
+        } else {
+            randomString.pop_back();
+            tiles[i].setVal(randomNumber.back());
+            randomNumber.pop_back();
+            tiles[i].setStatus(false);
+        }
     }
     for (int i = 0; i < vertexNum; ++i) {
         vertices[i].setNum(i);
@@ -70,26 +124,28 @@ void printGameBoard() {
         edges[i].setStatus(false);
         edges[i].setOwner("");
     }
-    
+    // Initialization for display temporarily. Would be deleted later.
+
+
     // print line 1.
     std::cout << std::string(20, ' ');
     std::cout << '|';
-    if (vertices[0].occupy) {
-        std::cout << vertices[0].owner;
+    if (vertices[0].own()) {
+        vertices[0].printOwner();
     } else {
-        std::cout << ' ' << vertices[0].num;
+        vertices[0].printNum();
     }
     std::cout << "|--";
-    if (edges[0].occupy) {
-        std::cout << ' ' << edges[0].owner;
+    if (edges[0].own()) {
+        edges[0].printOwner();
     } else {
-        std::cout << ' ' << edges[0].num;
+        edges[0].printNum();
     }
     std::cout << "--|";
-    if (vertices[1].occupy) {
-        std::cout << vertices[1].owner;
+    if (vertices[1].own()) {
+        vertices[1].printOwner();
     } else {
-        std::cout << ' ' << vertices[1].num;
+        vertices[1].printNum();
     }
     std::cout << '|' << std::endl;
 
@@ -101,18 +157,18 @@ void printGameBoard() {
 
     // prints line 3.
     std::cout << std::string(21, ' ');
-    if (edges[1].occupy) {
-        std::cout << ' ' << edges[1].owner;
+    if (edges[1].own()) {
+        edges[1].printOwner();
     } else {
-        std::cout << ' ' << edges[1].num;
+        edges[1].printNum();
     }
     std::cout << std::string(3, ' ');
-    std::cout << ' ' << tiles[0].num;
+    tiles[0].printNum();
     std::cout << std::string(3, ' ');
-    if (edges[2].occupy) {
-        std::cout << ' ' << edges[2].owner;
+    if (edges[2].own()) {
+        edges[2].printOwner();
     } else {
-        std::cout << ' ' << edges[2].num;
+        edges[2].printNum();
     }
     std::cout << std::endl;
 
@@ -120,52 +176,56 @@ void printGameBoard() {
     std::cout << std::string(22, ' ');
     std::cout << '|';
     std::cout << std::string(2, ' ');
-    std::cout << tiles[0].type;
-    std::cout << std::string(7 - tiles[0].type.length(), ' ');
+    tiles[0].printType();
+    std::cout << std::string(7 - tiles[0].getLength(), ' ');
     std::cout << '|' << std::endl;
 
     // prints line 5.
     std::cout << std::string(10, ' ');  
     std::cout << '|';
-    if (vertices[2].occupy) {
-        std::cout << vertices[2].owner;
+    if (vertices[2].own()) {
+        vertices[2].printOwner();
     } else {
-        std::cout << ' ' << vertices[2].num;
+        vertices[2].printNum();
     }
     std::cout << "|--";
-    if (edges[3].occupy) {
-        std::cout << ' ' << edges[3].owner;
+    if (edges[3].own()) {
+        edges[3].printOwner();
     } else {
-        std::cout << ' ' << edges[3].num;
+        edges[3].printNum();
     }
     std::cout << "--|";
-    if (vertices[3].occupy) {
-        std::cout << vertices[3].owner;
+    if (vertices[3].own()) {
+        vertices[3].printOwner();
     } else {
-        std::cout << ' ' << vertices[3].num;
+        vertices[3].printNum();
     }
     std::cout << '|';
-    std::cout << std::string(2, ' ');
-    if (tiles[0].val < 10) std::cout << ' ';
-    std::cout << tiles[0].val;
-    std::cout << std::string(2, ' ');
-    std::cout << '|';
-    if (vertices[4].occupy) {
-        std::cout << vertices[4].owner;
+    if (tiles[0].getType() != "PARK") {
+        std::cout << std::string(2, ' ');
+        if (tiles[0].getVal() < 10) std::cout << ' ';
+        tiles[0].printVal();
+        std::cout << std::string(2, ' ');
     } else {
-        std::cout << ' ' << vertices[4].num;
+        std::cout << std::string(6, ' ');
+    }
+    std::cout << '|';
+    if (vertices[4].own()) {
+        vertices[4].printOwner();
+    } else {
+        vertices[4].printNum();
     }
     std::cout << "|--";
-    if (edges[4].occupy) {
-        std::cout << ' ' << edges[4].owner;
+    if (edges[4].own()) {
+        edges[4].printOwner();
     } else {
-        std::cout << ' ' << edges[4].num;
+        edges[4].printNum();
     }
     std::cout << "--|";
-    if (vertices[5].occupy) {
-        std::cout << vertices[5].owner;
+    if (vertices[5].own()) {
+        vertices[5].printOwner();
     } else {
-        std::cout << ' ' << vertices[5].num;
+        vertices[5].printNum();
     }
     std::cout << '|' << std::endl;
 
@@ -181,32 +241,32 @@ void printGameBoard() {
 
     // prints line 7.
     std::cout << std::string(11, ' ');
-    if (edges[5].occupy) {
-        std::cout << ' ' << edges[5].owner;
+    if (edges[5].own()) {
+        edges[5].printOwner();
     } else {
-        std::cout << ' ' << edges[5].num;
+        edges[5].printNum();
     }
     std::cout << std::string(3, ' ');
-    std::cout << ' ' << tiles[1].num;
+    tiles[1].printNum();
     std::cout << std::string(3, ' ');
-    if (edges[6].occupy) {
-        std::cout << ' ' << edges[6].owner;
+    if (edges[6].own()) {
+        edges[6].printOwner();
     } else {
-        std::cout << ' ' << edges[6].num;
+        edges[6].printNum();
     }
     std::cout << std::string(8, ' ');
-    if (edges[7].occupy) {
-        std::cout << ' ' << edges[7].owner;
+    if (edges[7].own()) {
+        edges[7].printOwner();
     } else {
-        std::cout << ' ' << edges[7].num;
+        edges[7].printNum();
     }
     std::cout << std::string(3, ' ');
-    std::cout << ' ' << tiles[2].num;
+    tiles[2].printNum();
     std::cout << std::string(3, ' ');
-    if (edges[8].occupy) {
-        std::cout << ' ' << edges[8].owner;
+    if (edges[8].own()) {
+        edges[8].printOwner();
     } else {
-        std::cout << ' ' << edges[8].num;
+        edges[8].printNum();
     }
     std::cout << std::endl;
 
@@ -214,80 +274,88 @@ void printGameBoard() {
     std::cout << std::string(12, ' ');
     std::cout << '|';
     std::cout << std::string(2, ' ');
-    std::cout << tiles[1].type;
-    std::cout << std::string(7 - tiles[1].type.length(), ' ');
+    tiles[1].printType();
+    std::cout << std::string(7 - tiles[1].getLength(), ' ');
     std::cout << '|';
     std::cout << std::string(9, ' ');
     std::cout << '|';
     std::cout << std::string(2, ' ');
-    std::cout << tiles[1].type;
-    std::cout << std::string(7 - tiles[1].type.length(), ' ');
+    tiles[1].printType();
+    std::cout << std::string(7 - tiles[1].getLength(), ' ');
     std::cout << '|' << std::endl;
 
     // prints line 9.
     std::cout << '|';
-    if (vertices[6].occupy) {
-        std::cout << vertices[6].owner;
+    if (vertices[6].own()) {
+        vertices[6].printOwner();
     } else {
-        std::cout << ' ' << vertices[6].num;
+        vertices[6].printNum();
     }
     std::cout << "|--";
-    if (edges[9].occupy) {
-        std::cout << ' ' << edges[9].owner;
+    if (edges[9].own()) {
+        edges[9].printOwner();
     } else {
-        std::cout << ' ' << edges[9].num;
+        edges[9].printNum();
     }
     std::cout << "--|";
-    if (vertices[7].occupy) {
-        std::cout << vertices[7].owner;
+    if (vertices[7].own()) {
+        vertices[7].printOwner();
     } else {
-        std::cout << ' ' << vertices[7].num;
+        vertices[7].printNum();
     }
     std::cout << '|';
-    std::cout << std::string(2, ' ');
-    if (tiles[1].val < 10) std::cout << ' ';
-    std::cout << tiles[1].val;
-    std::cout << std::string(2, ' ');
-    std::cout << '|';
-    if (vertices[8].occupy) {
-        std::cout << vertices[8].owner;
+    if (tiles[1].getType() != "PARK") {
+        std::cout << std::string(2, ' ');
+        if (tiles[1].getVal() < 10) std::cout << ' ';
+        tiles[1].printVal();
+        std::cout << std::string(2, ' ');
     } else {
-        std::cout << ' ' << vertices[8].num;
+        std::cout << std::string(6, ' ');
+    }
+    std::cout << '|';
+    if (vertices[8].own()) {
+        vertices[8].printOwner();
+    } else {
+        vertices[8].printNum();
     }
     std::cout << "|--";
-    if (edges[10].occupy) {
-        std::cout << ' ' << edges[10].owner;
+    if (edges[10].own()) {
+        edges[10].printOwner();
     } else {
-        std::cout << edges[10].num;
+        edges[10].printNum();
     }
     std::cout << "--|";
-    if (vertices[9].occupy) {
-        std::cout << vertices[9].owner;
+    if (vertices[9].own()) {
+        vertices[9].printOwner();
     } else {
-        std::cout << ' ' << vertices[9].num;
+        vertices[9].printNum();
     }
     std::cout << '|';
-    std::cout << std::string(2, ' ');
-    if (tiles[2].val < 10) std::cout << ' ';
-    std::cout << tiles[1].val;
-    std::cout << std::string(2, ' ');
-    std::cout << '|';
-    if (vertices[10].occupy) {
-        std::cout << vertices[10].owner;
+    if (tiles[2].getType() != "PARK") {
+        std::cout << std::string(2, ' ');
+        if (tiles[2].getVal() < 10) std::cout << ' ';
+        tiles[2].printVal();
+        std::cout << std::string(2, ' ');
     } else {
-        std::cout << vertices[10].num;
+        std::cout << std::string(6, ' ');
+    }
+    std::cout << '|';
+    if (vertices[10].own()) {
+        vertices[10].printOwner();
+    } else {
+        vertices[10].printNum();
     }
     std::cout << "|--";
-    if (edges[11].occupy) {
-        std::cout << ' ' << edges[11].owner;
+    if (edges[11].own()) {
+        edges[11].printOwner();
     } else {
-        std::cout << edges[11].num;
+        edges[11].printNum();
     }
     std::cout << "--|";
-    if (vertices[11].occupy) {
-        std::cout << vertices[11].owner;
+    if (vertices[11].own()) {
+        vertices[11].printOwner();
     } else {
-        std::cout << vertices[11].num;
+        vertices[11].printNum();
     }
     std::cout << '|' << std::endl;
 
@@ -307,54 +375,146 @@ void printGameBoard() {
 
     // prints line 11.
     std::cout << ' ';
-    if (edges[12].occupy) {
-        std::cout << ' ' << edges[12].owner;
+    if (edges[12].own()) {
+        edges[12].printOwner();
     } else {
-        std::cout << edges[12].num;
+        edges[12].printNum();
     }
     std::cout << std::string(3, ' ');
-    std::cout << ' ' << tiles[3].num;
+    tiles[3].printNum();
     std::cout << std::string(3, ' ');
-    if (edges[13].occupy) {
-        std::cout << ' ' << edges[13].owner;
+    if (edges[13].own()) {
+        edges[13].printOwner();
     } else {
-        std::cout << edges[13].num;
-    }
-    std::cout << std::string(8, ' ');
-    if (edges[14].occupy) {
-        std::cout << ' ' << edges[14].owner;
-    } else {
-        std::cout << edges[14].num;
-    }
-    std::cout << std::string(3, ' ');
-    std::cout << ' ' << tiles[4].num;
-    std::cout << std::string(3, ' ');
-    if (edges[15].occupy) {
-        std::cout << ' ' << edges[15].owner;
-    } else {
-        std::cout << edges[15].num;
+        edges[13].printNum();
     }
     std::cout << std::string(8, ' ');
-    if (edges[16].occupy) {
-        std::cout << ' ' << edges[16].owner;
+    if (edges[14].own()) {
+        edges[14].printOwner();
     } else {
-        std::cout << edges[16].num;
+        edges[14].printNum();
     }
     std::cout << std::string(3, ' ');
-    std::cout << ' ' << tiles[4].num;
+    tiles[4].printNum();
     std::cout << std::string(3, ' ');
-    if (edges[17].occupy) {
-        std::cout << ' ' << edges[17].owner;
+    if (edges[15].own()) {
+        edges[15].printOwner();
     } else {
-        std::cout << edges[17].num;
+        edges[15].printNum();
+    }
+    std::cout << std::string(8, ' ');
+    if (edges[16].own()) {
+        edges[16].printOwner();
+    } else {
+        edges[16].printNum();
+    }
+    std::cout << std::string(3, ' ');
+    tiles[4].printNum();
+    std::cout << std::string(3, ' ');
+    if (edges[17].own()) {
+        edges[17].printOwner();
+    } else {
+        edges[17].printNum();
     }
     std::cout << std::endl;
 
     // prints line 12.
-    std::cout << std::endl;
+    std::cout << std::string(2, ' ');
+    std::cout << '|';
+    std::cout << std::string(2, ' ');
+    tiles[3].printType();
+    std::cout << std::string(7 - tiles[3].getLength(), ' ');
+    std::cout << '|';
+    std::cout << std::string(9, ' ');
+    std::cout << '|';
+    std::cout << std::string(2, ' ');
+    tiles[4].printType();
+    std::cout << std::string(7 - tiles[4].getLength(), ' ');
+    std::cout << '|';
+    std::cout << std::string(9, ' ');
+    std::cout << '|';
+    std::cout << std::string(2, ' ');
+    tiles[4].printType();
+    std::cout << std::string(7 - tiles[4].getLength(), ' ');
+    std::cout << '|' << std::endl;
 
     // prints line 13.
-    std::cout << std::endl;
+    std::cout << '|';
+    if (vertices[12].own()) {
+        vertices[12].printOwner();
+    } else {
+        vertices[12].printNum();
+    }
+    std::cout << '|';
+    if (tiles[3].getType() != "PARK") {
+        std::cout << std::string(2, ' ');
+        if (tiles[3].getVal() < 10) std::cout << ' ';
+        tiles[3].printVal();
+        std::cout << std::string(2, ' ');
+    } else {
+        std::cout << std::string(6, ' ');
+    }
+    std::cout << '|';
+    if (vertices[13].own()) {
+        vertices[13].printOwner();
+    } else {
+        vertices[13].printNum();
+    }
+    std::cout << "|--";
+    if (edges[18].own()) {
+        edges[18].printOwner();
+    } else {
+        edges[18].printNum();
+    }
+    std::cout << "--|";
+    if (vertices[14].own()) {
+        vertices[14].printOwner();
+    } else {
+        vertices[14].printNum();
+    }
+    std::cout << '|';
+    if (tiles[4].getType() != "PARK") {
+        std::cout << std::string(2, ' ');
+        if (tiles[4].getVal() < 10) std::cout << ' ';
+        tiles[4].printVal();
+        std::cout << std::string(2, ' ');
+    } else {
+        std::cout << std::string(6, ' ');
+    }
+    std::cout << '|';
+    if (vertices[15].own()) {
+        vertices[15].printOwner();
+    } else {
+        vertices[15].printNum();
+    }
+    std::cout << "|--";
+    if (edges[19].own()) {
+        edges[19].printOwner();
+    } else {
+        edges[19].printNum();
+    }
+    std::cout << "--|";
+    if (vertices[16].own()) {
+        vertices[16].printOwner();
+    } else {
+        vertices[16].printNum();
+    }
+    std::cout << '|';
+    if (tiles[5].getType() != "PARK") {
+        std::cout << std::string(2, ' ');
+        if (tiles[5].getVal() < 10) std::cout << ' ';
+        tiles[5].printVal();
+        std::cout << std::string(2, ' ');
+    } else {
+        std::cout << std::string(6, ' ');
+    }
+    std::cout << '|';
+    if (vertices[17].own()) {
+        vertices[17].printOwner();
+    } else {
+        vertices[17].printNum();
+    }
+    std::cout << '|' << std::endl;
 
     // prints line 14.
     std::cout << std::string(2, ' ');
@@ -498,16 +658,16 @@ void printGameBoard() {
 
     // prints line 39.
     std::cout << std::string(21, ' ');
-    if (edges[69].occupy) {
-        std::cout << ' ' << edges[69].owner;
+    if (edges[69].own()) {
+        edges[69].printOwner();
     } else {
-        std::cout << edges[69].num;
+        edges[69].printNum();
     }
     std::cout << std::string(8, ' ');
-    if (edges[70].occupy) {
-        std::cout << ' ' << edges[70].owner;
+    if (edges[70].own()) {
+        edges[70].printOwner();
     } else {
-        std::cout << edges[70].num;
+        edges[70].printNum();
     }
     std::cout << std::endl;
 
@@ -520,31 +680,23 @@ void printGameBoard() {
     // prints line 41.
     std::cout << std::string(20, ' ');
     std::cout << '|';
-    if (vertices[52].occupy) {
-        std::cout << vertices[52].owner;
+    if (vertices[52].own()) {
+        vertices[52].printOwner();
     } else {
-        std::cout << vertices[52].num;
+        vertices[52].printNum();
     }
     std::cout << "|--";
-    if (edges[71].occupy) {
-        std::cout << ' ' << edges[71].owner;
+    if (edges[71].own()) {
+        edges[71].printOwner();
     } else {
-        std::cout << edges[71].num;
+        edges[71].printNum();
     }
     std::cout << "--|";
-    if (vertices[53].occupy) {
-        std::cout << vertices[53].owner;
+    if (vertices[53].own()) {
+        vertices[53].printOwner();
     } else {
-        std::cout << vertices[53].num;
+        vertices[53].printNum();
     }
     std::cout << '|' << std::endl;
 
-}
-
-
-int main() {
-    printGameBoard();
-
-
-    return 0;
 }
