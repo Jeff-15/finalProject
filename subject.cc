@@ -6,4 +6,4 @@ void Subject::notifyPlayer(int target, int event){
         (p.at(i))->notify(target, event);
     }
 }
-
+void Subject::setInput(int input){this->input = input;}

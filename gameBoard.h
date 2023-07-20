@@ -15,7 +15,7 @@ class GameBoard: public Subject{
     std::vector <Edge*> d;
 
     public: 
-        void processCommand(int event,int target);
+        void processCommand(int target,int eventPara1, int eventPara2);
         void initialize();
 };
 
