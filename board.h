@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <random>
-
+#include "gameBoard.h"
 
 class Tile {
     int num;
@@ -58,3 +58,4 @@ std::vector<int> generateNumbers();
 std::vector<std::string> generateStrings();
 
 void printGameBoard();
+

@@ -8,7 +8,7 @@ class RandomizedBoard: public GameBoard {
     void initialzeStone();
     void initialzeRolls();
     public:
-        PresetBoard(std::string file);
+        RandomizedBoard();
 };
 
 

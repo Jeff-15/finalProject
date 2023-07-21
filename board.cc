@@ -2,6 +2,7 @@
 #include "board.h"
 #include <random>
 
+
 // Methods in Tile
 void Tile::printNum() const { 
     if (num < 10) std::cout << ' ' << num; 
