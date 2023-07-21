@@ -1,3 +1,6 @@
+notify(target (player code), eventPara1 -1, eventPara2 0): Ask for input of additional information
+*-1 target usually means global effects
 notify(target (player code), eventPara1 0, eventPara2 0): Turn start
-processCommand(target -1, eventPara1 0, eventPara2 (0/1)): Dice mode choice 
+processCommand(target (player code), eventPara1 0, eventPara2 (0/1)): Dice mode choice 
+processCommand(target (player code), eventPara1 0, eventPara2 2): Roll 
 notify(target (player code), eventPara1 1, eventPara2 0)

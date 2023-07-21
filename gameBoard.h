@@ -1,6 +1,7 @@
 #ifndef GAMEBOARD
 #define GAMEBOARD
 #include <vector>
+#include "dice.h"
 #include "subject.h"
 class GameBoard: public Subject{
     void initializeWood();
@@ -13,6 +14,8 @@ class GameBoard: public Subject{
     std::vector <Tile*> d;
     std::vector <Vertex*> d;
     std::vector <Edge*> d;
+    Dice d;
+    int diceRoll;//the result of dice roll
 
     public: 
         void processCommand(int target,int eventPara1, int eventPara2);
