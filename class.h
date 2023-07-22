@@ -2,19 +2,6 @@
 #include <vector>
 #include "board.h"
 
-class Subject {
-    protected: 
-        std::vector<Player*> p;
-        std::vector<Display*> d;
-    public:     
-        virtual void notifyPlayer(int target, int even) = 0;
-        virtual void notifyDisplay() = 0;
-        virtual void attachPlayer(Player *p) = 0;
-        virtual void detachPlayer(int target) = 0;
-        virtual void attachDisplay(Display*) = 0;
-        virtual void detachDisplay(int target) = 0;
-};
-
 class Display {
     public:
         virtual void notify() = 0;
