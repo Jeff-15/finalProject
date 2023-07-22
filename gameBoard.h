@@ -1,25 +1,26 @@
-#ifndef GAMEBOARD
-#define GAMEBOARD
-#include <vector>
-#include "dice.h"
-#include "subject.h"
+#include <bits/stdc++.h>
 #include "board.h"
 
-class GameBoard: public Subject{
-    virtual void initializeWood() = 0;
-    virtual void initializeBrick() = 0;
-    virtual void initializeSheep() = 0;
-    virtual void initializeDesert() = 0;
-    virtual void initialzeStone() = 0;
-    virtual void initialzeRolls() = 0;
-    std::vector <Dice*> d;
-    std::vector <Tile*> T;
-    std::vector <Vertex*> V;
-    std::vector <Edge*> E;
+std::vector<int> generateNumbers();
 
-    public: 
-        void processCommand(int target,int eventPara1, int eventPara2);
-        void initialize();
+std::vector<std::string> generateStrings();
+
+class GameBoard {
+  protected:
+    Tile* tiles;
+    Vertex* vertices;
+    Edge* edges;
+
+  public:
+    virtual void initialize() = 0;
 };
 
-#endif
+class RandomizedBoard : public GameBoard {
+  public:
+    void initialize();
+};
+
+class PresetBoard : public GameBoard {
+  public:
+    void initialize();
+};
