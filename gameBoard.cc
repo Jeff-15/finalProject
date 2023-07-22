@@ -10,4 +10,3 @@ void GameBoard::initialize() {
     }
     return;
 }
-
