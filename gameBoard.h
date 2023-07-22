@@ -3,6 +3,7 @@
 #include <vector>
 #include "dice.h"
 #include "subject.h"
+#include "board.h"
 class GameBoard: public Subject{
     void initializeWood();
     void initializeBrick();
@@ -11,9 +12,9 @@ class GameBoard: public Subject{
     void initialzeStone();
     void initialzeRolls();
     std::vector <Dice*> d;
-    std::vector <Tile*> d;
-    std::vector <Vertex*> d;
-    std::vector <Edge*> d;
+    Tile* tiles;
+    Vertex* vertices;
+    Edge* edges;
     Dice d;
     int diceRoll;//the result of dice roll
 

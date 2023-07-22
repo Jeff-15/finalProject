@@ -7,9 +7,7 @@ std::vector<std::string> generateStrings();
 
 class GameBoard {
   protected:
-    Tile* tiles;
-    Vertex* vertices;
-    Edge* edges;
+    
 
   public:
     virtual void initialize() = 0;
