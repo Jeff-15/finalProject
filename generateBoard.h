@@ -1,17 +1,10 @@
 #include <bits/stdc++.h>
 #include "board.h"
+#include "gameBoard.h"
 
 std::vector<int> generateNumbers();
 
 std::vector<std::string> generateStrings();
-
-class GameBoard {
-  protected:
-    
-
-  public:
-    virtual void initialize() = 0;
-};
 
 class RandomizedBoard : public GameBoard {
   public:

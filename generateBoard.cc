@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 #include "board.h"
-#include "gameboard.h"
+#include "generateBoard.h"
+#include "gameBoard.h"
 
 std::vector<int> generateNumbers() {
     // Create a vector with the exact counts of each number

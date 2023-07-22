@@ -6,12 +6,6 @@
 #include "board.h"
 
 class GameBoard: public Subject{
-    virtual void initializeWood() = 0;
-    virtual void initializeBrick() = 0;
-    virtual void initializeSheep() = 0;
-    virtual void initializeDesert() = 0;
-    virtual void initialzeStone() = 0;
-    virtual void initialzeRolls() = 0;
     std::vector <Dice*> d;
     std::vector <Tile*> d;
     std::vector <Vertex*> d;
@@ -21,7 +15,7 @@ class GameBoard: public Subject{
 
     public: 
         void processCommand(int target,int eventPara1, int eventPara2);
-        void initialize();
+        virtual void initialize() = 0;
 };
 
 #endif
