@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include "board.h"
+#include "gameBoard.h"
 
 class Display {
     public:
@@ -27,22 +28,7 @@ class TextDisplay: public Display {
         void notify();
 };
 
-class GameBoard {
-    void initializeWood();
-    void initializeBrick();
-    void initializeSheep();
-    void initializeDesert();
-    void initialzeStone();
-    void initialzeRolls();
-    std::vector <Dice*> d;
-    std::vector <Tile*> d;
-    std::vector <Vertex*> d;
-    std::vector <Edge*> d;
 
-    public: 
-        void processCommand(int event,int target);
-        void initialize();
-};
 
 
 class Dice {
