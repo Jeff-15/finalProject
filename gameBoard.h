@@ -6,10 +6,11 @@
 #include "board.h"
 
 class GameBoard: public Subject{
+  protected:
     std::vector <Dice*> d;
-    std::vector <Tile*> d;
-    std::vector <Vertex*> d;
-    std::vector <Edge*> d;
+    std::vector <Tile*> tiles;
+    std::vector <Vertex*> vertices;
+    std::vector <Edge*> edges;
     Dice d;
     int diceRoll;//the result of dice roll
 
