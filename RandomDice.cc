@@ -11,6 +11,6 @@ int RandomDice::generate() {
     int min_value = 1;
     int max_value = 6;
     std::uniform_int_distribution<int> distribution(min_value, max_value);
-    return distribution(rng);
+    return distribution(rng) + distribution(rng);
 }
 

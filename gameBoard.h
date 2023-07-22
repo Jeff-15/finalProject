@@ -12,10 +12,12 @@ class GameBoard: public Subject{
     std::vector <Edge*> d;
     Dice d;
     int diceRoll;//the result of dice roll
+    
 
     public: 
         void processCommand(int target,int eventPara1, int eventPara2);
         virtual void initialize() = 0;
+        int GEESELIMIT = 7;
 };
 
 #endif
