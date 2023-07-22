@@ -1,5 +1,7 @@
-#include <bits/stdc++.h>
+//#include <bits/stdc++.h>
 #include "board.h"
+#include <random>
+
 
 // Methods in Tile
 void Tile::printNum() const { 
@@ -55,6 +57,7 @@ bool Edge::own() { return occupy; }
 void Edge::setNum(int num) { this->num = num; }
 void Edge::setStatus (bool occupy) { this->occupy = occupy; }
 void Edge::setOwner(std::string owner) { this->owner = owner; }
+
 
 
 void printBoard(Tile* tiles, Vertex* vertices, Edge* edges) { 
@@ -1359,5 +1362,4 @@ void printBoard(Tile* tiles, Vertex* vertices, Edge* edges) {
         vertices[53].printNum();
     }
     std::cout << '|' << std::endl;
-
 }
