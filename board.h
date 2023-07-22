@@ -53,9 +53,4 @@ class Edge {
     void setOwner(std::string owner);
 };
 
-std::vector<int> generateNumbers();
-
-std::vector<std::string> generateStrings();
-
-void printGameBoard();
-
+void printBoard(Tile* tiles, Vertex* vertices, Edge* edges);
