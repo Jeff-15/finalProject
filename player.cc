@@ -28,6 +28,15 @@ int Player::notify(int target, int eventPara1, int eventPara2){
             cin>>input;
             gb->setInput(input);
         }
+        else if(eventPara1 == 0){
+            turn();
+        }
+        else if(eventPara1-100 >= 0 && eventPara1-100<=RESOURCETYPE){
+            resource[eventPara1-100] += eventPara2;
+        }
+        else if(eventPara1){
+
+        }
     }
     return 0;
 }
