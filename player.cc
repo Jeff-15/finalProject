@@ -2,6 +2,7 @@
 #include "dice.h
 #include <iostream>
 #include <string>
+#include "gameboard.h"
 using namespace std;
 //replace all iostream with functions in display and notify display
 void Player::turn(){
@@ -39,4 +40,12 @@ int Player::notify(int target, int eventPara1, int eventPara2){
         }
     }
     return 0;
+}
+
+Player::Player(GameBoard *gb, int index): gb {gb}, index {index} {
+    for (int i = 0; i < 5; ++i) {
+        resource[i] = 0;
+    }
+    dice_type = 0;
+    d = new LoadedDice(gb, index);
 }

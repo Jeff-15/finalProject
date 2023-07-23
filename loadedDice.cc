@@ -1,4 +1,4 @@
-#include "gameBoard.h"
+#include "gameboard.h"
 #include "loadedDice.h"
 LoadedDice::LoadedDice(GameBoard* gb, int player):gb{gb},player{player}{}
 int LoadedDice::generate(){
