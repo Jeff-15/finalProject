@@ -5,5 +5,5 @@
 class RandomDice: public Dice {
     public:
         int generate() override;
-        RandomDice();
+        RandomDice(GameBoard* p,int index);
 };

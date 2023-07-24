@@ -1,9 +1,11 @@
 #include "player.h"
 #include "dice.h"
+#include "loadedDice.h"
+#include "RandomDice.h"
 #include <iostream>
 #include <string>
 #include <random>
-#include "gameboard.h"
+#include "gameBoard.h"
 using namespace std;
 //replace all iostream with functions in display and notify display
 
@@ -66,13 +68,10 @@ int Player::notify(int target, int eventPara1, int eventPara2){
     return 0;
 }
 
-Player::Player(GameBoard *gb, std::string player_name): gb {gb}, player_name {player_name} {
+Player::Player(int index,GameBoard *gb): gb {gb}, index {index} {
     for (int i = 0; i < RESOURCETYPE; ++i) {
         resource[i] = 0;
     }
-    dice_type = 0;
-    numPoints = 0;
-    d = new LoadedDice(gb, index);
 }
 
 void Player::player_print() {
