@@ -34,10 +34,12 @@ class Tile {
 class Vertex {
     int num;
     bool occupy;
+
     std::string owner; // Can be either B (Blue), O (Orange), R (Red), Y (Yellow).
     std::string level; // Can be either B (Basement), T (Tower), H (House).
     std::vector <int> neighbourVertex;
     std::vector <int> neighbourEdge;
+
 
   public:
     void printNum() const;
