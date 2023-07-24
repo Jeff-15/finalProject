@@ -12,6 +12,9 @@ class Player {
     void turn();
     void diceRoll();
     void robberRandomLoss();
+    int randomLoss();
+    int action();
+    void road();
     public: 
         int notify (int target, int eventPara1, int eventPara2);//see eventNumber.txt for representations
         Player(int index, GameBoard* gb);
