@@ -6,8 +6,6 @@ processCommand(target (player code), eventPara1 0, eventPara2 2): Roll
 notify(target (player code), eventPara1 100~104, eventPara2 1~3): recieve resources (call when giving player resources)
 eventPara1: resource type+100. eventPara2: resource amount
 notify(target -1, eventPara1 1 eventPara2 0): lose resource from robber
-notify(target (player code), eventPara1 1, eventPara2 1): request putting geese *response done by input*
-notify(target (player code), eventPara1 1, eventPara2 2): request choosing steal target
-processCommand(target (target player code), eventPara1 1, eventPara2): specify steal target
+notify(target (player code), eventPara1 1, eventPara2 1): request number of totalresources
 notify(target (tpc), eventPara1 1, eventPara2 2): request transfer of resource
-
+processCommand(pc,2,edgeIndex): request construct at target location;

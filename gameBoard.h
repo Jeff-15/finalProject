@@ -9,6 +9,16 @@
 class GameBoard: public Subject{
     Dice dice;
     int diceRoll;//the result of dice roll
+    void processDice(int index);
+    void processGeese(int tileIndex,int index);//place geese at position tileIndex:: To do
+    //call notifyPlayer(index,-1,0)(choosing steal target)
+    //response in input
+    //call notifyPlayer(targetindex,1,2)(target index is in int input)
+    void player_get_resource();
+
+    void constructRoad(int target, int edgeIndex);
+    //May throw error (string: )
+
     protected:
         std::vector <Tile*> t;
         std::vector <Vertex*> v;
@@ -20,6 +30,7 @@ class GameBoard: public Subject{
         void processGeese(int tileIndex, int index); // notifyPlayer(player_index, -1, 0)
     public:
         void processCommand(int target,int eventPara1, int eventPara2);
+        
         virtual void initialize();
         int GEESELIMIT = 7;
 };
