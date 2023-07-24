@@ -8,6 +8,7 @@ std::vector<std::string> generateStrings();
 
 class RandomizedBoard : public GameBoard {
   public:
+    RandomizedBoard();
     void initialize();
 };
 

@@ -6,17 +6,20 @@
 #include "board.h"
 
 class GameBoard: public Subject{
-  protected:
-    std::vector <Dice*> d;
-    std::vector <Tile*> tiles;
-    std::vector <Vertex*> vertices;
-    std::vector <Edge*> edges;
-    Dice d;
+    Dice dice;
     int diceRoll;//the result of dice roll
+    protected:
+        std::vector <Dice*> d;
+        std::vector <Tile*> d;
+        std::vector <Vertex*> d;
+        std::vector <Edge*> d;
+    
+    
 
     public: 
         void processCommand(int target,int eventPara1, int eventPara2);
-        virtual void initialize() = 0;
+        virtual void initialize();
+        int GEESELIMIT = 7;
 };
 
 #endif
