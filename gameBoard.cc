@@ -79,3 +79,11 @@ void GameBoard::roll_dice() {
     int num1 = p[turns]->d->generate();
     this->setInput(num1);
 }
+
+void GameBoard::turn_ends() {
+    if (turns == 3) {
+        turns = 0;
+    } else {
+        ++turns;
+    }
+}

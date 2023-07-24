@@ -12,7 +12,8 @@ class GameBoard {
     Vertex* vertices;
     Edge* edges;
     void roll_dice(int player_index);     // roll dice for some player
-    void player_get
+    
+    void turn_ends();
   public:
     virtual void initialize() = 0;
 };

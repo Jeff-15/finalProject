@@ -2,6 +2,7 @@
 class Player {
     GameBoard* gb;
     int index;
+    int numPoints;
     const int RESOURCETYPE = 5;
     int resource[5];//Order: BRICK, ENERGY,GLASS, HEAT, WIFI.
     int dice_type; // 0 for loaded dice, 1 for random dice

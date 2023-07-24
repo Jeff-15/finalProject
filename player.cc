@@ -47,16 +47,15 @@ Player::Player(GameBoard *gb, int index): gb {gb}, index {index} {
         resource[i] = 0;
     }
     dice_type = 0;
+    numPoints = 0;
     d = new LoadedDice(gb, index);
 }
 
 void Player::player_print() {
     // order: BRICK, ENERGY, GLASS, HEAT, then WIFI.
+    // <colour> has <numPoints> building points, <numBrick> brick, <numEnergy> energy,
+    // <numGlass> glass, <numHeat> heat, and <numWiFi> WiFi.
     int i = 0;
-    std::cout << "Player " << index << ":" << std::endl;
-    std::cout << "BRICK " << resource[i++];
-    std::cout << "ENERGY " << resource[i++];
-    std::cout << "GLASS " << resource[i++];
-    std::cout << "HEAT " << resource[i++];
-    std::cout << "WIFI " << resource[i++];
+    std::cout << index << " has " << numPoints << " building points, " << resource[i++] << " brick, " <<  resource[i++] << " energy," << std::endl;
+    std::cout << resource[i++] << " glass, " << resource[i++] << " heat, and " << resource[i++] << " WiFi." << std::endl;
 }
