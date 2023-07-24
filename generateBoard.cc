@@ -38,38 +38,32 @@ void RandomizedBoard::initialize() {
     const int tileNum = 19;
     const int vertexNum = 54;
     const int edgeNum = 72;
-    Tile tiles [tileNum];
-    Vertex vertices [vertexNum];
-    Edge edges [edgeNum];
     std::vector<int> randomNumber = generateNumbers();
     std::vector<std::string> randomString = generateStrings();
     for (int i = 0; i < tileNum; ++i) {
-        tiles[i].setNum(i);
-        tiles[i].setType(randomString.back());
+        tiles.at(i)->setNum(i);
+        tiles.at(i)->setType(randomString.back());
         if (randomString.back() == "PARK") {
             randomString.pop_back();
-            tiles[i].setVal(goose);
-            tiles[i].setStatus(true);
+            tiles.at(i)->setVal(goose);
+            tiles.at(i)->setStatus(true);
         } else {
             randomString.pop_back();
-            tiles[i].setVal(randomNumber.back());
+            tiles.at(i)->setVal(randomNumber.back());
             randomNumber.pop_back();
-            tiles[i].setStatus(false);
+            tiles.at(i)->setStatus(false);
         }
     }
     for (int i = 0; i < vertexNum; ++i) {
-        vertices[i].setNum(i);
-        vertices[i].setStatus(false);
-        vertices[i].setOwner("");
+        vertices.at(i)->setNum(i);
+        vertices.at(i)->setStatus(false);
+        vertices.at(i)->setOwner("");
     }
     for (int i = 0; i < edgeNum; ++i) {
-        edges[i].setNum(i);
-        edges[i].setStatus(false);
-        edges[i].setOwner("");
+        edges.at(i)->setNum(i);
+        edges.at(i)->setStatus(false);
+        edges.at(i)->setOwner("");
     }
-    this->tiles = tiles;
-    this->vertices = vertices;
-    this->edges = edges;
 }
 
 void PresetBoard::initialize() {
