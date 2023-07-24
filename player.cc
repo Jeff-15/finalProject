@@ -49,3 +49,14 @@ Player::Player(GameBoard *gb, int index): gb {gb}, index {index} {
     dice_type = 0;
     d = new LoadedDice(gb, index);
 }
+
+void Player::player_print() {
+    // order: BRICK, ENERGY, GLASS, HEAT, then WIFI.
+    int i = 0;
+    std::cout << "Player " << index << ":" << std::endl;
+    std::cout << "BRICK " << resource[i++];
+    std::cout << "ENERGY " << resource[i++];
+    std::cout << "GLASS " << resource[i++];
+    std::cout << "HEAT " << resource[i++];
+    std::cout << "WIFI " << resource[i++];
+}

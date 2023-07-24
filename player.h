@@ -9,5 +9,6 @@ class Player {
     void turn();
     public: 
         int notify (int target, int eventPara1, int eventPara2);//see eventNumber.txt for representations
+        void player_print();
         Player(GameBoard *gb, int index);
 };
