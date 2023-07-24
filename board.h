@@ -29,6 +29,7 @@ class Vertex {
     int num;
     bool occupy;
     std::string owner;
+    std::string level;
 
   public:
     void printNum() const;

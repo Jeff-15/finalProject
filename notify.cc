@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 #include "notify.h"
 
-void notify::printBoard(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, std::vector <Edge*> edges) { 
+void notify::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, std::vector <Edge*> edges) { 
     // print line 1.
     std::cout << std::string(20, ' ');
     std::cout << '|';
@@ -1303,4 +1303,73 @@ void notify::printBoard(std::vector <Tile*> tiles, std::vector <Vertex*> vertice
         vertices.at(53)->printNum();
     }
     std::cout << '|' << std::endl;
+}
+
+void status() {
+
+}
+
+void residence() {
+
+}
+
+void buildRoad(std::string builder, std::vector <Edge*> edges) {
+
+}
+
+void buildRes(std::string builder, std::vector <Vertex*> vertices) {
+
+}
+
+void improve(std::string builder, std::vector <Vertex*> vertices) {
+
+}
+
+void trade(std::string trader, std::string colour, std::string give, std::string take) {
+
+}
+
+std::string next(std::string builder) {
+    if (builder == "Blue") {
+        return "Red";
+    } else if (builder == "Red") {
+        return "Orange";
+    } else if (builder == "Orange") {
+        return "Yellow";
+    } else {
+        return "Blue";
+    }
+}
+
+void save(std::string builder, std::vector <Player*> p) {
+    std::cout << builder << std::endl;
+    std::cout << p.at(0)->resource[0] << ' ';
+    std::cout << p.at(0)->resource[1] << ' ';
+    std::cout << p.at(0)->resource[2] << ' ';
+    std::cout << p.at(0)->resource[3] << ' ';
+    std::cout << p.at(0)->resource[4] << ' ';
+    std::cout << 'r' << ' ';
+    for (auto builder0Road : p.at(0)->road) {
+        std::cout << builder0Road << ' ';
+    }
+    std::cout << 'h' << ' ';
+    if (!p.at(0)->basement.empty()) {
+        for (auto builder0Basement : p.at(0)->basement) {
+            std::cout << builder0Basement << ' ';
+        }
+    }
+}
+
+void notify::help() {
+    std::cout << "Valid commands:" << std::endl;
+    std::cout << "board" << std::endl;
+    std::cout << "status" << std::endl;
+    std::cout << "residences" << std::endl;
+    std::cout << "build-road <edge#>" << std::endl;
+    std::cout << "build-res <housing#>" << std::endl;
+    std::cout << "improve <housing#>" << std::endl;
+    std::cout << "trade <colour> <give> <take>" << std::endl;
+    std::cout << "next" << std::endl;
+    std::cout << "isave <file>" << std::endl;
+    std::cout << "help>" << std::endl;
 }
