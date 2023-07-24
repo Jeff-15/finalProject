@@ -42,7 +42,7 @@ int Player::notify(int target, int eventPara1, int eventPara2){
     return 0;
 }
 
-Player::Player(GameBoard *gb, int index): gb {gb}, index {index} {
+Player::Player(GameBoard *gb, std::string player_name): gb {gb}, player_name {player_name} {
     for (int i = 0; i < RESOURCETYPE; ++i) {
         resource[i] = 0;
     }
@@ -56,6 +56,6 @@ void Player::player_print() {
     // <colour> has <numPoints> building points, <numBrick> brick, <numEnergy> energy,
     // <numGlass> glass, <numHeat> heat, and <numWiFi> WiFi.
     int i = 0;
-    std::cout << index << " has " << numPoints << " building points, " << resource[i++] << " brick, " <<  resource[i++] << " energy," << std::endl;
+    std::cout << player_name << " has " << numPoints << " building points, " << resource[i++] << " brick, " <<  resource[i++] << " energy," << std::endl;
     std::cout << resource[i++] << " glass, " << resource[i++] << " heat, and " << resource[i++] << " WiFi." << std::endl;
 }

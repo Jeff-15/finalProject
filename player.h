@@ -1,6 +1,8 @@
 #include "gameBoard.h"
+#include <string>
 class Player {
     GameBoard* gb;
+    std::string player_name;
     int index;
     int numPoints;
     const int RESOURCETYPE = 5;
@@ -11,5 +13,5 @@ class Player {
     public: 
         int notify (int target, int eventPara1, int eventPara2);//see eventNumber.txt for representations
         void player_print();
-        Player(GameBoard *gb, int index);
+        Player(GameBoard *gb, std::string player_name);
 };

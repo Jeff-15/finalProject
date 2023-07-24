@@ -2,8 +2,7 @@
 #include <random>
 #include <chrono>
 
-RandomDice:: RandomDice(GameBoard* gb, int player): gb {gb}, player {player} {}
-
+RandomDice:: RandomDice(){ }
 
 int RandomDice::generate() {
     std::mt19937 rng;
