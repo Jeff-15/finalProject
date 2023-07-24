@@ -7,11 +7,11 @@ std::vector<std::string> generateStrings();
 
 class GameBoard {
   protected:
-    int turns;      // 1, 2, 3, 4 player's turn
+    int turns;      // 0, 1, 2, 3 player's turn
     Tile* tiles;
     Vertex* vertices;
     Edge* edges;
-  
+    void roll_dice(int player_index);     // roll dice for some player
   public:
     virtual void initialize() = 0;
 };

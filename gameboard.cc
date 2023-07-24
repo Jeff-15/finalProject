@@ -74,3 +74,8 @@ void RandomizedBoard::initialize() {
 void PresetBoard::initialize() {
 
 }
+
+void GameBoard::roll_dice() {
+    int num1 = p[turns]->d->generate();
+    this->setInput(num1);
+}

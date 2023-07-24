@@ -43,7 +43,7 @@ int Player::notify(int target, int eventPara1, int eventPara2){
 }
 
 Player::Player(GameBoard *gb, int index): gb {gb}, index {index} {
-    for (int i = 0; i < 5; ++i) {
+    for (int i = 0; i < RESOURCETYPE; ++i) {
         resource[i] = 0;
     }
     dice_type = 0;
