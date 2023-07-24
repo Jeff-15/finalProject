@@ -28,7 +28,7 @@ class Tile {
 class Vertex {
     int num;
     bool occupy;
-    std::string owner;
+    std::string owner; // ORDER: B R O Y
     std::string level;
 
   public:
