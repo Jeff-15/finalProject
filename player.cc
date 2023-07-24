@@ -5,6 +5,10 @@
 #include <random>
 using namespace std;
 //replace all iostream with functions in display and notify display
+
+int rng(int start, int end){
+}
+
 void Player::turn(){
     //Set dice
     cout<<"Builder "<<index<<"'s turn"<<endl;
@@ -28,6 +32,17 @@ void Player::diceRoll(){
         }
     }
 }
+
+void Player::robberRandomLoss(){
+    int total = resource[0]+resource[1]+resource[2]+resource[3]+resource[4];
+    if(total>=gb->GEESELIMIT){
+        int lost = total/2;
+        for(int i = lost; i>0; i--){
+
+        }
+    }
+}
+
 int Player::notify(int target, int eventPara1, int eventPara2){
     if(target == index || target == -1){
         if(eventPara1 == -1){
@@ -43,13 +58,8 @@ int Player::notify(int target, int eventPara1, int eventPara2){
             resource[eventPara1-100] += eventPara2;
         }
         else if(eventPara1 == 1 && eventPara2 == 0){
-            int total = resource[0]+resource[1]+resource[2]+resource[3]+resource[4];
-            if(total>=gb->GEESELIMIT){
-                int lost = total/2;
-                for(int i = lost; i>0; i--){
-
-                }
-            }
+            
+            robberRandomLoss();
         }
     }
     return 0;

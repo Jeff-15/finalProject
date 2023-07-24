@@ -5,13 +5,13 @@
 void GameBoard::processCommand(int target,int eventPara1, int eventPara2) {
     if(eventPara1 == 0){
         if(eventPara2 == 0){
-            d = LoadedDice{this,target};
+            dice = LoadedDice{this,target};
         }
         else if(eventPara2 == 1){
-            d = RandomDice{this,target};
+            dice = RandomDice{this,target};
         }
         else if(eventPara2 == 2){
-            diceRoll = d.generate();
+            diceRoll = dice.generate();
         }
     }
 }

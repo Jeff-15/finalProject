@@ -8,3 +8,10 @@ void Subject::notifyPlayer(int target, int eventPara1,int eventPara2){
 }
 void Subject::setInput(int input){this->input = input;}
 int Subject::getInput(){return input;}
+void Subject::start(){
+    while(true){
+        for(int i = 0; i<p.size();i++){
+            notifyPlayer(i,0,0);
+        }
+    }
+}
