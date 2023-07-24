@@ -1313,35 +1313,36 @@ void residence() {
 
 }
 
-void buildRoad(std::string builder, std::vector <Edge*> edges) {
+void buildRoad(int builder, std::vector <Edge*> edges) {
 
 }
 
-void buildRes(std::string builder, std::vector <Vertex*> vertices) {
+void buildRes(int builder, std::vector <Vertex*> vertices) {
 
 }
 
-void improve(std::string builder, std::vector <Vertex*> vertices) {
+void improve(int builder, std::vector <Vertex*> vertices) {
 
 }
 
-void trade(std::string trader, std::string colour, std::string give, std::string take) {
+void trade(int trader, int colour, std::string give, std::string take) {
 
 }
 
-std::string next(std::string builder) {
-    if (builder == "Blue") {
-        return "Red";
-    } else if (builder == "Red") {
-        return "Orange";
-    } else if (builder == "Orange") {
-        return "Yellow";
+int next(int builder) {
+    if (builder == 0) {
+        return 1;
+    } else if (builder == 1) {
+        return 2;
+    } else if (builder == 2) {
+        return 3;
     } else {
-        return "Blue";
+        return 0;
     }
 }
 
-void save(std::string builder, std::vector <Player*> p) {
+void save(int builder, std::vector <Player*> p) {
+    /*
     std::cout << builder << std::endl;
     std::cout << p.at(0)->resource[0] << ' ';
     std::cout << p.at(0)->resource[1] << ' ';
@@ -1357,7 +1358,7 @@ void save(std::string builder, std::vector <Player*> p) {
         for (auto builder0Basement : p.at(0)->basement) {
             std::cout << builder0Basement << ' ';
         }
-    }
+    } */
 }
 
 void notify::help() {
