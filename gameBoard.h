@@ -12,7 +12,7 @@ class GameBoard {
     Vertex* vertices;
     Edge* edges;
     void roll_dice(int player_index);     // roll dice for some player
-    
+    void build(int player_index, int tile_index);  // a player build building at a tile
     void turn_ends();
   public:
     virtual void initialize() = 0;
