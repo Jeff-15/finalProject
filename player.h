@@ -10,8 +10,10 @@ class Player {
     int dice_type; // 0 for loaded dice, 1 for random dice
     Dice *d;
     void turn();
+    void diceRoll();
+    void robberRandomLoss();
     public: 
         int notify (int target, int eventPara1, int eventPara2);//see eventNumber.txt for representations
+        Player(int index, GameBoard* gb);
         void player_print();
-        Player(GameBoard *gb, std::string player_name);
 };
