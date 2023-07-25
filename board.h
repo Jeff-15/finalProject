@@ -1,7 +1,9 @@
 #ifndef BOARD
 #define BOARD
-#include <bits/stdc++.h>
+//#include <bits/stdc++.h>
 #include "gameBoard.h"
+#include <string>
+#include <vector>
 
 class Tile {
     int num;
