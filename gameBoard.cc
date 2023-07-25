@@ -118,15 +118,7 @@ void GameBoard::processGeese(int tileIndex, int index, std::string activePlayer)
         if (v[vertex]->own()) {
             std::string name = v[vertex]->getOwner();
             if (name == activePlayer)continue;
-            if (name == "B") {
-                name = "Blue";
-            } else if (name == "O") {
-                name = "Orange";
-            } else if (name == "R") {
-                name = "Red";
-            } else {
-                name = "Yellow";
-            }
+            name = convert_short_to_full_name(name);
             builders.emplace_back(name);
         }
     }
@@ -142,6 +134,7 @@ void GameBoard::processGeese(int tileIndex, int index, std::string activePlayer)
     std::cout<<">";
     std:: cout << "Choose a builder to steal from." << std::endl;
     notifyPlayer(index,-1,1);   // get input
+    
     int steel_index;
     //check if target is available
     bool found = false;
@@ -169,16 +162,7 @@ void GameBoard::processGeese(int tileIndex, int index, std::string activePlayer)
     } else {
         // DO SOMETHING HERE!!
     }
-    std::string curr_player_name;
-    if (activePlayer == "B") {
-        curr_player_name = "Blue";
-    } else if (activePlayer == "O") {
-        curr_player_name = "Orange";
-    } else if (activePlayer == "R") {
-        curr_player_name = "Red";
-    } else {
-        curr_player_name = "Yellow";
-    }
+    std::string curr_player_name = convert_short_to_full_name(activePlayer);
     std::cout << "Builder " << curr_player_name << " steals " << r_name << " from builder ";
     v[steel_index]->printOwner();
     std::cout << "." << std::endl;
