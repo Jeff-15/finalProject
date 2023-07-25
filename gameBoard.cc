@@ -180,7 +180,9 @@ void GameBoard::processDice(int index){
     }
 }
 
-void GameBoard::player_get_resource(std::string player_name) {
+void GameBoard::constructRoad(int player_id, int edgeIndex) {
     
     return;
 }
+
+

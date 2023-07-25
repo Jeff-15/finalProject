@@ -1,5 +1,5 @@
-#ifndef GAMEBOARD
-#define GAMEBOARD
+#ifndef GBOARD
+#define GBOARD
 #include <vector>
 #include <string>
 #include "dice.h"
@@ -17,7 +17,7 @@ class GameBoard: public Subject{
     //call notifyPlayer(targetindex,1,2)(target index is in int input)
     void player_get_resource(std::string player_name);
 
-    void constructRoad(int target, int edgeIndex);
+    void constructRoad(int player_id, int edgeIndex);
     //May throw error (string: )
 
     protected:
@@ -29,8 +29,7 @@ class GameBoard: public Subject{
         std::string index_to_name(int player_index); // convert index to name ex) 0 -> R
         int get_resource_code(std::string s);        // convert resource s to code, ex) brick -> 100
         void processGeese(int tileIndex, int index, std::string activePlayer); // notifyPlayer(player_index, -1, 0)
-        std::string convert_short_to_full_name(std::string sh);        // ex) R -> Red
-        void tradingResources();                     
+        std::string convert_short_to_full_name(std::string sh);        // ex) R -> Red                  
     public:
         void processCommand(int target,int eventPara1, int eventPara2);
         
