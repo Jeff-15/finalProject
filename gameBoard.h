@@ -5,6 +5,7 @@
 #include "dice.h"
 #include "subject.h"
 #include "board.h"
+#include <iostream>
 
 class GameBoard: public Subject{
     Dice dice;
@@ -28,6 +29,7 @@ class GameBoard: public Subject{
         std::string index_to_name(int player_index); // convert index to name ex) 0 -> R
         int get_resource_code(std::string s);        // convert resource s to code, ex) brick -> 100
         void processGeese(int tileIndex, int index, std::string activePlayer); // notifyPlayer(player_index, -1, 0)
+        std::string convert_short_to_full_name(std::string sh);        // ex) R -> Red
     public:
         void processCommand(int target,int eventPara1, int eventPara2);
         

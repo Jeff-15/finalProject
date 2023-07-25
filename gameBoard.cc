@@ -69,6 +69,20 @@ int get_resource_code(std::string s) {
     }
 }
 
+std::string GameBoard::convert_short_to_full_name(std::string sh) {
+    std::string result;
+    if (sh == "B") {
+        result = "Blue";
+    } else if (sh == "O") {
+        result =  "Orange";
+    } else if (sh == "R") {
+        result = "Red";
+    } else {
+        result = "Yellow";
+    }
+    return result;
+}
+
 void GameBoard::player_get_resource () {
     //Order: BRICK, ENERGY,GLASS, HEAT, WIFI.
     // set resource
@@ -117,6 +131,7 @@ void GameBoard::processGeese(int tileIndex, int index, std::string activePlayer)
         }
     }
     if (builders.empty()) {
+        std::cout << "Builder " << convert_short_to_full_name(activePlayer) << " has no builders to steal from." << std::endl;
         return;
     }
     std::cout << "Builder " << index << " can choose to steal from:";
