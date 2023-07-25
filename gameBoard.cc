@@ -179,3 +179,8 @@ void GameBoard::processDice(int index){
         player_get_resource();
     }
 }
+
+void GameBoard::player_get_resource(std::string player_name) {
+    
+    return;
+}

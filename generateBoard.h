@@ -1,4 +1,3 @@
-#include <bits/stdc++.h>
 #include "board.h"
 #include "gameBoard.h"
 
@@ -16,3 +15,4 @@ class PresetBoard : public GameBoard {
   public:
     void initialize();
 };
+
