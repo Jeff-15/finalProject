@@ -1,6 +1,7 @@
 //#include <bits/stdc++.h>
 #include "board.h"
 #include <iostream>
+
 // Methods in Tile
 void Tile::printNum() const { 
     if (num < 10) std::cout << ' ' << num; 
@@ -316,6 +317,8 @@ void Vertex::printNum() const {
 }
 
 void Vertex::printOwner() const { std::cout << owner; }
+
+void Vertex::printLevel() const { std::cout << level; }
 
 bool Vertex::own() const { return occupy; }
 

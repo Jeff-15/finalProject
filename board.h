@@ -44,6 +44,7 @@ class Vertex {
   public:
     void printNum() const;
     void printOwner() const;
+    void printLevel() const;
     bool own() const;
     int getNum() const;
     std::string getOwner() const;

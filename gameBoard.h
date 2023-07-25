@@ -21,9 +21,9 @@ class GameBoard: public Subject{
     //May throw error (string: )
 
     protected:
-        std::vector <Tile*> t;
-        std::vector <Vertex*> v;
-        std::vector <Edge*> e;
+        std::vector <Tile*> tiles;
+        std::vector <Vertex*> vertices;
+        std::vector <Edge*> edges;
         void player_get_resource ();                 // get val from diceRoll
         int name_to_index(std::string player_name);  // convert name to index EX) R -> 0
         std::string index_to_name(int player_index); // convert index to name ex) 0 -> R
