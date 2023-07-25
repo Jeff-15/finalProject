@@ -55,6 +55,8 @@ class Vertex {
     void setOwner(std::string owner);
     void setVertex(int num);
     void setEdge(int num);
+    void build(std::string player);
+    void improve();
 };
 
 class Edge {

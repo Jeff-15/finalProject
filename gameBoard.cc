@@ -87,18 +87,18 @@ void GameBoard::player_get_resource () {
     //Order: BRICK, ENERGY,GLASS, HEAT, WIFI.
     // set resource
     for (int i = 0; i < 19; ++i) {
-        if (t[i]->getVal() == diceRoll) {
-            if (t[i]->getGoose()) continue;
-            std::string item = t[i]->getType();
+        if (tiles[i]->getVal() == diceRoll) {
+            if (tiles[i]->getGoose()) continue;
+            std::string item = tiles[i]->getType();
             int code = get_resource_code(item);
-            for (auto vertex : t[i]->getNeighbourVertex()) {
-                if (v[vertex]->own()) {
-                    int player_num = name_to_index(v[vertex]->getOwner());
+            for (auto vertex : tiles[i]->getNeighbourVertex()) {
+                if (vertices[vertex]->own()) {
+                    int player_num = name_to_index(vertices[vertex]->getOwner());
                     // notify(target (player code), eventPara1 100~104, eventPara2 1~3): recieve resources (call when giving player resources)
                     notifyPlayer(0,100,1); // give player index 0 / 1 item of / item 0
-                    if (t[i]->getType() == "B") {
+                    if (tiles[i]->getType() == "B") {
                         notifyPlayer(player_num,code , 1);
-                    } else if (t[i]->getType() == "H") {
+                    } else if (tiles[i]->getType() == "H") {
                         notifyPlayer(player_num,code , 2);
                     } else {
                         notifyPlayer(player_num,code , 3);
@@ -111,12 +111,12 @@ void GameBoard::player_get_resource () {
 
 void GameBoard::processGeese(int tileIndex, int index, std::string activePlayer) {
     std::string s;
-    Tile* dest = t[tileIndex];
+    Tile* dest = tiles[tileIndex];
     dest->setStatus(true);
     std::vector <std::string> builders;
     for (auto vertex : dest->getNeighbourVertex()) {
-        if (v[vertex]->own()) {
-            std::string name = v[vertex]->getOwner();
+        if (vertices[vertex]->own()) {
+            std::string name = vertices[vertex]->getOwner();
             if (name == activePlayer)continue;
             name = convert_short_to_full_name(name);
             builders.emplace_back(name);
@@ -139,7 +139,7 @@ void GameBoard::processGeese(int tileIndex, int index, std::string activePlayer)
     //check if target is available
     bool found = false;
     for (auto i : dest->getNeighbourVertex()) {
-        if (name_to_index(v[i]->getOwner()) == input) {
+        if (name_to_index(vertices[i]->getOwner()) == input) {
             found = true;
             steel_index = i;
             break;
@@ -164,7 +164,7 @@ void GameBoard::processGeese(int tileIndex, int index, std::string activePlayer)
     }
     std::string curr_player_name = convert_short_to_full_name(activePlayer);
     std::cout << "Builder " << curr_player_name << " steals " << r_name << " from builder ";
-    v[steel_index]->printOwner();
+    vertices[steel_index]->printOwner();
     std::cout << "." << std::endl;
 }
 
@@ -180,7 +180,66 @@ void GameBoard::processDice(int index){
     }
 }
 
-void GameBoard::player_get_resource(std::string player_name) {
-    
+void GameBoard::constructRoad(int player_id, int edgeIndex) {
+    if (edges[edgeIndex]->own()) {
+        throw "Already build";
+        return;
+    }
+    bool found = false;
+    // check edge
+    for (auto i : edges[edgeIndex]->getNeighbourEdge()) {
+        int edge_player_id = name_to_index(edges[i]->getOwner());
+        if (edges[i]->own() && edge_player_id == player_id) {
+            found = true;
+            break;
+        }
+    }
+
+    // now check vertex
+    for (auto i : edges[edgeIndex]->getNeighbourVertex()) {
+        int vertex_player_id = name_to_index(vertices[i]->getOwner());
+        if (vertices[i]->own() && vertex_player_id == player_id) {
+            found = true;
+            break;
+        }
+    }
+    // check if found
+    if (found) {
+        edges[edgeIndex]->setStatus(true);
+        edges[edgeIndex]->setOwner(index_to_name(player_id));
+    } else {
+        throw "No neighbour";
+    }
+    return;
+}
+
+void GameBoard::build_residence(int player_id, int vertexIndex) {
+    if (vertices[vertexIndex]->own()) {
+        throw "Already build";
+        return;
+    }
+    // check adjacent vertex
+    for (auto i : vertices[vertexIndex]->getNeighbourVertex()) {
+        if (vertices[i]->own()) {
+            throw "adjacent to a existing residence";
+            return;
+        }
+    }
+
+    // now check if exist an adjacent road
+    for (auto i : vertices[vertexIndex]->getNeighbourEdge()) {
+        if (edges[i]->own() && player_id == name_to_index(edges[i]->getOwner())) {
+            vertices[vertexIndex]->setStatus(true);
+            vertices[vertexIndex]->setOwner(index_to_name(player_id));
+            vertices[vertexIndex]->build(index_to_name(player_id));
+            return;
+        }
+    }
+    throw "No adjacent road";
+    return;
+}
+
+void GameBoard::improve_residence(int vertexIndex) {
+    vertices[vertexIndex]->improve();
     return;
 }
