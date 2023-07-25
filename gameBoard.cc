@@ -3,6 +3,7 @@
 #include "loadedDice.h"
 #include "RandomDice.h"
 #include "const.h"
+#include <iostream>
 void GameBoard::processCommand(int target,int eventPara1, int eventPara2) {
     if(eventPara1 == 0){
         if(eventPara2 == 0){
@@ -94,12 +95,15 @@ void GameBoard::player_get_resource () {
     }
 }
 
-void GameBoard::processGeese(int tileIndex, int index) {
+void GameBoard::processGeese(int tileIndex, int index, std::string activePlayer) {
+    std::string s;
     Tile* dest = t[tileIndex];
+    dest->setStatus(true);
     std::vector <std::string> builders;
     for (auto vertex : dest->getNeighbourVertex()) {
         if (v[vertex]->own()) {
             std::string name = v[vertex]->getOwner();
+            if (name == activePlayer)continue;
             if (name == "B") {
                 name = "Blue";
             } else if (name == "O") {
@@ -112,16 +116,57 @@ void GameBoard::processGeese(int tileIndex, int index) {
             builders.emplace_back(name);
         }
     }
+    if (builders.empty()) {
+        return;
+    }
     std::cout << "Builder " << index << " can choose to steal from:";
     for (auto i : builders) {
         std::cout << " " << i;
     }
     std::cout << "." << std::endl;
     std::cout<<">";
-    notifyPlayer(index,-1,1);
+    std:: cout << "Choose a builder to steal from." << std::endl;
+    notifyPlayer(index,-1,1);   // get input
+    int steel_index;
     //check if target is available
-    notifyPlayer(input,1,2);
-    
+    bool found = false;
+    for (auto i : dest->getNeighbourVertex()) {
+        if (name_to_index(v[i]->getOwner()) == input) {
+            found = true;
+            steel_index = i;
+            break;
+        }
+    }
+    notifyPlayer(input,1,2);    // set steel which resource
+    int active_player_index = name_to_index(activePlayer);
+    notifyPlayer(active_player_index, input + 100, 1);    // give 1 some resource to player
+    std::string r_name;         // resource name
+    if (input == 0) {
+        r_name = "BRICK";
+    } else if (input == 1) {
+        r_name = "ENERGY";
+    } else if (input == 2) {
+        r_name = "GLASS";
+    } else if (input == 3) {
+        r_name = "HEAT";
+    } else if (input == 4) {
+        r_name = "WIFI";
+    } else {
+        // DO SOMETHING HERE!!
+    }
+    std::string curr_player_name;
+    if (activePlayer == "B") {
+        curr_player_name = "Blue";
+    } else if (activePlayer == "O") {
+        curr_player_name = "Orange";
+    } else if (activePlayer == "R") {
+        curr_player_name = "Red";
+    } else {
+        curr_player_name = "Yellow";
+    }
+    std::cout << "Builder " << curr_player_name << " steals " << r_name << " from builder ";
+    v[steel_index]->printOwner();
+    std::cout << "." << std::endl;
 }
 
 void GameBoard::processDice(int index){
