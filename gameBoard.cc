@@ -76,14 +76,14 @@ void GameBoard::player_get_resource () {
             if (t[i]->getGoose()) continue;
             std::string item = t[i]->getType();
             int code = get_resource_code(item);
-            for (auto vertex : t->getNeighbourVertex()) {
-                if (vertex->occupy()) {
-                    int player_num = name_to_index(vertex->getOwner());
+            for (auto vertex : t[i]->getNeighbourVertex()) {
+                if (v[vertex]->own()) {
+                    int player_num = name_to_index(v[vertex]->getOwner());
                     // notify(target (player code), eventPara1 100~104, eventPara2 1~3): recieve resources (call when giving player resources)
                     notifyPlayer(0,100,1); // give player index 0 / 1 item of / item 0
-                    if (t[i]->getLevel() == "B") {
+                    if (t[i]->getType() == "B") {
                         notifyPlayer(player_num,code , 1);
-                    } else if (t[i]->getLevel() == "H") {
+                    } else if (t[i]->getType() == "H") {
                         notifyPlayer(player_num,code , 2);
                     } else {
                         notifyPlayer(player_num,code , 3);
@@ -98,8 +98,8 @@ void GameBoard::processGeese(int tileIndex, int index) {
     Tile* dest = t[tileIndex];
     std::vector <std::string> builders;
     for (auto vertex : dest->getNeighbourVertex()) {
-        if (vertex->occupy()) {
-            std::string name = vertex->getOwner();
+        if (v[vertex]->own()) {
+            std::string name = v[vertex]->getOwner();
             if (name == "B") {
                 name = "Blue";
             } else if (name == "O") {
