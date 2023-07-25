@@ -19,11 +19,18 @@ class GameBoard: public Subject{
 
     void constructRoad(int player_id, int edgeIndex);
     //May throw error (string: )
+    //throw "Already build";
+    //throw "No neighbour";
 
+    // have to garantee player has sufficient money
+    void build_residence(int player_id, int vertexIndex);
+    void improve_residence(int vertexIndex);
+    ////////////////////////////////////////////////
+    
     protected:
-        std::vector <Tile*> t;
-        std::vector <Vertex*> v;
-        std::vector <Edge*> e;
+        std::vector <Tile*> tiles;
+        std::vector <Vertex*> vertices;
+        std::vector <Edge*> edges;
         void player_get_resource ();                 // get val from diceRoll
         int name_to_index(std::string player_name);  // convert name to index EX) R -> 0
         std::string index_to_name(int player_index); // convert index to name ex) 0 -> R
@@ -32,7 +39,6 @@ class GameBoard: public Subject{
         std::string convert_short_to_full_name(std::string sh);        // ex) R -> Red                  
     public:
         void processCommand(int target,int eventPara1, int eventPara2);
-        
         virtual void initialize();
         int GEESELIMIT = 7;
 };
