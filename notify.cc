@@ -1305,40 +1305,134 @@ void notify::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, st
     std::cout << '|' << std::endl;
 }
 
-void status() {
-
+void status(int builder, std::vector <Player*> player) {
+    std::string colour;
+    if (builder == 0) {
+        colour == "Blue";
+    } else if (builder == 1) {
+        colour == "Red";
+    } else if (builder == 2) {
+        colour == "Orange";
+    } else {
+        colour == "Yellow";
+    }
+    std::cout << colour << " has " << player.at(builder)->numPoints << " building points, ";
+    std::cout << player.at(builder)->resource[0] << " brick, ";
+    std::cout << player.at(builder)->resource[1] << " energy, ";
+    std::cout << player.at(builder)->resource[2] << " glass, ";
+    std::cout << player.at(builder)->resource[3] << " heat, ";
+    std::cout << player.at(builder)->resource[4] << " WIFI." << std::endl;
 }
 
-void residence() {
-
+void residence(int builder, std::vector <Player*> p) {
+    std::string colour;
+    std::vector <int> basement = p.at(builder)->basement;
+    std::vector <int> house = p.at(builder)->house;
+    std::vector <int> tower = p.at(builder)->tower;
+    if (builder == 0) {
+        colour == "Blue";
+    } else if (builder == 1) {
+        colour == "Red";
+    } else if (builder == 2) {
+        colour == "Orange";
+    } else {
+        colour == "Yellow";
+    }
+    std::cout << colour << " has built: " << std::endl;
+    for (auto B: basement) {
+        std::cout << B << ' ';
+    }
+    std::cout << 'B' << std::endl;
+    for (auto H: house) {
+        std::cout << H << ' ';
+    }
+    std::cout << 'H' << std::endl;
+    for (auto T: tower) {
+        std::cout << T << ' ';
+    }
+    std::cout << 'T' << std::endl;
 }
 
 void buildRoad(int builder, std::vector <Edge*> edges) {
-
+    std::string colour;
+    if (builder == 0) {
+        colour == "Blue";
+    } else if (builder == 1) {
+        colour == "Red";
+    } else if (builder == 2) {
+        colour == "Orange";
+    } else {
+        colour == "Yellow";
+    }
+    // std::cout << "You do not have enough resources." << std::endl;
 }
 
 void buildRes(int builder, std::vector <Vertex*> vertices) {
-
+    std::string colour;
+    int vertex;
+    std::string buildingType;
+    if (builder == 0) {
+        colour == "Blue";
+    } else if (builder == 1) {
+        colour == "Red";
+    } else if (builder == 2) {
+        colour == "Orange";
+    } else {
+        colour == "Yellow";
+    }
+    
+    // std::cout << "You do not have enough resources." << std::endl;
 }
 
 void improve(int builder, std::vector <Vertex*> vertices) {
+    std::string colour;
+    if (builder == 0) {
+        colour == "Blue";
+    } else if (builder == 1) {
+        colour == "Red";
+    } else if (builder == 2) {
+        colour == "Orange";
+    } else {
+        colour == "Yellow";
+    }
 
+    // std::cout << "You do not have enough resources." << std::endl;
 }
 
-void trade(int trader, int colour, std::string give, std::string take) {
-
+void trade(int builder, std::string colour, std::string give, std::string take) {
+    std::string colour1;
+    std::string colour2 = colour;
+    if (builder == 0) {
+        colour1 == "Blue";
+    } else if (builder == 1) {
+        colour1 == "Red";
+    } else if (builder == 2) {
+        colour1 == "Orange";
+    } else {
+        colour1 == "Yellow";
+    }
+    std::cout << colour1 << " offers " << colour2 << " one ";
+    std::cout << give << " for one " << take << "." << std::endl;
+    std::cout << "Does " << colour2 << " accept this offer?" << std::endl;
 }
 
 int next(int builder) {
+    std::string next;
     if (builder == 0) {
-        return 1;
+        builder = 1;
+        next = "Red";
     } else if (builder == 1) {
-        return 2;
+        builder = 2;
+        next = "Orange";
     } else if (builder == 2) {
-        return 3;
+        builder = 3;
+        next = "Yellow";
     } else {
-        return 0;
+        builder = 0;
+        next = "Blue";
     }
+    std::cout << "Builder " << next << "'s turn." << std::endl;
+    return builder;
 }
 
 void save(int builder, std::vector <Player*> p) {
