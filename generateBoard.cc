@@ -1,7 +1,10 @@
-#include <bits/stdc++.h>
+
 #include "board.h"
 #include "generateBoard.h"
 #include "gameBoard.h"
+#include <random>
+#include <chrono>
+#include <string>
 
 std::vector<int> generateNumbers() {
     // Create a vector with the exact counts of each number
@@ -73,5 +76,5 @@ void RandomizedBoard::initialize() {
 }
 
 void PresetBoard::initialize() {
-
+    
 }

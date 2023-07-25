@@ -181,7 +181,66 @@ void GameBoard::processDice(int index){
     }
 }
 
-void GameBoard::player_get_resource(std::string player_name) {
-    
+void GameBoard::constructRoad(int player_id, int edgeIndex) {
+    if (edges[edgeIndex]->own()) {
+        throw "Already build";
+        return;
+    }
+    bool found = false;
+    // check edge
+    for (auto i : edges[edgeIndex]->getNeighbourEdge()) {
+        int edge_player_id = name_to_index(edges[i]->getOwner());
+        if (edges[i]->own() && edge_player_id == player_id) {
+            found = true;
+            break;
+        }
+    }
+
+    // now check vertex
+    for (auto i : edges[edgeIndex]->getNeighbourVertex()) {
+        int vertex_player_id = name_to_index(vertices[i]->getOwner());
+        if (vertices[i]->own() && vertex_player_id == player_id) {
+            found = true;
+            break;
+        }
+    }
+    // check if found
+    if (found) {
+        edges[edgeIndex]->setStatus(true);
+        edges[edgeIndex]->setOwner(index_to_name(player_id));
+    } else {
+        throw "No neighbour";
+    }
+    return;
+}
+
+void GameBoard::build_residence(int player_id, int vertexIndex) {
+    if (vertices[vertexIndex]->own()) {
+        throw "Already build";
+        return;
+    }
+    // check adjacent vertex
+    for (auto i : vertices[vertexIndex]->getNeighbourVertex()) {
+        if (vertices[i]->own()) {
+            throw "adjacent to a existing residence";
+            return;
+        }
+    }
+
+    // now check if exist an adjacent road
+    for (auto i : vertices[vertexIndex]->getNeighbourEdge()) {
+        if (edges[i]->own() && player_id == name_to_index(edges[i]->getOwner())) {
+            vertices[vertexIndex]->setStatus(true);
+            vertices[vertexIndex]->setOwner(index_to_name(player_id));
+            vertices[vertexIndex]->build(index_to_name(player_id));
+            return;
+        }
+    }
+    throw "No adjacent road";
+    return;
+}
+
+void GameBoard::improve_residence(int vertexIndex) {
+    vertices[vertexIndex]->improve();
     return;
 }
