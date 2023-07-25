@@ -1,6 +1,6 @@
-#include <bits/stdc++.h>
+//#include <bits/stdc++.h>
 #include "board.h"
-
+#include <iostream>
 // Methods in Tile
 void Tile::printNum() const { 
     if (num < 10) std::cout << ' ' << num; 

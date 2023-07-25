@@ -60,9 +60,12 @@ void Player::road(){
             cout<<"Not enough minerals"<<endl;//replace with display commands
             return;
         }
+        
+        
     }
+    int position = 0;//input
+    gb->processCommand(index,CONSTANTS::ROADCOMMAND,position);
     
-
 }
 
 void Player::robberRandomLoss(){
@@ -122,7 +125,7 @@ int Player::notify(int target, int eventPara1, int eventPara2){
             robberRandomLoss();
         }
         else if(eventPara1 == 1){//geese stealing
-            if(eventPara1 == 1){
+            if(eventPara2 == 1){
                 gb->setInput(resource[0]+resource[1]+resource[2]+resource[3]+resource[4]);
             }
             else if(eventPara2 == 2){//lose resource
