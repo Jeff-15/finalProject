@@ -89,5 +89,6 @@
         "expected": "cpp",
         "spanstream": "cpp",
         "stacktrace": "cpp"
-    }
+    },
+    "C_Cpp.dimInactiveRegions": false
 }

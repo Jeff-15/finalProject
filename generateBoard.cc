@@ -78,3 +78,4 @@ void RandomizedBoard::initialize() {
 void PresetBoard::initialize() {
     
 }
+
