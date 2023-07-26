@@ -2,6 +2,7 @@
 #include "board.h"
 #include "generateBoard.h"
 #include "gameBoard.h"
+#include "loadedDice.h"
 #include <random>
 #include <chrono>
 #include <string>
