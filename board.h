@@ -14,7 +14,8 @@ class Tile {
     std::vector <int> neighbourEdge;
 
   public:
-    void printNum() const;
+    void printNum() const; // This function is used for map print. It will print a ' ' if num is less than 10.
+    void printNumber() const; // This function prints the num direcly.
     void printType() const;
     void printVal() const;
     bool occupy() const;
