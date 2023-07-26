@@ -1,3 +1,5 @@
+#ifndef GENBOARD
+#define GENBOARD
 #include "board.h"
 #include "gameBoard.h"
 
@@ -16,3 +18,4 @@ class PresetBoard : public GameBoard {
     void initialize();
 };
 
+#endif
