@@ -1,13 +1,14 @@
-#include "player.h"
-#include "dice.h"
-#include "loadedDice.h"
-#include "RandomDice.h"
 #include <iostream>
 #include <string>
 #include <random>
 #include <chrono>
+#include <vector>
 #include "gameBoard.h"
 #include "const.h"
+#include "player.h"
+#include "dice.h"
+#include "loadedDice.h"
+#include "RandomDice.h"
 using namespace std;
 //replace all iostream with functions in display and notify display
 
@@ -150,3 +151,13 @@ void Player::player_print() {
     std::cout << player_name << " has " << numPoints << " building points, " << resource[i++] << " brick, " <<  resource[i++] << " energy," << std::endl;
     std::cout << resource[i++] << " glass, " << resource[i++] << " heat, and " << resource[i++] << " WiFi." << std::endl;
 }
+
+int* Player::getResources() { return resource; }
+
+std::vector <int> Player::getRoad() { return roads; }
+
+std::vector <int> Player::getBasement() { return basement; }
+
+std::vector <int> Player::getHouse() { return house; }
+
+std::vector <int> Player::getTower() { return tower; }

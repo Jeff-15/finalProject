@@ -1431,30 +1431,31 @@ void notify::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, st
     std::cout << '|' << std::endl;
 }
 
-void status(int builder, std::vector <Player*> player) {
-    std::string colour;
-    if (builder == 0) {
-        colour == "Blue";
-    } else if (builder == 1) {
-        colour == "Red";
-    } else if (builder == 2) {
-        colour == "Orange";
-    } else {
-        colour == "Yellow";
-    }
-    std::cout << colour << " has " << player.at(builder)->numPoints << " building points, ";
-    std::cout << player.at(builder)->resource[0] << " brick, ";
-    std::cout << player.at(builder)->resource[1] << " energy, ";
-    std::cout << player.at(builder)->resource[2] << " glass, ";
-    std::cout << player.at(builder)->resource[3] << " heat, ";
-    std::cout << player.at(builder)->resource[4] << " WIFI." << std::endl;
+void status(int builder, std::vector <Player*> p) {
+    // std::string colour;
+    // int resource[5] = p.at(builder).getResources();
+    // if (builder == 0) {
+    //     colour == "Blue";
+    // } else if (builder == 1) {
+    //     colour == "Red";
+    // } else if (builder == 2) {
+    //     colour == "Orange";
+    // } else {
+    //     colour == "Yellow";
+    // }
+    // std::cout << colour << " has " << player.at(builder)->numPoints << " building points, ";
+    // std::cout << player.at(builder)->resource[0] << " brick, ";
+    // std::cout << player.at(builder)->resource[1] << " energy, ";
+    // std::cout << player.at(builder)->resource[2] << " glass, ";
+    // std::cout << player.at(builder)->resource[3] << " heat, ";
+    // std::cout << player.at(builder)->resource[4] << " WIFI." << std::endl;
 }
 
 void residence(int builder, std::vector <Player*> p) {
     std::string colour;
-    std::vector <int> basement = p.at(builder)->basement;
-    std::vector <int> house = p.at(builder)->house;
-    std::vector <int> tower = p.at(builder)->tower;
+    std::vector <int> basement = p.at(builder)->getBasement();
+    std::vector <int> house = p.at(builder)->getHouse();
+    std::vector <int> tower = p.at(builder)->getTower();
     if (builder == 0) {
         colour == "Blue";
     } else if (builder == 1) {
@@ -1465,64 +1466,24 @@ void residence(int builder, std::vector <Player*> p) {
         colour == "Yellow";
     }
     std::cout << colour << " has built: " << std::endl;
-    for (auto B: basement) {
-        std::cout << B << ' ';
-    }
-    std::cout << 'B' << std::endl;
-    for (auto H: house) {
-        std::cout << H << ' ';
-    }
-    std::cout << 'H' << std::endl;
-    for (auto T: tower) {
-        std::cout << T << ' ';
-    }
-    std::cout << 'T' << std::endl;
-}
-
-void buildRoad(int builder, std::vector <Edge*> edges) {
-    std::string colour;
-    if (builder == 0) {
-        colour == "Blue";
-    } else if (builder == 1) {
-        colour == "Red";
-    } else if (builder == 2) {
-        colour == "Orange";
-    } else {
-        colour == "Yellow";
-    }
-    // std::cout << "You do not have enough resources." << std::endl;
-}
-
-void buildRes(int builder, std::vector <Vertex*> vertices) {
-    std::string colour;
-    int vertex;
-    std::string buildingType;
-    if (builder == 0) {
-        colour == "Blue";
-    } else if (builder == 1) {
-        colour == "Red";
-    } else if (builder == 2) {
-        colour == "Orange";
-    } else {
-        colour == "Yellow";
-    }
-    
-    // std::cout << "You do not have enough resources." << std::endl;
-}
-
-void improve(int builder, std::vector <Vertex*> vertices) {
-    std::string colour;
-    if (builder == 0) {
-        colour == "Blue";
-    } else if (builder == 1) {
-        colour == "Red";
-    } else if (builder == 2) {
-        colour == "Orange";
-    } else {
-        colour == "Yellow";
-    }
-
-    // std::cout << "You do not have enough resources." << std::endl;
+    if (!basement.empty()) {
+        for (auto Basement : basement) {
+            std::cout << Basement << ' ';
+        }
+        std::cout << 'B' << std::endl;
+    } 
+    if (!house.empty()) {
+        for (auto House : house) {
+            std::cout << House << ' ';
+        }
+        std::cout << 'T' << std::endl;
+    } 
+    if (!tower.empty()) {
+        for (auto Tower : tower) {
+            std::cout << Tower << ' ';
+        }
+        std::cout << 'H' << std::endl;
+    }  
 }
 
 void trade(int builder, std::string colour, std::string give, std::string take) {
@@ -1561,149 +1522,68 @@ int next(int builder) {
     return builder;
 }
 
-void save(int builder, std::vector <Player*> p) {
+void save(int builder, std::vector <Player*> p, std::vector <Tile*> tiles) {
     std::string curTurn;
-    int goose; // Must be a number from 0 - 18.
+    int geese; // Must be a number from 0 - 18.
+
     if (builder == 0) {
-        curTurn == "Blue";
+        curTurn = "Blue";
     } else if (builder == 1) {
-        curTurn == "Red";
+        curTurn = "Red";
     } else if (builder == 2) {
-        curTurn == "Orange";
+        curTurn = "Orange";
     } else {
-        curTurn== "Yellow";
+        curTurn = "Yellow";
     }
 
     // prints line 1: <curTurn>
     std::cout << curTurn << std::endl;
 
-    // prints line 2: <builder0Data>
-    std::cout << p.at(0)->resource[0] << ' ';
-    std::cout << p.at(0)->resource[1] << ' ';
-    std::cout << p.at(0)->resource[2] << ' ';
-    std::cout << p.at(0)->resource[3] << ' ';
-    std::cout << p.at(0)->resource[4] << ' ';
-    std::cout << 'r' << ' ';
-    for (auto road0 : p.at(0)->road) {
-        std::cout << road0 << ' ';
-    }
-    std::cout << 'h' << ' ';
-    if (!p.at(0)->basement.empty()) {
-        for (auto basement0 : p.at(0)->basement) {
-            std::cout << basement0 << ' ';
+    // prints line 2 - 5: <builder0Data> <builder1Data> <builder2Data> <builder3Data>
+    for (int i = 0; i < 4; ++i) {
+        int* resources = p.at(i)->getResources();
+        for (int j = 0; j < 5; ++j) {
+            std::cout << resources[j] << ' ';
         }
-        std::cout << 'B' << ' ';
-    } 
-    if (!p.at(0)->house.empty()) {
-        for (auto house0 : p.at(0)->house) {
-            std::cout << house0 << ' ';
-        }
-        std::cout << 'T' << ' ';
-    } 
-    if (!p.at(0)->tower.empty()) {
-        for (auto tower0 : p.at(0)->tower) {
-            std::cout << tower0 << ' ';
-        }
-        std::cout << 'H';
-    } 
-    std::cout << std::endl;
 
-    // prints line 3: <builder1Data>
-    std::cout << p.at(1)->resource[0] << ' ';
-    std::cout << p.at(1)->resource[1] << ' ';
-    std::cout << p.at(1)->resource[2] << ' ';
-    std::cout << p.at(1)->resource[3] << ' ';
-    std::cout << p.at(1)->resource[4] << ' ';
-    std::cout << 'r' << ' ';
-    for (auto road1 : p.at(1)->road) {
-        std::cout << road1 << ' ';
-    }
-    std::cout << 'h' << ' ';
-    if (!p.at(1)->basement.empty()) {
-        for (auto basement1 : p.at(1)->basement) {
-            std::cout << basement1 << ' ';
+        std::cout << 'r' << ' ';
+        for (auto road : p.at(i)->getRoad()) {
+            std::cout << road << ' ';
         }
-        std::cout << 'B' << ' ';
-    } 
-    if (!p.at(1)->house.empty()) {
-        for (auto house1 : p.at(1)->house) {
-            std::cout << house1 << ' ';
-        }
-        std::cout << 'T' << ' ';
-    } 
-    if (!p.at(1)->tower.empty()) {
-        for (auto tower1 : p.at(1)->tower) {
-            std::cout << tower1 << ' ';
-        }
-        std::cout << 'H';
-    } 
-    std::cout << std::endl;
 
-    // prints line 4: <builder2Data>
-    std::cout << p.at(2)->resource[0] << ' ';
-    std::cout << p.at(2)->resource[1] << ' ';
-    std::cout << p.at(2)->resource[2] << ' ';
-    std::cout << p.at(2)->resource[3] << ' ';
-    std::cout << p.at(2)->resource[4] << ' ';
-    std::cout << 'r' << ' ';
-    for (auto road2 : p.at(2)->road) {
-        std::cout << road2 << ' ';
-    }
-    std::cout << 'h' << ' ';
-    if (!p.at(2)->basement.empty()) {
-        for (auto basement2 : p.at(2)->basement) {
-            std::cout << basement2 << ' ';
-        }
-        std::cout << 'B' << ' ';
-    } 
-    if (!p.at(2)->house.empty()) {
-        for (auto house2 : p.at(2)->house) {
-            std::cout << house2 << ' ';
-        }
-        std::cout << 'T' << ' ';
-    } 
-    if (!p.at(2)->tower.empty()) {
-        for (auto tower2 : p.at(2)->tower) {
-            std::cout << tower2 << ' ';
-        }
-        std::cout << 'H';
-    } 
-    std::cout << std::endl;
+        std::cout << 'h' << ' ';
 
-    // prints line 5: <builder3Data>
-    std::cout << p.at(3)->resource[0] << ' ';
-    std::cout << p.at(3)->resource[1] << ' ';
-    std::cout << p.at(3)->resource[2] << ' ';
-    std::cout << p.at(3)->resource[3] << ' ';
-    std::cout << p.at(3)->resource[4] << ' ';
-    std::cout << 'r' << ' ';
-    for (auto road3 : p.at(3)->road) {
-        std::cout << road3 << ' ';
+        std::vector<std::pair<int, char>> residences;
+
+        for (auto basement : p.at(i)->getBasement()) {
+            residences.push_back({basement, 'B'});
+        }
+        for (auto house : p.at(i)->getHouse()) {
+            residences.push_back({house, 'H'});
+        }
+        for (auto tower : p.at(i)->getTower()) {
+            residences.push_back({tower, 'T'});
+        }
+
+        std::sort(residences.begin(), residences.end()); // Sort residences in ascending order
+
+        for (auto residence : residences) {
+            std::cout << residence.first << ' ' << residence.second << ' ';
+        }
+
+        std::cout << std::endl;
     }
-    std::cout << 'h' << ' ';
-    if (!p.at(3)->basement.empty()) {
-        for (auto basement3 : p.at(3)->basement) {
-            std::cout << basement3 << ' ';
-        }
-        std::cout << 'B' << ' ';
-    } 
-    if (!p.at(3)->house.empty()) {
-        for (auto house3 : p.at(3)->house) {
-            std::cout << house3 << ' ';
-        }
-        std::cout << 'T' << ' ';
-    } 
-    if (!p.at(3)->tower.empty()) {
-        for (auto tower3 : p.at(3)->tower) {
-            std::cout << tower3 << ' ';
-        }
-        std::cout << 'H';
-    } 
-    std::cout << std::endl;
 
     // prints line 6: <board>
+    for (int i = 0; i < 19; ++i) {
+        if (tiles.at(i)->getGoose()) geese = i;
+        tiles.at(i)->printNumber();
+        tiles.at(i)->printVal();
+    }
+    std::cout << std::endl;
     
     // prints line 7: <geese>
+    std::cout << geese << std::endl;
 }
 
 void notify::help() {
