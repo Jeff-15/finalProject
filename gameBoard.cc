@@ -4,6 +4,9 @@
 #include "RandomDice.h"
 #include "const.h"
 #include <iostream>
+#include <random>
+#include <chrono>
+#include <string>
 
 void GameBoard::processCommand(int target,int eventPara1, int eventPara2) {
     if(eventPara1 == 0){
@@ -250,3 +253,95 @@ void GameBoard::improve_residence(int vertexIndex) {
     vertices[vertexIndex]->improve();
     return;
 }
+
+
+
+std::vector<int> generateNumbers() {
+    // Create a vector with the exact counts of each number
+    std::vector<int> numbers = {2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12};
+
+    // Create a random generator
+    std::mt19937 rng(std::random_device{}()); 
+
+    // Shuffle the vector to randomize the order of the numbers
+    std::shuffle(numbers.begin(), numbers.end(), rng);
+
+    return numbers;
+}
+
+std::vector<std::string> generateStrings() {
+    // Create a vector with the exact counts of each string
+    std::vector<std::string> strings = {"PARK", "BRICK", "BRICK", "BRICK", "BRICK", 
+                                        "ENERGY", "ENERGY", "ENERGY", "ENERGY",
+                                        "GLASS", "GLASS", "GLASS", "GLASS",
+                                        "HEAT", "HEAT", "HEAT",
+                                        "WIFI", "WIFI", "WIFI"};
+
+    // Create a random generator
+    std::mt19937 rng(std::random_device{}()); 
+
+    // Shuffle the vector to randomize the order of the strings
+    std::shuffle(strings.begin(), strings.end(), rng);
+
+    return strings;
+}
+
+void GameBoard::initialize() {
+    const int goose = 7;
+    const int tileNum = 19;
+    const int vertexNum = 54;
+    const int edgeNum = 72;
+    std::vector<int> randomNumber = generateNumbers();
+    std::vector<std::string> randomString = generateStrings();
+    for (int i = 0; i < tileNum; ++i) {
+        tiles.at(i)->setNum(i);
+        tiles.at(i)->setType(randomString.back());
+        if (randomString.back() == "PARK") {
+            randomString.pop_back();
+            tiles.at(i)->setVal(goose);
+            tiles.at(i)->setStatus(true);
+        } else {
+            randomString.pop_back();
+            tiles.at(i)->setVal(randomNumber.back());
+            randomNumber.pop_back();
+            tiles.at(i)->setStatus(false);
+        }
+        tiles.at(i)->setVertex(i);
+        tiles.at(i)->setEdge(i);
+    }
+    for (int i = 0; i < vertexNum; ++i) {
+        vertices.at(i)->setNum(i);
+        vertices.at(i)->setStatus(false);
+        vertices.at(i)->setOwner("");
+        vertices.at(i)->setVertex(i);
+        vertices.at(i)->setEdge(i);
+    }
+    for (int i = 0; i < edgeNum; ++i) {
+        edges.at(i)->setNum(i);
+        edges.at(i)->setStatus(false);
+        edges.at(i)->setOwner("");
+        edges.at(i)->setVertex(i);
+        edges.at(i)->setEdge(i);
+    }
+}
+
+GameBoard::GameBoard(): dice {LoadedDice{this, 0}} {
+    // tiles
+    for (int i = 0; i < 19; ++i) {
+        Tile *t1 = new Tile {};
+        tiles.emplace_back(t1);
+    }
+    //vertex
+    for (int i = 0; i < 54; ++i) {
+        Vertex *v1 = new Vertex {};
+        vertices.emplace_back(v1);
+    }
+    //edges
+    for (int i = 0; i < 72; ++i) {
+        Edge *e1 = new Edge {};
+        edges.emplace_back(e1);
+    }
+}
+GameBoard::GameBoard(std::vector <Tile*> t, std::vector <Vertex*> v, std::vector <Edge*> e): dice {LoadedDice{this, 0}}, 
+            edges{e}, tiles{t}, vertices{v} { }
+

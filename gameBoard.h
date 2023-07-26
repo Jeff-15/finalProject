@@ -42,6 +42,9 @@ class GameBoard: public Subject{
         void processCommand(int target,int eventPara1, int eventPara2);
         virtual void initialize();
         int GEESELIMIT = 7;
+        void initialize();
+        GameBoard();
+        GameBoard(std::vector <Tile*> t, std::vector <Vertex*> v, std::vector <Edge*> e);
 };
 
 #endif
