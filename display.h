@@ -9,8 +9,8 @@ class notify {
 
   public:
     void board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, std::vector <Edge*> edges);
-    void status(int builder, std::vector <Player*> player);
-    void residence(int builder, std::vector <Player*> player);
+    void status(int builder, std::vector <Player*> p);
+    void residence(int builder, std::vector <Player*> p);
     void buildRoad(int builder, std::vector <Edge*> edges);
     void buildRes(int builder, std::vector <Vertex*> vertices);
     void improve(int builder, std::vector <Vertex*> vertices);

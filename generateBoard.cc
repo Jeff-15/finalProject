@@ -56,21 +56,26 @@ void RandomizedBoard::initialize() {
             randomNumber.pop_back();
             tiles.at(i)->setStatus(false);
         }
+        tiles.at(i)->setVertex(i);
+        tiles.at(i)->setEdge(i);
     }
     for (int i = 0; i < vertexNum; ++i) {
         vertices.at(i)->setNum(i);
         vertices.at(i)->setStatus(false);
         vertices.at(i)->setOwner("");
+        vertices.at(i)->setVertex(i);
+        vertices.at(i)->setEdge(i);
     }
     for (int i = 0; i < edgeNum; ++i) {
         edges.at(i)->setNum(i);
         edges.at(i)->setStatus(false);
         edges.at(i)->setOwner("");
+        edges.at(i)->setVertex(i);
+        edges.at(i)->setEdge(i);
     }
 }
 
 void PresetBoard::initialize() {
     
 }
-
 

@@ -60,9 +60,12 @@ void Player::road(){
             cout<<"Not enough minerals"<<endl;//replace with display commands
             return;
         }
+        
+        
     }
+    int position = 0;//input
+    gb->processCommand(index,CONSTANTS::ROADCOMMAND,position);
     
-
 }
 
 void Player::robberRandomLoss(){

@@ -36,16 +36,15 @@ class Tile {
 class Vertex {
     int num;
     bool occupy;
-
-    std::string owner; // Can be either B (Blue), O (Orange), R (Red), Y (Yellow).
-    std::string level; // Can be either B (Basement), T (Tower), H (House).
+    std::string owner; // Can be either B (Blue), R (Red), O (Orange), Y (Yellow).
+    std::string level; // Can be either B (Basement), H (House), T (Tower).
     std::vector <int> neighbourVertex;
     std::vector <int> neighbourEdge;
-
 
   public:
     void printNum() const;
     void printOwner() const;
+    void printLevel() const;
     bool own() const;
     int getNum() const;
     std::string getOwner() const;
@@ -57,14 +56,14 @@ class Vertex {
     void setOwner(std::string owner);
     void setVertex(int num);
     void setEdge(int num);
-    void build(std::string player);
+    void build(std::string builder); // The string must be either B (Blue), R (Red), O (Orange), Y (Yellow).
     void improve();
 };
 
 class Edge {
     int num;
-    bool occupy; // Can be either B (Blue), O (Orange), R (Red), Y (Yellow).
-    std::string owner;
+    bool occupy; 
+    std::string owner; // Can be either B (Blue), R (Red), O (Orange), Y (Yellow).
     std::vector <int> neighbourVertex;
     std::vector <int> neighbourEdge;
 
