@@ -1,7 +1,229 @@
 #include <bits/stdc++.h>
 #include "display.h"
 
-void notify::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, std::vector <Edge*> edges) { 
+void display::invalid() {
+    std::cout << "Invalid command." << std::endl;
+}
+
+void display::buildFail() {
+    std::cout << "You cannot build here." << std::endl;
+}
+
+void display::insufficient() {
+    std::cout << "You do not have enough resources." << std::endl;
+}
+
+void display::begin(int builder) {
+    std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
+    std::cout << "Builder " << colours[builder] << ", where do you want to build a basement?" << std::endl;
+}
+
+void display::end() {
+    std::cout << "Would you like play again?" << std::endl;
+}
+
+void display::loadedDice() {
+    std::cout << "Input a roll between 2 and 12:" << std::endl;
+}
+
+void display::invalidRoll() {
+    std::cout << "Invalid roll." << std::endl;
+}
+
+void display::next(int builder) {
+    std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
+    int next = (builder + 1) % 4;
+    std::cout << "Builder " << colours[next] << "'s turn." << std::endl;
+}
+
+void display::gain(std::vector <Player*> p, std::vector <int> num, std::string type) {
+    std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
+    for (int i = 0; i < p.size(); ++i) {
+        std::cout << "Builder " << colours[p[i]->getIndex()] << " gained:" << std::endl;
+        std::cout << num[i] << " " << type << std::endl;
+    }
+}
+
+void display::noGain() {
+    std::cout << "No builders gained resources." << std::endl;
+}
+
+void display::geeseSteal(std::vector<Player*> p, 
+                         std::vector<std::vector<std::pair<int, std::string>>> resourcesLost) {
+    std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
+    for (int i = 0; i < p.size(); ++i) {
+        int totalResourcesLost = 0;
+        for (auto resource : resourcesLost[i]) {
+            totalResourcesLost += resource.first;
+        }
+        std::cout << "Builder " << colours[p[i]->getIndex()] << " loses "; 
+        std::cout << totalResourcesLost << " resources to the geese. They lose:" << std::endl;
+        for (auto resource : resourcesLost[i]) {
+            std::cout << resource.first << " " << resource.second << std::endl;
+        }
+    }
+}
+
+void display::placeGeese() {
+    std::cout << "Choose where to place the GEESE." << std::endl;
+}
+
+void display::chooseSteal(int builder, std::vector<Player*> p) {
+    std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
+    std::vector<std::string> builders;
+
+    std::cout << "Builder " << colours[builder] << " can choose to steal from ";
+
+    for (size_t i = 0; i < p.size(); ++i) {
+        builders.push_back(colours[p[i]->getIndex()]);
+    }
+
+    for (size_t i = 0; i < builders.size(); ++i) {
+        std::cout << builders[i];
+        if (i != builders.size() - 1) {
+            std::cout << ' ';
+        } else {
+            std::cout << '.' << std::endl;
+        }
+    }
+    std::cout << "Choose a builder to steal from." << std::endl;
+}
+
+void display::steal(int builder, int stolen, std::string resource) {
+    std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
+
+    std::cout << "Builder " << colours[builder] << " steals " << resource;
+    std::cout << " from builder " << colours[stolen] << "." << std::endl;
+}
+
+void display::noSteal(int builder) {
+    std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
+    std::cout << "Builder " << colours[builder] << " has no builders to steal from." << std::endl;
+}
+
+void display::status(int builder, std::vector<Player*> p) {
+    std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
+    std::vector<std::string> resourceTypes = {"brick", "energy", "glass", "heat", "WIFI"};
+    
+    int points = p[builder]->getNumPoints();
+    std::cout << colours[builder] << " has " << points << " building points, ";
+
+    int* resources = p[builder]->getResources();
+    for (size_t i = 0; i < resourceTypes.size(); ++i) {
+        std::cout << resources[i] << " " << resourceTypes[i];
+        if (i != resourceTypes.size() - 1) {
+            std::cout << ", ";
+        } else {
+            std::cout << "." << std::endl;
+        }
+    }
+}
+
+void display::residence(int builder, std::vector<Player*> p) {
+    std::vector <std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
+    std::cout << colours[builder] << " has built: " << std::endl;
+
+    std::vector <int> basement = p[builder]->getBasement();
+    std::vector <int> house = p[builder]->getHouse();
+    std::vector <int> tower = p[builder]->getTower();
+    if (!basement.empty()) {
+        for (auto Basement : basement) {
+            std::cout << Basement << ' ';
+        }
+        std::cout << 'B' << std::endl;
+    } 
+    if (!house.empty()) {
+        for (auto House : house) {
+            std::cout << House << ' ';
+        }
+        std::cout << 'T' << std::endl;
+    } 
+    if (!tower.empty()) {
+        for (auto Tower : tower) {
+            std::cout << Tower << ' ';
+        }
+        std::cout << 'H' << std::endl;
+    }  
+}
+
+void trade(int builder, std::string colour, std::string give, std::string take) {
+    std::vector <std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
+    std::string Builder = colours[builder];
+    std::cout << Builder << " offers " << colour << " one ";
+    std::cout << give << " for one " << take << "." << std::endl;
+    std::cout << "Does " << colour << " accept this offer?" << std::endl;
+}
+
+void display::save(int builder, std::vector <Player*> p, std::vector <Tile*> tiles) {
+    std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
+    std::string curTurn = colours[builder];
+    int geese; // Must be a number from 0 - 18.
+
+    // prints line 1: <curTurn>
+    std::cout << curTurn << std::endl;
+
+    // prints line 2 - 5: <builder0Data> <builder1Data> <builder2Data> <builder3Data>
+    for (int i = 0; i < 4; ++i) {
+        int* resources = p.at(i)->getResources();
+        for (int j = 0; j < 5; ++j) {
+            std::cout << resources[j] << ' ';
+        }
+
+        std::cout << 'r' << ' ';
+        for (auto road : p.at(i)->getRoad()) {
+            std::cout << road << ' ';
+        }
+
+        std::cout << 'h' << ' ';
+
+        std::vector<std::pair<int, char>> residences;
+
+        for (auto basement : p.at(i)->getBasement()) {
+            residences.push_back({basement, 'B'});
+        }
+        for (auto house : p.at(i)->getHouse()) {
+            residences.push_back({house, 'H'});
+        }
+        for (auto tower : p.at(i)->getTower()) {
+            residences.push_back({tower, 'T'});
+        }
+
+        std::sort(residences.begin(), residences.end()); // Sort residences in ascending order
+
+        for (auto residence : residences) {
+            std::cout << residence.first << ' ' << residence.second << ' ';
+        }
+
+        std::cout << std::endl;
+    }
+
+    // prints line 6: <board>
+    for (int i = 0; i < 19; ++i) {
+        if (tiles.at(i)->getGoose()) geese = i;
+        tiles.at(i)->printNumber();
+        tiles.at(i)->printVal();
+    }
+    std::cout << std::endl;
+    
+    // prints line 7: <geese>
+    std::cout << geese << std::endl;
+}
+
+void display::help() { 
+    std::cout << "Valid commands:" << std::endl;
+    std::cout << "board" << std::endl;
+    std::cout << "status" << std::endl;
+    std::cout << "residences" << std::endl;
+    std::cout << "build-road <edge#>" << std::endl;
+    std::cout << "build-res <housing#>" << std::endl;
+    std::cout << "improve <housing#>" << std::endl;
+    std::cout << "trade <colour> <give> <take>" << std::endl;
+    std::cout << "next" << std::endl;
+    std::cout << "isave <file>" << std::endl;
+    std::cout << "help" << std::endl;
+}
+
+void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, std::vector <Edge*> edges) { 
     // print line 1.
     std::cout << std::string(20, ' ');
     std::cout << '|';
@@ -1431,171 +1653,3 @@ void notify::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, st
     std::cout << '|' << std::endl;
 }
 
-void status(int builder, std::vector <Player*> p) {
-    // std::string colour;
-    // int resource[5] = p.at(builder).getResources();
-    // if (builder == 0) {
-    //     colour == "Blue";
-    // } else if (builder == 1) {
-    //     colour == "Red";
-    // } else if (builder == 2) {
-    //     colour == "Orange";
-    // } else {
-    //     colour == "Yellow";
-    // }
-    // std::cout << colour << " has " << player.at(builder)->numPoints << " building points, ";
-    // std::cout << player.at(builder)->resource[0] << " brick, ";
-    // std::cout << player.at(builder)->resource[1] << " energy, ";
-    // std::cout << player.at(builder)->resource[2] << " glass, ";
-    // std::cout << player.at(builder)->resource[3] << " heat, ";
-    // std::cout << player.at(builder)->resource[4] << " WIFI." << std::endl;
-}
-
-void residence(int builder, std::vector <Player*> p) {
-    std::string colour;
-    std::vector <int> basement = p.at(builder)->getBasement();
-    std::vector <int> house = p.at(builder)->getHouse();
-    std::vector <int> tower = p.at(builder)->getTower();
-    if (builder == 0) {
-        colour == "Blue";
-    } else if (builder == 1) {
-        colour == "Red";
-    } else if (builder == 2) {
-        colour == "Orange";
-    } else {
-        colour == "Yellow";
-    }
-    std::cout << colour << " has built: " << std::endl;
-    if (!basement.empty()) {
-        for (auto Basement : basement) {
-            std::cout << Basement << ' ';
-        }
-        std::cout << 'B' << std::endl;
-    } 
-    if (!house.empty()) {
-        for (auto House : house) {
-            std::cout << House << ' ';
-        }
-        std::cout << 'T' << std::endl;
-    } 
-    if (!tower.empty()) {
-        for (auto Tower : tower) {
-            std::cout << Tower << ' ';
-        }
-        std::cout << 'H' << std::endl;
-    }  
-}
-
-void trade(int builder, std::string colour, std::string give, std::string take) {
-    std::string colour1;
-    std::string colour2 = colour;
-    if (builder == 0) {
-        colour1 == "Blue";
-    } else if (builder == 1) {
-        colour1 == "Red";
-    } else if (builder == 2) {
-        colour1 == "Orange";
-    } else {
-        colour1 == "Yellow";
-    }
-    std::cout << colour1 << " offers " << colour2 << " one ";
-    std::cout << give << " for one " << take << "." << std::endl;
-    std::cout << "Does " << colour2 << " accept this offer?" << std::endl;
-}
-
-int next(int builder) {
-    std::string next;
-    if (builder == 0) {
-        builder = 1;
-        next = "Red";
-    } else if (builder == 1) {
-        builder = 2;
-        next = "Orange";
-    } else if (builder == 2) {
-        builder = 3;
-        next = "Yellow";
-    } else {
-        builder = 0;
-        next = "Blue";
-    }
-    std::cout << "Builder " << next << "'s turn." << std::endl;
-    return builder;
-}
-
-void save(int builder, std::vector <Player*> p, std::vector <Tile*> tiles) {
-    std::string curTurn;
-    int geese; // Must be a number from 0 - 18.
-
-    if (builder == 0) {
-        curTurn = "Blue";
-    } else if (builder == 1) {
-        curTurn = "Red";
-    } else if (builder == 2) {
-        curTurn = "Orange";
-    } else {
-        curTurn = "Yellow";
-    }
-
-    // prints line 1: <curTurn>
-    std::cout << curTurn << std::endl;
-
-    // prints line 2 - 5: <builder0Data> <builder1Data> <builder2Data> <builder3Data>
-    for (int i = 0; i < 4; ++i) {
-        int* resources = p.at(i)->getResources();
-        for (int j = 0; j < 5; ++j) {
-            std::cout << resources[j] << ' ';
-        }
-
-        std::cout << 'r' << ' ';
-        for (auto road : p.at(i)->getRoad()) {
-            std::cout << road << ' ';
-        }
-
-        std::cout << 'h' << ' ';
-
-        std::vector<std::pair<int, char>> residences;
-
-        for (auto basement : p.at(i)->getBasement()) {
-            residences.push_back({basement, 'B'});
-        }
-        for (auto house : p.at(i)->getHouse()) {
-            residences.push_back({house, 'H'});
-        }
-        for (auto tower : p.at(i)->getTower()) {
-            residences.push_back({tower, 'T'});
-        }
-
-        std::sort(residences.begin(), residences.end()); // Sort residences in ascending order
-
-        for (auto residence : residences) {
-            std::cout << residence.first << ' ' << residence.second << ' ';
-        }
-
-        std::cout << std::endl;
-    }
-
-    // prints line 6: <board>
-    for (int i = 0; i < 19; ++i) {
-        if (tiles.at(i)->getGoose()) geese = i;
-        tiles.at(i)->printNumber();
-        tiles.at(i)->printVal();
-    }
-    std::cout << std::endl;
-    
-    // prints line 7: <geese>
-    std::cout << geese << std::endl;
-}
-
-void notify::help() {
-    std::cout << "Valid commands:" << std::endl;
-    std::cout << "board" << std::endl;
-    std::cout << "status" << std::endl;
-    std::cout << "residences" << std::endl;
-    std::cout << "build-road <edge#>" << std::endl;
-    std::cout << "build-res <housing#>" << std::endl;
-    std::cout << "improve <housing#>" << std::endl;
-    std::cout << "trade <colour> <give> <take>" << std::endl;
-    std::cout << "next" << std::endl;
-    std::cout << "isave <file>" << std::endl;
-    std::cout << "help>" << std::endl;
-}
