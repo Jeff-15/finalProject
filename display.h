@@ -38,7 +38,7 @@ class display {
     void noGain();
     // No builders gained resources. \n
 
-    void geeseSteal(std::vector<Player*> players, std::vector<std::vector<std::pair<int, std::string>>> resourcesLost);
+    void geeseSteal(std::vector <Player*> p, std::vector <std::vector <std::pair <int, std::string>> > resourcesLost);
     // Builder <colour> loses <numResourcesLost> resources to the geese. They lose: \n
     // <numResource> <resourceName> \n
 

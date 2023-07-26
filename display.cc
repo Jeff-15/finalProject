@@ -35,7 +35,6 @@ void display::next(int builder) {
     int next = (builder + 1) % 4;
     std::cout << "Builder " << colours[next] << "'s turn." << std::endl;
 }
-
 void display::gain(std::vector <Player*> p, std::vector <int> num, std::string type) {
     std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
     for (int i = 0; i < p.size(); ++i) {
@@ -48,8 +47,8 @@ void display::noGain() {
     std::cout << "No builders gained resources." << std::endl;
 }
 
-void display::geeseSteal(std::vector<Player*> p, 
-                         std::vector<std::vector<std::pair<int, std::string>>> resourcesLost) {
+void display::geeseSteal(std::vector <Player*> p, 
+                         std::vector <std::vector<std::pair<int, std::string>> > resourcesLost) {
     std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
     for (int i = 0; i < p.size(); ++i) {
         int totalResourcesLost = 0;
@@ -68,16 +67,13 @@ void display::placeGeese() {
     std::cout << "Choose where to place the GEESE." << std::endl;
 }
 
-void display::chooseSteal(int builder, std::vector<Player*> p) {
+void display::chooseSteal (int builder, std::vector <Player*> p) {
     std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
     std::vector<std::string> builders;
-
     std::cout << "Builder " << colours[builder] << " can choose to steal from ";
-
     for (size_t i = 0; i < p.size(); ++i) {
         builders.push_back(colours[p[i]->getIndex()]);
     }
-
     for (size_t i = 0; i < builders.size(); ++i) {
         std::cout << builders[i];
         if (i != builders.size() - 1) {
@@ -91,7 +87,6 @@ void display::chooseSteal(int builder, std::vector<Player*> p) {
 
 void display::steal(int builder, int stolen, std::string resource) {
     std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
-
     std::cout << "Builder " << colours[builder] << " steals " << resource;
     std::cout << " from builder " << colours[stolen] << "." << std::endl;
 }
@@ -101,13 +96,11 @@ void display::noSteal(int builder) {
     std::cout << "Builder " << colours[builder] << " has no builders to steal from." << std::endl;
 }
 
-void display::status(int builder, std::vector<Player*> p) {
+void display::status(int builder, std::vector <Player*> p) {
     std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
     std::vector<std::string> resourceTypes = {"brick", "energy", "glass", "heat", "WIFI"};
-    
     int points = p[builder]->getNumPoints();
     std::cout << colours[builder] << " has " << points << " building points, ";
-
     int* resources = p[builder]->getResources();
     for (size_t i = 0; i < resourceTypes.size(); ++i) {
         std::cout << resources[i] << " " << resourceTypes[i];
@@ -119,10 +112,9 @@ void display::status(int builder, std::vector<Player*> p) {
     }
 }
 
-void display::residence(int builder, std::vector<Player*> p) {
+void display::residence(int builder, std::vector <Player*> p) {
     std::vector <std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
     std::cout << colours[builder] << " has built: " << std::endl;
-
     std::vector <int> basement = p[builder]->getBasement();
     std::vector <int> house = p[builder]->getHouse();
     std::vector <int> tower = p[builder]->getTower();
