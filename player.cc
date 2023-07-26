@@ -3,6 +3,7 @@
 #include "loadedDice.h"
 #include "RandomDice.h"
 #include <iostream>
+#include <vector>
 #include <string>
 #include <random>
 #include <chrono>
@@ -51,13 +52,13 @@ int Player::action(){
         if(command == "road"){
             int position;
             cin>>position;
-            road(position);
+            roadConstruct(position);
         }
     }
 }
 
 //strong guarantee
-void Player::road(int position){
+void Player::roadConstruct(int position){
     for(int i = 0; i<RESOURCETYPE;i++){
         if(resource[i]<CONSTANTS::ROADCOST[i]){
             cout<<"Not enough minerals"<<endl;//replace with display commands
@@ -75,7 +76,7 @@ void Player::road(int position){
 }
 
 //string guarantee
-void Player::house(int position){
+void Player::houseConstruct(int position){
     for(int i = 0; i<RESOURCETYPE;i++){
         if(resource[i]<CONSTANTS::BASEMENTCOST[i]){
             cout<<"Not enough minerals"<<endl;//replace with display commands

@@ -1,5 +1,8 @@
+#ifndef PLAYER
+#define PLAYER
 #include "gameBoard.h"
 #include <string>
+#include <vector>
 class Player {
     GameBoard* gb;
     std::string player_name;
@@ -14,12 +17,17 @@ class Player {
     void robberRandomLoss();
     int randomLoss();
     int action();
-    void road(int position);//construct road
-    void house(int position);//construct house
+    void roadConstruct(int position);//construct road
+    void houseConstruct(int position);//construct house
     void improve(int position);
-    void trade()
+    void trade();
+    std::vector<int> roads;
+    std::vector<int> basement;
+    std::vector<int> house;
+    std::vector<int> tower;
     public: 
         int notify (int target, int eventPara1, int eventPara2);//see eventNumber.txt for representations
         Player(int index, GameBoard* gb);
         void player_print();
 };
+#endif
