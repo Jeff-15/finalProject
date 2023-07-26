@@ -26,10 +26,6 @@ class Player {
     void houseConstruct(int position);//construct house
     void improve(int position);
     void trade();
-    std::vector<int> roads;
-    std::vector<int> basement;
-    std::vector<int> house;
-    std::vector<int> tower;
     public: 
         int notify (int target, int eventPara1, int eventPara2);//see eventNumber.txt for representations
         Player(int index, GameBoard* gb);

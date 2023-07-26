@@ -109,7 +109,7 @@ void Player::improve(int position){
                 resource[k]-=CONSTANTS::HOUSECOST[k];
             }
             
-            basement.erase(i);
+            basement.erase(house.begin()+i);
             house.emplace_back(i);
             return;   
         }
@@ -127,7 +127,7 @@ void Player::improve(int position){
                 resource[k]-=CONSTANTS::TOWERCOST[k];
             }
             
-            house.erase(i);
+            house.erase(house.begin()+i);
             tower.emplace_back(i);
             return;   
         }
