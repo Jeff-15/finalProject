@@ -8,6 +8,8 @@ void Tile::printNum() const {
     else std::cout << num;
 }
 
+void Tile::printNumber() const { std::cout << num; }
+
 void Tile::printType() const { std::cout << type; }
 
 void Tile::printVal() const { std::cout << val; }

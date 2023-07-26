@@ -3,6 +3,7 @@
 #include "gameBoard.h"
 #include <string>
 #include <vector>
+
 class Player {
     GameBoard* gb;
     std::string player_name;
@@ -12,6 +13,10 @@ class Player {
     int resource[5];//Order: BRICK, ENERGY,GLASS, HEAT, WIFI.
     int dice_type; // 0 for loaded dice, 1 for random dice
     Dice *d;
+    std::vector <int> roads;
+    std::vector <int> basement;
+    std::vector <int> house;
+    std::vector <int> tower;
     void turn();
     void diceRoll();
     void robberRandomLoss();
@@ -29,5 +34,10 @@ class Player {
         int notify (int target, int eventPara1, int eventPara2);//see eventNumber.txt for representations
         Player(int index, GameBoard* gb);
         void player_print();
+        int* getResources();
+        std::vector <int> getRoad();
+        std::vector <int> getBasement();
+        std::vector <int> getHouse();
+        std::vector <int> getTower();
 };
 #endif
