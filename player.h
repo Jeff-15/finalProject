@@ -14,7 +14,10 @@ class Player {
     void robberRandomLoss();
     int randomLoss();
     int action();
-    void road();
+    void road(int position);//construct road
+    void house(int position);//construct house
+    void improve(int position);
+    void trade()
     public: 
         int notify (int target, int eventPara1, int eventPara2);//see eventNumber.txt for representations
         Player(int index, GameBoard* gb);
