@@ -31,13 +31,7 @@ void GameBoard::processCommand(int target,int eventPara1, int eventPara2) {
         improve_residence(eventPara2);
     }
 }
-void GameBoard::initialize() {
-    // initialize dice, default random dice
-    for (int i = 0; i < 4; ++i) {
-        Dice* d = new LoadedDice(this, i);
-    }
-    return;
-}
+
 
 int GameBoard::name_to_index(std::string player_name) {
     // Blue Red, Orange Yellow

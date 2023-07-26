@@ -40,7 +40,6 @@ class GameBoard: public Subject{
         std::string convert_short_to_full_name(std::string sh);        // ex) R -> Red                  
     public:
         void processCommand(int target,int eventPara1, int eventPara2);
-        virtual void initialize();
         int GEESELIMIT = 7;
         void initialize();
         GameBoard();
