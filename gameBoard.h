@@ -23,8 +23,8 @@ class GameBoard: public Subject{
         //May throw error (string: )
         //throw "Already build";
         //throw "No neighbour";
-
         // have to garantee player has sufficient money
+        
         void build_residence(int player_id, int vertexIndex);
         void improve_residence(int vertexIndex);
         ////////////////////////////////////////////////

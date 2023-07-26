@@ -18,8 +18,14 @@ void GameBoard::processCommand(int target,int eventPara1, int eventPara2) {
             processDice(target);
         }
     }
-    if(eventPara1 == CONSTANTS::ROADCOMMAND){
+    else if(eventPara1 == CONSTANTS::ROADCOMMAND){
         constructRoad(target,eventPara2);
+    }
+    else if(eventPara1 == CONSTANTS::BASEMENTCOMMAND){
+        build_residence(target,eventPara2);
+    }
+    else if(eventPara1 == CONSTANTS::IMPROVECOMMAND){
+        improve_residence(eventPara2);
     }
 }
 void GameBoard::initialize() {
