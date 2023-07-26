@@ -89,13 +89,11 @@ RandomizedBoard::RandomizedBoard() {
         Tile *t1 = new Tile {};
         tiles.emplace_back(t1);
     }
-
     //vertex
     for (int i = 0; i < 54; ++i) {
         Vertex *v1 = new Vertex {};
         vertices.emplace_back(v1);
     }
-
     //edges
     for (int i = 0; i < 72; ++i) {
         Edge *e1 = new Edge {};
