@@ -5,6 +5,7 @@
 #include "dice.h"
 #include "subject.h"
 #include "board.h"
+#include "player.h"
 #include <iostream>
 
 class GameBoard: public Subject{

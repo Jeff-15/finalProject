@@ -1,7 +1,7 @@
 
 #ifndef GENERATEBOARD
 #define GENERATEBOARD
-#include <bits/stdc++.h>
+#include <vector>
 #include "board.h"
 #include "gameBoard.h"
 
