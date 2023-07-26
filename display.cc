@@ -1,4 +1,6 @@
-#include <bits/stdc++.h>
+#include <string>
+#include <vector>
+#include <iostream>
 #include "display.h"
 
 void notify::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, std::vector <Edge*> edges) { 

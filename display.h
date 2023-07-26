@@ -1,4 +1,7 @@
-
+#ifndef DISPLAY
+#define DISPLAY
+#include <vector>
+#include <string>
 #include "subject.h"
 #include "board.h"
 #include "gameBoard.h"
@@ -16,3 +19,5 @@ class notify {
     void save(int builder, std::vector <Player*> p, std::vector <Tile*> tiles);
     void help();
 };
+
+#endif
