@@ -8,26 +8,26 @@
 #include <iostream>
 
 class GameBoard: public Subject{
-    Dice dice;
-    int diceRoll;//the result of dice roll
-    void processDice(int index);
-    void processGeese(int tileIndex,int index);//place geese at position tileIndex:: To do
-    //call notifyPlayer(index,-1,0)(choosing steal target)
-    //response in input
-    //call notifyPlayer(targetindex,1,2)(target index is in int input)
-    void player_get_resource(std::string player_name);
-
-    void constructRoad(int player_id, int edgeIndex);
-    //May throw error (string: )
-    //throw "Already build";
-    //throw "No neighbour";
-
-    // have to garantee player has sufficient money
-    void build_residence(int player_id, int vertexIndex);
-    void improve_residence(int vertexIndex);
-    ////////////////////////////////////////////////
-    
     protected:
+        Dice dice;
+        int diceRoll;//the result of dice roll
+        void processDice(int index);
+        void processGeese(int tileIndex,int index);//place geese at position tileIndex:: To do
+        //call notifyPlayer(index,-1,0)(choosing steal target)
+        //response in input
+        //call notifyPlayer(targetindex,1,2)(target index is in int input)
+        void player_get_resource(std::string player_name);
+
+        void constructRoad(int player_id, int edgeIndex);
+        //May throw error (string: )
+        //throw "Already build";
+        //throw "No neighbour";
+
+        // have to garantee player has sufficient money
+        void build_residence(int player_id, int vertexIndex);
+        void improve_residence(int vertexIndex);
+        ////////////////////////////////////////////////
+
         std::vector <Tile*> tiles;
         std::vector <Vertex*> vertices;
         std::vector <Edge*> edges;

@@ -1,3 +1,4 @@
+
 #ifndef GENERATEBOARD
 #define GENERATEBOARD
 #include <bits/stdc++.h>

@@ -4,6 +4,7 @@
 #include "RandomDice.h"
 #include "const.h"
 #include <iostream>
+
 void GameBoard::processCommand(int target,int eventPara1, int eventPara2) {
     if(eventPara1 == 0){
         if(eventPara2 == 0){
