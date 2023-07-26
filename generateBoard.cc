@@ -79,3 +79,31 @@ void PresetBoard::initialize() {
     
 }
 
+
+RandomizedBoard::RandomizedBoard() {
+    dice = LoadedDice(this, 0);
+    diceRoll = 0;
+    // tiles
+    for (int i = 0; i < 19; ++i) {
+        Tile *t1 = new Tile {};
+        tiles.emplace_back(t1);
+    }
+
+    //vertex
+    for (int i = 0; i < 54; ++i) {
+        Vertex *v1 = new Vertex {};
+        vertices.emplace_back(v1);
+    }
+
+    //edges
+    for (int i = 0; i < 72; ++i) {
+        Edge *e1 = new Edge {};
+        edges.emplace_back(e1);
+    }
+}
+
+RandomizedBoard::~RandomizedBoard() {
+    for (auto i : tiles) delete i;
+    for (auto i : vertices) delete i;
+    for (auto i : edges) delete i;
+}
