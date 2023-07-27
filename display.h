@@ -2,11 +2,11 @@
 #define DISPLAY
 #include "subject.h"
 #include "board.h"
-#include "gameBoard.h"
 #include "player.h"
+#include "abstractDisplay.h"
 
-class display {
-    GameBoard* gb;
+class display: public AbstractDisplay {
+
 
   public:
     void invalid();
@@ -94,4 +94,5 @@ class display {
     void board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, std::vector <Edge*> edges); 
     // prints the board.
 };
+
 #endif

@@ -1,12 +1,5 @@
 #include "gameBoard.h"
-#include "dice.h"
-#include "loadedDice.h"
-#include "RandomDice.h"
-#include "const.h"
-#include <iostream>
-#include <random>
-#include <chrono>
-#include <string>
+
 
 
 void GameBoard::processCommand(int target,int eventPara1, int eventPara2) {

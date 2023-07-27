@@ -1,15 +1,4 @@
-#include <iostream>
-#include <vector>
-#include <string>
-#include <random>
-#include <chrono>
-#include <vector>
-#include "gameBoard.h"
-#include "const.h"
 #include "player.h"
-#include "dice.h"
-#include "loadedDice.h"
-#include "RandomDice.h"
 using namespace std;
 //replace all iostream with functions in display and notify display
 

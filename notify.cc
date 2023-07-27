@@ -1,244 +1,24 @@
+#include <bits/stdc++.h>
+#include "notify.h"
 
-#include <iostream>
-#include <vector>
-#include <string>
-#include "display.h"
-
-void display::invalid() {
-    std::cout << "Invalid command." << std::endl;
-}
-
-void display::buildFail() {
-    std::cout << "You cannot build here." << std::endl;
-}
-
-void display::insufficient() {
-    std::cout << "You do not have enough resources." << std::endl;
-}
-
-void display::begin(int builder) {
-    std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
-    std::cout << "Builder " << colours[builder] << ", where do you want to build a basement?" << std::endl;
-}
-
-void display::end() {
-    std::cout << "Would you like play again?" << std::endl;
-}
-
-void display::loadedDice() {
-    std::cout << "Input a roll between 2 and 12:" << std::endl;
-}
-
-void display::invalidRoll() {
-    std::cout << "Invalid roll." << std::endl;
-}
-
-void display::next(int builder) {
-    std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
-    int next = (builder + 1) % 4;
-    std::cout << "Builder " << colours[next] << "'s turn." << std::endl;
-}
-void display::gain(std::vector <Player*> p, std::vector <int> num, std::string type) {
-    std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
-    for (int i = 0; i < p.size(); ++i) {
-        std::cout << "Builder " << colours[p[i]->getIndex()] << " gained:" << std::endl;
-        std::cout << num[i] << " " << type << std::endl;
-    }
-}
-
-void display::noGain() {
-    std::cout << "No builders gained resources." << std::endl;
-}
-
-void display::geeseSteal(std::vector <Player*> p, 
-                         std::vector <std::vector<std::pair<int, std::string>> > resourcesLost) {
-    std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
-    for (int i = 0; i < p.size(); ++i) {
-        int totalResourcesLost = 0;
-        for (auto resource : resourcesLost[i]) {
-            totalResourcesLost += resource.first;
-        }
-        std::cout << "Builder " << colours[p[i]->getIndex()] << " loses "; 
-        std::cout << totalResourcesLost << " resources to the geese. They lose:" << std::endl;
-        for (auto resource : resourcesLost[i]) {
-            std::cout << resource.first << " " << resource.second << std::endl;
-        }
-    }
-}
-
-void display::placeGeese() {
-    std::cout << "Choose where to place the GEESE." << std::endl;
-}
-
-void display::chooseSteal (int builder, std::vector <Player*> p) {
-    std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
-    std::vector<std::string> builders;
-    std::cout << "Builder " << colours[builder] << " can choose to steal from ";
-    for (size_t i = 0; i < p.size(); ++i) {
-        builders.push_back(colours[p[i]->getIndex()]);
-    }
-    for (size_t i = 0; i < builders.size(); ++i) {
-        std::cout << builders[i];
-        if (i != builders.size() - 1) {
-            std::cout << ' ';
-        } else {
-            std::cout << '.' << std::endl;
-        }
-    }
-    std::cout << "Choose a builder to steal from." << std::endl;
-}
-
-void display::steal(int builder, int stolen, std::string resource) {
-    std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
-    std::cout << "Builder " << colours[builder] << " steals " << resource;
-    std::cout << " from builder " << colours[stolen] << "." << std::endl;
-}
-
-void display::noSteal(int builder) {
-    std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
-    std::cout << "Builder " << colours[builder] << " has no builders to steal from." << std::endl;
-}
-
-void display::status(int builder, std::vector <Player*> p) {
-    std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
-    std::vector<std::string> resourceTypes = {"brick", "energy", "glass", "heat", "WIFI"};
-    int points = p[builder]->getNumPoints();
-    std::cout << colours[builder] << " has " << points << " building points, ";
-    int* resources = p[builder]->getResources();
-    for (size_t i = 0; i < resourceTypes.size(); ++i) {
-        std::cout << resources[i] << " " << resourceTypes[i];
-        if (i != resourceTypes.size() - 1) {
-            std::cout << ", ";
-        } else {
-            std::cout << "." << std::endl;
-        }
-    }
-}
-
-void display::residence(int builder, std::vector <Player*> p) {
-    std::vector <std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
-    std::cout << colours[builder] << " has built: " << std::endl;
-    std::vector <int> basement = p[builder]->getBasement();
-    std::vector <int> house = p[builder]->getHouse();
-    std::vector <int> tower = p[builder]->getTower();
-    if (!basement.empty()) {
-        for (auto Basement : basement) {
-            std::cout << Basement << ' ';
-        }
-        std::cout << 'B' << std::endl;
-    } 
-    if (!house.empty()) {
-        for (auto House : house) {
-            std::cout << House << ' ';
-        }
-        std::cout << 'T' << std::endl;
-    } 
-    if (!tower.empty()) {
-        for (auto Tower : tower) {
-            std::cout << Tower << ' ';
-        }
-        std::cout << 'H' << std::endl;
-    }  
-}
-
-void display::trade(int builder, std::string colour, std::string give, std::string take) {
-    std::vector <std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
-    std::string Builder = colours[builder];
-    std::cout << Builder << " offers " << colour << " one ";
-    std::cout << give << " for one " << take << "." << std::endl;
-    std::cout << "Does " << colour << " accept this offer?" << std::endl;
-}
-
-void display::save(int builder, std::vector <Player*> p, std::vector <Tile*> tiles) {
-    std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
-    std::string curTurn = colours[builder];
-    int geese; // Must be a number from 0 - 18.
-
-    // prints line 1: <curTurn>
-    std::cout << curTurn << std::endl;
-
-    // prints line 2 - 5: <builder0Data> <builder1Data> <builder2Data> <builder3Data>
-    for (int i = 0; i < 4; ++i) {
-        int* resources = p.at(i)->getResources();
-        for (int j = 0; j < 5; ++j) {
-            std::cout << resources[j] << ' ';
-        }
-
-        std::cout << 'r' << ' ';
-        for (auto road : p.at(i)->getRoad()) {
-            std::cout << road << ' ';
-        }
-
-        std::cout << 'h' << ' ';
-
-        std::vector<std::pair<int, char>> residences;
-
-        for (auto basement : p.at(i)->getBasement()) {
-            residences.push_back({basement, 'B'});
-        }
-        for (auto house : p.at(i)->getHouse()) {
-            residences.push_back({house, 'H'});
-        }
-        for (auto tower : p.at(i)->getTower()) {
-            residences.push_back({tower, 'T'});
-        }
-
-        std::sort(residences.begin(), residences.end()); // Sort residences in ascending order
-
-        for (auto residence : residences) {
-            std::cout << residence.first << ' ' << residence.second << ' ';
-        }
-
-        std::cout << std::endl;
-    }
-
-    // prints line 6: <board>
-    for (int i = 0; i < 19; ++i) {
-        if (tiles.at(i)->getGoose()) geese = i;
-        tiles.at(i)->printNumber();
-        tiles.at(i)->printVal();
-    }
-    std::cout << std::endl;
-    
-    // prints line 7: <geese>
-    std::cout << geese << std::endl;
-}
-
-void display::help() { 
-    std::cout << "Valid commands:" << std::endl;
-    std::cout << "board" << std::endl;
-    std::cout << "status" << std::endl;
-    std::cout << "residences" << std::endl;
-    std::cout << "build-road <edge#>" << std::endl;
-    std::cout << "build-res <housing#>" << std::endl;
-    std::cout << "improve <housing#>" << std::endl;
-    std::cout << "trade <colour> <give> <take>" << std::endl;
-    std::cout << "next" << std::endl;
-    std::cout << "isave <file>" << std::endl;
-    std::cout << "help" << std::endl;
-}
-
-void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, std::vector <Edge*> edges) { 
+void notify::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, std::vector <Edge*> edges) { 
     // print line 1.
     std::cout << std::string(20, ' ');
     std::cout << '|';
     if (vertices.at(0)->own()) {
         vertices.at(0)->printOwner();
-        vertices.at(0)->printLevel();
     } else {
         vertices.at(0)->printNum();
     }
     std::cout << "|--";
     if (edges.at(0)->own()) {
         edges.at(0)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(0)->printNum();
     }
     std::cout << "--|";
     if (vertices.at(1)->own()) {
         vertices.at(1)->printOwner();
-        vertices.at(1)->printLevel();
     } else {
         vertices.at(1)->printNum();
     }
@@ -254,7 +34,6 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << std::string(21, ' ');
     if (edges.at(1)->own()) {
         edges.at(1)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(1)->printNum();
     }
@@ -263,7 +42,6 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << std::string(3, ' ');
     if (edges.at(2)->own()) {
         edges.at(2)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(2)->printNum();
     }
@@ -282,21 +60,18 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << '|';
     if (vertices.at(2)->own()) {
         vertices.at(2)->printOwner();
-        vertices.at(2)->printLevel();
     } else {
         vertices.at(2)->printNum();
     }
     std::cout << "|--";
     if (edges.at(3)->own()) {
         edges.at(3)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(3)->printNum();
     }
     std::cout << "--|";
     if (vertices.at(3)->own()) {
         vertices.at(3)->printOwner();
-        vertices.at(3)->printLevel();
     } else {
         vertices.at(3)->printNum();
     }
@@ -312,21 +87,18 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << '|';
     if (vertices.at(4)->own()) {
         vertices.at(4)->printOwner();
-        vertices.at(4)->printLevel();
     } else {
         vertices.at(4)->printNum();
     }
     std::cout << "|--";
     if (edges.at(4)->own()) {
         edges.at(4)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(4)->printNum();
     }
     std::cout << "--|";
     if (vertices.at(5)->own()) {
         vertices.at(5)->printOwner();
-        vertices.at(5)->printLevel();
     } else {
         vertices.at(5)->printNum();
     }
@@ -346,7 +118,6 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << std::string(11, ' ');
     if (edges.at(5)->own()) {
         edges.at(5)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(5)->printNum();
     }
@@ -355,14 +126,12 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << std::string(3, ' ');
     if (edges.at(6)->own()) {
         edges.at(6)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(6)->printNum();
     }
     std::cout << std::string(8, ' ');
     if (edges.at(7)->own()) {
         edges.at(7)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(7)->printNum();
     }
@@ -371,7 +140,6 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << std::string(3, ' ');
     if (edges.at(8)->own()) {
         edges.at(8)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(8)->printNum();
     }
@@ -395,21 +163,18 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << '|';
     if (vertices.at(6)->own()) {
         vertices.at(6)->printOwner();
-        vertices.at(6)->printLevel();
     } else {
         vertices.at(6)->printNum();
     }
     std::cout << "|--";
     if (edges.at(9)->own()) {
         edges.at(9)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(9)->printNum();
     }
     std::cout << "--|";
     if (vertices.at(7)->own()) {
         vertices.at(7)->printOwner();
-        vertices.at(7)->printLevel();
     } else {
         vertices.at(7)->printNum();
     }
@@ -425,21 +190,18 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << '|';
     if (vertices.at(8)->own()) {
         vertices.at(8)->printOwner();
-        vertices.at(8)->printLevel();
     } else {
         vertices.at(8)->printNum();
     }
     std::cout << "|--";
     if (edges.at(10)->own()) {
         edges.at(10)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(10)->printNum();
     }
     std::cout << "--|";
     if (vertices.at(9)->own()) {
         vertices.at(9)->printOwner();
-        vertices.at(9)->printLevel();
     } else {
         vertices.at(9)->printNum();
     }
@@ -455,21 +217,18 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << '|';
     if (vertices.at(10)->own()) {
         vertices.at(10)->printOwner();
-        vertices.at(10)->printLevel();
     } else {
         vertices.at(10)->printNum();
     }
     std::cout << "|--";
     if (edges.at(11)->own()) {
         edges.at(11)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(11)->printNum();
     }
     std::cout << "--|";
     if (vertices.at(11)->own()) {
         vertices.at(11)->printOwner();
-        vertices.at(11)->printLevel();
     } else {
         vertices.at(11)->printNum();
     }
@@ -493,7 +252,6 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << ' ';
     if (edges.at(12)->own()) {
         edges.at(12)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(12)->printNum();
     }
@@ -502,14 +260,12 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << std::string(3, ' ');
     if (edges.at(13)->own()) {
         edges.at(13)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(13)->printNum();
     }
     std::cout << std::string(8, ' ');
     if (edges.at(14)->own()) {
         edges.at(14)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(14)->printNum();
     }
@@ -518,14 +274,12 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << std::string(3, ' ');
     if (edges.at(15)->own()) {
         edges.at(15)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(15)->printNum();
     }
     std::cout << std::string(8, ' ');
     if (edges.at(16)->own()) {
         edges.at(16)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(16)->printNum();
     }
@@ -534,7 +288,6 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << std::string(3, ' ');
     if (edges.at(17)->own()) {
         edges.at(17)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(17)->printNum();
     }
@@ -564,7 +317,6 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << '|';
     if (vertices.at(12)->own()) {
         vertices.at(12)->printOwner();
-        vertices.at(12)->printLevel();
     } else {
         vertices.at(12)->printNum();
     }
@@ -580,21 +332,18 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << '|';
     if (vertices.at(13)->own()) {
         vertices.at(13)->printOwner();
-        vertices.at(13)->printLevel();
     } else {
         vertices.at(13)->printNum();
     }
     std::cout << "|--";
     if (edges.at(18)->own()) {
         edges.at(18)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(18)->printNum();
     }
     std::cout << "--|";
     if (vertices.at(14)->own()) {
         vertices.at(14)->printOwner();
-        vertices.at(14)->printLevel();
     } else {
         vertices.at(14)->printNum();
     }
@@ -610,21 +359,18 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << '|';
     if (vertices.at(15)->own()) {
         vertices.at(15)->printOwner();
-        vertices.at(15)->printLevel();
     } else {
         vertices.at(15)->printNum();
     }
     std::cout << "|--";
     if (edges.at(19)->own()) {
         edges.at(19)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(19)->printNum();
     }
     std::cout << "--|";
     if (vertices.at(16)->own()) {
         vertices.at(16)->printOwner();
-        vertices.at(16)->printLevel();
     } else {
         vertices.at(16)->printNum();
     }
@@ -640,7 +386,6 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << '|';
     if (vertices.at(17)->own()) {
         vertices.at(17)->printOwner();
-        vertices.at(17)->printLevel();
     } else {
         vertices.at(17)->printNum();
     }
@@ -664,14 +409,12 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << ' ';
     if (edges.at(20)->own()) {
         edges.at(20)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(20)->printNum();
     }
     std::cout << std::string(8, ' ');
     if (edges.at(21)->own()) {
         edges.at(21)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(21)->printNum();
     }
@@ -680,14 +423,12 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << std::string(3, ' ');
     if (edges.at(22)->own()) {
         edges.at(22)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(22)->printNum();
     }
     std::cout << std::string(8, ' ');
     if (edges.at(23)->own()) {
         edges.at(23)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(23)->printNum();
     }
@@ -696,14 +437,12 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << std::string(3, ' ');
     if (edges.at(24)->own()) {
         edges.at(24)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(24)->printNum();
     }
     std::cout << std::string(8, ' ');
     if (edges.at(25)->own()) {
         edges.at(25)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(25)->printNum();
     }
@@ -731,21 +470,18 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << '|';
     if (vertices.at(18)->own()) {
         vertices.at(18)->printOwner();
-        vertices.at(18)->printLevel();
     } else {
         vertices.at(18)->printNum();
     }
     std::cout << "|--";
     if (edges.at(26)->own()) {
         edges.at(26)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(26)->printNum();
     }
     std::cout << "--|";
     if (vertices.at(19)->own()) {
         vertices.at(19)->printOwner();
-        vertices.at(19)->printLevel();
     } else {
         vertices.at(19)->printNum();
     }
@@ -761,21 +497,18 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << '|';
     if (vertices.at(20)->own()) {
         vertices.at(20)->printOwner();
-        vertices.at(20)->printLevel();
     } else {
         vertices.at(20)->printNum();
     }
     std::cout << "|--";
     if (edges.at(27)->own()) {
         edges.at(27)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(27)->printNum();
     }
     std::cout << "--|";
     if (vertices.at(21)->own()) {
         vertices.at(21)->printOwner();
-        vertices.at(21)->printLevel();
     } else {
         vertices.at(21)->printNum();
     }
@@ -791,21 +524,18 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << '|';
     if (vertices.at(22)->own()) {
         vertices.at(22)->printOwner();
-        vertices.at(22)->printLevel();
     } else {
         vertices.at(22)->printNum();
     }
     std::cout << "|--";
     if (edges.at(28)->own()) {
         edges.at(28)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(28)->printNum();
     }
     std::cout << "--|";
     if (vertices.at(23)->own()) {
         vertices.at(23)->printOwner();
-        vertices.at(23)->printLevel();
     } else {
         vertices.at(23)->printNum();
     }
@@ -829,7 +559,6 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << ' ';
     if (edges.at(29)->own()) {
         edges.at(29)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(29)->printNum();
     }
@@ -838,14 +567,12 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << std::string(3, ' ');
     if (edges.at(30)->own()) {
         edges.at(30)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(30)->printNum();
     }
     std::cout << std::string(8, ' ');
     if (edges.at(31)->own()) {
         edges.at(31)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(31)->printNum();
     }
@@ -854,14 +581,12 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << std::string(3, ' ');
     if (edges.at(32)->own()) {
         edges.at(32)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(32)->printNum();
     }
     std::cout << std::string(8, ' ');
     if (edges.at(33)->own()) {
         edges.at(33)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(33)->printNum();
     }
@@ -870,7 +595,6 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << std::string(3, ' ');
     if (edges.at(34)->own()) {
         edges.at(34)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(34)->printNum();
     }
@@ -900,7 +624,6 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << '|';
     if (vertices.at(24)->own()) {
         vertices.at(24)->printOwner();
-        vertices.at(24)->printLevel();
     } else {
         vertices.at(24)->printNum();
     }
@@ -916,21 +639,18 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << '|';
     if (vertices.at(25)->own()) {
         vertices.at(25)->printOwner();
-        vertices.at(25)->printLevel();
     } else {
         vertices.at(25)->printNum();
     }
     std::cout << "|--";
     if (edges.at(35)->own()) {
         edges.at(35)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(35)->printNum();
     }
     std::cout << "--|";
     if (vertices.at(26)->own()) {
         vertices.at(26)->printOwner();
-        vertices.at(26)->printLevel();
     } else {
         vertices.at(26)->printNum();
     }
@@ -946,21 +666,18 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << '|';
     if (vertices.at(27)->own()) {
         vertices.at(27)->printOwner();
-        vertices.at(27)->printLevel();
     } else {
         vertices.at(27)->printNum();
     }
     std::cout << "|--";
     if (edges.at(36)->own()) {
         edges.at(36)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(36)->printNum();
     }
     std::cout << "--|";
     if (vertices.at(28)->own()) {
         vertices.at(28)->printOwner();
-        vertices.at(28)->printLevel();
     } else {
         vertices.at(28)->printNum();
     }
@@ -976,7 +693,6 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << '|';
     if (vertices.at(29)->own()) {
         vertices.at(29)->printOwner();
-        vertices.at(29)->printLevel();
     } else {
         vertices.at(29)->printNum();
     }
@@ -1000,14 +716,12 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << ' ';
     if (edges.at(37)->own()) {
         edges.at(37)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(37)->printNum();
     }
     std::cout << std::string(8, ' ');
     if (edges.at(38)->own()) {
         edges.at(38)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(38)->printNum();
     }
@@ -1016,14 +730,12 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << std::string(3, ' ');
     if (edges.at(39)->own()) {
         edges.at(39)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(39)->printNum();
     }
     std::cout << std::string(8, ' ');
     if (edges.at(40)->own()) {
         edges.at(40)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(40)->printNum();
     }
@@ -1032,14 +744,12 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << std::string(3, ' ');
     if (edges.at(41)->own()) {
         edges.at(41)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(41)->printNum();
     }
     std::cout << std::string(8, ' ');
     if (edges.at(42)->own()) {
         edges.at(42)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(42)->printNum();
     }
@@ -1067,21 +777,18 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << '|';
     if (vertices.at(30)->own()) {
         vertices.at(30)->printOwner();
-        vertices.at(30)->printLevel();
     } else {
         vertices.at(30)->printNum();
     }
     std::cout << "|--";
     if (edges.at(43)->own()) {
         edges.at(43)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(43)->printNum();
     }
     std::cout << "--|";
     if (vertices.at(31)->own()) {
         vertices.at(31)->printOwner();
-        vertices.at(31)->printLevel();
     } else {
         vertices.at(31)->printNum();
     }
@@ -1097,21 +804,18 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << '|';
     if (vertices.at(32)->own()) {
         vertices.at(32)->printOwner();
-        vertices.at(32)->printLevel();
     } else {
         vertices.at(32)->printNum();
     }
     std::cout << "|--";
     if (edges.at(44)->own()) {
         edges.at(44)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(44)->printNum();
     }
     std::cout << "--|";
     if (vertices.at(33)->own()) {
         vertices.at(33)->printOwner();
-        vertices.at(33)->printLevel();
     } else {
         vertices.at(33)->printNum();
     }
@@ -1127,21 +831,18 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << '|';
     if (vertices.at(34)->own()) {
         vertices.at(34)->printOwner();
-        vertices.at(34)->printLevel();
     } else {
         vertices.at(34)->printNum();
     }
     std::cout << "|--";
     if (edges.at(45)->own()) {
         edges.at(45)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(45)->printNum();
     }
     std::cout << "--|";
     if (vertices.at(35)->own()) {
         vertices.at(35)->printOwner();
-        vertices.at(35)->printLevel();
     } else {
         vertices.at(35)->printNum();
     }
@@ -1165,7 +866,6 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << ' ';
     if (edges.at(46)->own()) {
         edges.at(46)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(46)->printNum();
     }
@@ -1174,14 +874,12 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << std::string(3, ' ');
     if (edges.at(47)->own()) {
         edges.at(47)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(47)->printNum();
     }
     std::cout << std::string(8, ' ');
     if (edges.at(48)->own()) {
         edges.at(48)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(48)->printNum();
     }
@@ -1190,14 +888,12 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << std::string(3, ' ');
     if (edges.at(49)->own()) {
         edges.at(49)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(49)->printNum();
     }
     std::cout << std::string(8, ' ');
     if (edges.at(50)->own()) {
         edges.at(50)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(50)->printNum();
     }
@@ -1206,7 +902,6 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << std::string(3, ' ');
     if (edges.at(51)->own()) {
         edges.at(51)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(51)->printNum();
     }
@@ -1236,7 +931,6 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << '|';
     if (vertices.at(36)->own()) {
         vertices.at(36)->printOwner();
-        vertices.at(36)->printLevel();
     } else {
         vertices.at(36)->printNum();
     }
@@ -1252,21 +946,18 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << '|';
     if (vertices.at(37)->own()) {
         vertices.at(37)->printOwner();
-        vertices.at(37)->printLevel();
     } else {
         vertices.at(37)->printNum();
     }
     std::cout << "|--";
     if (edges.at(52)->own()) {
         edges.at(52)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(52)->printNum();
     }
     std::cout << "--|";
     if (vertices.at(38)->own()) {
         vertices.at(38)->printOwner();
-        vertices.at(38)->printLevel();
     } else {
         vertices.at(38)->printNum();
     }
@@ -1282,21 +973,18 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << '|';
     if (vertices.at(39)->own()) {
         vertices.at(39)->printOwner();
-        vertices.at(39)->printLevel();
     } else {
         vertices.at(39)->printNum();
     }
     std::cout << "|--";
     if (edges.at(53)->own()) {
         edges.at(53)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(53)->printNum();
     }
     std::cout << "--|";
     if (vertices.at(40)->own()) {
         vertices.at(40)->printOwner();
-        vertices.at(40)->printLevel();
     } else {
         vertices.at(40)->printNum();
     }
@@ -1312,7 +1000,6 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << '|';
     if (vertices.at(41)->own()) {
         vertices.at(41)->printOwner();
-        vertices.at(41)->printLevel();
     } else {
         vertices.at(41)->printNum();
     }
@@ -1336,14 +1023,12 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << ' ';
     if (edges.at(54)->own()) {
         edges.at(54)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(54)->printNum();
     }
     std::cout << std::string(8, ' ');
     if (edges.at(55)->own()) {
         edges.at(55)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(55)->printNum();
     }
@@ -1352,14 +1037,12 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << std::string(3, ' ');
     if (edges.at(56)->own()) {
         edges.at(56)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(56)->printNum();
     }
     std::cout << std::string(8, ' ');
     if (edges.at(57)->own()) {
         edges.at(57)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(57)->printNum();
     }
@@ -1368,14 +1051,12 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << std::string(3, ' ');
     if (edges.at(58)->own()) {
         edges.at(58)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(58)->printNum();
     }
     std::cout << std::string(8, ' ');
     if (edges.at(59)->own()) {
         edges.at(59)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(59)->printNum();
     }
@@ -1403,21 +1084,18 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << '|';
     if (vertices.at(42)->own()) {
         vertices.at(42)->printOwner();
-        vertices.at(42)->printLevel();
     } else {
         vertices.at(42)->printNum();
     }
     std::cout << "|--";
     if (edges.at(60)->own()) {
         edges.at(60)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(60)->printNum();
     }
     std::cout << "--|";
     if (vertices.at(43)->own()) {
         vertices.at(43)->printOwner();
-        vertices.at(43)->printLevel();
     } else {
         vertices.at(43)->printNum();
     }
@@ -1433,21 +1111,18 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << '|';
     if (vertices.at(44)->own()) {
         vertices.at(44)->printOwner();
-        vertices.at(44)->printLevel();
     } else {
         vertices.at(44)->printNum();
     }
     std::cout << "|--";
     if (edges.at(61)->own()) {
         edges.at(61)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(61)->printNum();
     }
     std::cout << "--|";
     if (vertices.at(45)->own()) {
         vertices.at(45)->printOwner();
-        vertices.at(45)->printLevel();
     } else {
         vertices.at(45)->printNum();
     }
@@ -1463,21 +1138,18 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << '|';
     if (vertices.at(46)->own()) {
         vertices.at(46)->printOwner();
-        vertices.at(46)->printLevel();
     } else {
         vertices.at(46)->printNum();
     }
     std::cout << "|--";
     if (edges.at(62)->own()) {
         edges.at(62)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(62)->printNum();
     }
     std::cout << "--|";
     if (vertices.at(47)->own()) {
         vertices.at(47)->printOwner();
-        vertices.at(47)->printLevel();
     } else {
         vertices.at(47)->printNum();
     }
@@ -1497,14 +1169,12 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << std::string(11, ' ');
     if (edges.at(63)->own()) {
         edges.at(63)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(63)->printNum();
     }
     std::cout << std::string(8, ' ');
     if (edges.at(64)->own()) {
         edges.at(64)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(64)->printNum();
     }
@@ -1513,14 +1183,12 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << std::string(3, ' ');
     if (edges.at(65)->own()) {
         edges.at(65)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(65)->printNum();
     }
     std::cout << std::string(8, ' ');
     if (edges.at(66)->own()) {
         edges.at(66)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(66)->printNum();
     }
@@ -1543,21 +1211,18 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << '|';
     if (vertices.at(48)->own()) {
         vertices.at(48)->printOwner();
-        vertices.at(48)->printLevel();
     } else {
         vertices.at(48)->printNum();
     }
     std::cout << "|--";
     if (edges.at(67)->own()) {
         edges.at(67)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(67)->printNum();
     }
     std::cout << "--|";
     if (vertices.at(49)->own()) {
         vertices.at(49)->printOwner();
-        vertices.at(49)->printLevel();
     } else {
         vertices.at(49)->printNum();
     }
@@ -1573,21 +1238,18 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << '|';
     if (vertices.at(50)->own()) {
         vertices.at(50)->printOwner();
-        vertices.at(50)->printLevel();
     } else {
         vertices.at(50)->printNum();
     }
     std::cout << "|--";
     if (edges.at(68)->own()) {
         edges.at(68)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(68)->printNum();
     }
     std::cout << "--|";
     if (vertices.at(51)->own()) {
         vertices.at(51)->printOwner();
-        vertices.at(51)->printLevel();
     } else {
         vertices.at(51)->printNum();
     }
@@ -1603,14 +1265,12 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << std::string(21, ' ');
     if (edges.at(69)->own()) {
         edges.at(69)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(69)->printNum();
     }
     std::cout << std::string(8, ' ');
     if (edges.at(70)->own()) {
         edges.at(70)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(70)->printNum();
     }
@@ -1627,24 +1287,184 @@ void display::board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, s
     std::cout << '|';
     if (vertices.at(52)->own()) {
         vertices.at(52)->printOwner();
-        vertices.at(52)->printLevel();
     } else {
         vertices.at(52)->printNum();
     }
     std::cout << "|--";
     if (edges.at(71)->own()) {
         edges.at(71)->printOwner();
-        std::cout << 'R';
     } else {
         edges.at(71)->printNum();
     }
     std::cout << "--|";
     if (vertices.at(53)->own()) {
         vertices.at(53)->printOwner();
-        vertices.at(53)->printLevel();
     } else {
         vertices.at(53)->printNum();
     }
     std::cout << '|' << std::endl;
 }
 
+void status(int builder, std::vector <Player*> player) {
+    std::string colour;
+    if (builder == 0) {
+        colour == "Blue";
+    } else if (builder == 1) {
+        colour == "Red";
+    } else if (builder == 2) {
+        colour == "Orange";
+    } else {
+        colour == "Yellow";
+    }
+    std::cout << colour << " has " << player.at(builder)->numPoints << " building points, ";
+    std::cout << player.at(builder)->resource[0] << " brick, ";
+    std::cout << player.at(builder)->resource[1] << " energy, ";
+    std::cout << player.at(builder)->resource[2] << " glass, ";
+    std::cout << player.at(builder)->resource[3] << " heat, ";
+    std::cout << player.at(builder)->resource[4] << " WIFI." << std::endl;
+}
+
+void residence(int builder, std::vector <Player*> p) {
+    std::string colour;
+    std::vector <int> basement = p.at(builder)->basement;
+    std::vector <int> house = p.at(builder)->house;
+    std::vector <int> tower = p.at(builder)->tower;
+    if (builder == 0) {
+        colour == "Blue";
+    } else if (builder == 1) {
+        colour == "Red";
+    } else if (builder == 2) {
+        colour == "Orange";
+    } else {
+        colour == "Yellow";
+    }
+    std::cout << colour << " has built: " << std::endl;
+    for (auto B: basement) {
+        std::cout << B << ' ';
+    }
+    std::cout << 'B' << std::endl;
+    for (auto H: house) {
+        std::cout << H << ' ';
+    }
+    std::cout << 'H' << std::endl;
+    for (auto T: tower) {
+        std::cout << T << ' ';
+    }
+    std::cout << 'T' << std::endl;
+}
+
+void buildRoad(int builder, std::vector <Edge*> edges) {
+    std::string colour;
+    if (builder == 0) {
+        colour == "Blue";
+    } else if (builder == 1) {
+        colour == "Red";
+    } else if (builder == 2) {
+        colour == "Orange";
+    } else {
+        colour == "Yellow";
+    }
+    // std::cout << "You do not have enough resources." << std::endl;
+}
+
+void buildRes(int builder, std::vector <Vertex*> vertices) {
+    std::string colour;
+    int vertex;
+    std::string buildingType;
+    if (builder == 0) {
+        colour == "Blue";
+    } else if (builder == 1) {
+        colour == "Red";
+    } else if (builder == 2) {
+        colour == "Orange";
+    } else {
+        colour == "Yellow";
+    }
+    
+    // std::cout << "You do not have enough resources." << std::endl;
+}
+
+void improve(int builder, std::vector <Vertex*> vertices) {
+    std::string colour;
+    if (builder == 0) {
+        colour == "Blue";
+    } else if (builder == 1) {
+        colour == "Red";
+    } else if (builder == 2) {
+        colour == "Orange";
+    } else {
+        colour == "Yellow";
+    }
+
+    // std::cout << "You do not have enough resources." << std::endl;
+}
+
+void trade(int builder, std::string colour, std::string give, std::string take) {
+    std::string colour1;
+    std::string colour2 = colour;
+    if (builder == 0) {
+        colour1 == "Blue";
+    } else if (builder == 1) {
+        colour1 == "Red";
+    } else if (builder == 2) {
+        colour1 == "Orange";
+    } else {
+        colour1 == "Yellow";
+    }
+    std::cout << colour1 << " offers " << colour2 << " one ";
+    std::cout << give << " for one " << take << "." << std::endl;
+    std::cout << "Does " << colour2 << " accept this offer?" << std::endl;
+}
+
+int next(int builder) {
+    std::string next;
+    if (builder == 0) {
+        builder = 1;
+        next = "Red";
+    } else if (builder == 1) {
+        builder = 2;
+        next = "Orange";
+    } else if (builder == 2) {
+        builder = 3;
+        next = "Yellow";
+    } else {
+        builder = 0;
+        next = "Blue";
+    }
+    std::cout << "Builder " << next << "'s turn." << std::endl;
+    return builder;
+}
+
+void save(int builder, std::vector <Player*> p) {
+    /*
+    std::cout << builder << std::endl;
+    std::cout << p.at(0)->resource[0] << ' ';
+    std::cout << p.at(0)->resource[1] << ' ';
+    std::cout << p.at(0)->resource[2] << ' ';
+    std::cout << p.at(0)->resource[3] << ' ';
+    std::cout << p.at(0)->resource[4] << ' ';
+    std::cout << 'r' << ' ';
+    for (auto builder0Road : p.at(0)->road) {
+        std::cout << builder0Road << ' ';
+    }
+    std::cout << 'h' << ' ';
+    if (!p.at(0)->basement.empty()) {
+        for (auto builder0Basement : p.at(0)->basement) {
+            std::cout << builder0Basement << ' ';
+        }
+    } */
+}
+
+void notify::help() {
+    std::cout << "Valid commands:" << std::endl;
+    std::cout << "board" << std::endl;
+    std::cout << "status" << std::endl;
+    std::cout << "residences" << std::endl;
+    std::cout << "build-road <edge#>" << std::endl;
+    std::cout << "build-res <housing#>" << std::endl;
+    std::cout << "improve <housing#>" << std::endl;
+    std::cout << "trade <colour> <give> <take>" << std::endl;
+    std::cout << "next" << std::endl;
+    std::cout << "isave <file>" << std::endl;
+    std::cout << "help>" << std::endl;
+}

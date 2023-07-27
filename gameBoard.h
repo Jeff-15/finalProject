@@ -2,9 +2,15 @@
 #define GBOARD
 #include <vector>
 #include <string>
+#include <iostream>
+#include <random>
+#include <chrono>
+#include <string>
+#include <iostream>
 #include "dice.h"
 #include "subject.h"
 #include "board.h"
+#include "player.h"
 #include <iostream>
 
 class GameBoard: public Subject{
@@ -40,7 +46,7 @@ class GameBoard: public Subject{
         void processTrade(int index, int target, int process);              
     public:
         void processCommand(int target,int eventPara1, int eventPara2);
-        void initialize();
+        virtual void initialize();
         int GEESELIMIT = 7;
         GameBoard();
         GameBoard(std::vector <Tile*> t, std::vector <Vertex*> v, std::vector <Edge*> e);
