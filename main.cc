@@ -3,13 +3,14 @@
 #include "board.h"
 #include "gameBoard.h"
 #include "player.h"
-
+#include "abstractPlayer.h"
 
 int main (int argc, char* argv[]) {
     // print_board();
     GameBoard gb = GameBoard{};
     gb.initialize();
-    gb.attachPlayer(new Player{0,&gb});
+    AbstractPlayer* p = new Player{0,&gb}
+    gb.attachPlayer();
     gb.start();
 
     return 0;

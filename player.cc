@@ -10,10 +10,21 @@ int rng(int start, int end){
     return distribution(rng);
 }
 
+bool Player::addScore(){
+    score++;
+    if(score == 10){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
 void Player::turn(){
     //Set dice
     cout<<"Builder "<<index<<"'s turn"<<endl;
     diceRoll();
+    action();
 }
 // handles diceRolling
 void Player::diceRoll(){
@@ -39,10 +50,37 @@ int Player::action(){
         string command;
         cin>>command;//Display can handle info output commands on its own or by directly consult player
         //this function will not cover those commands
+        if(score == 10){
+            cout<<"builder "<<index<<" has won!"<<endl;
+            throw(index);
+        }
         if(command == "road"){
             int position;
             cin>>position;
             roadConstruct(position);
+        }
+        else if(command == "trade"){
+            int target;
+            int resourceTypeGiven;
+            int resourceTypeDemanded;
+            cin>>target>>resourceTypeGiven>>resourceTypeDemanded;
+            target++;
+            resourceTypeDemanded++;
+            resourceTypeGiven++;
+            tradeRequest(target,resourceTypeGiven,resourceTypeDemanded);
+        }
+        else if(command == "build"){
+            int target;
+            cin>>target;
+            houseConstruct(target);
+        }
+        else if(command == "improve"){
+            int target;
+            cin>>target;
+            improve(target);
+        }
+        else if(command == "next"){
+            break;        
         }
     }
 }
@@ -79,10 +117,44 @@ void Player::houseConstruct(int position){
             resource[i]-=CONSTANTS::BASEMENTCOST[i];
         }
         basement.emplace_back(position);
+        addScore();
     }catch(string s){
         cout<<s<<endl;
     }
 }
+
+void Player::tradeRequest(int target, int resourceTypeGiven, int resourceTypeDemanded, int amountGiven, int amountDemanded){
+    if(resource[resourceTypeGiven]<amountGiven){
+        cout<<"not possible, not enough resource"<<endl;
+        return;
+    }
+    gb->setInput(resourceTypeDemanded*100+amountDemanded);
+    try{
+        gb->processCommand(index,CONSTANTS::TRADECOMMAND*target,resourceTypeGiven*100+amountGiven);
+        resource[resourceTypeGiven]-=amountGiven;
+        resource[resourceTypeDemanded]+=resourceTypeDemanded;
+    }catch(string s){
+        cout<<s<<endl;
+    }
+}
+
+void Player::tradeResponse(int target, int resourceTypeGiven, int resourceTypeDemanded, int amountGiven, int amountDemanded){
+    if(resource[resourceTypeGiven]<amountGiven){
+        throw("not possible, they don't have enough resources");
+    }
+    string approve;
+    cin>>approve;
+    if(approve == "y"){
+        resource[resourceTypeGiven]-=amountGiven;
+        resource[resourceTypeDemanded]+=resourceTypeDemanded;
+    }
+    else{
+        throw("not approved. Try something else");
+    }
+    
+    
+}
+
 
 void Player::improve(int position){
     for(int i = 0; i<basement.size(); i++){
@@ -97,8 +169,8 @@ void Player::improve(int position){
             for(int k = 0; i<RESOURCETYPE;i++){
                 resource[k]-=CONSTANTS::HOUSECOST[k];
             }
-            
-            basement.erase(i);
+            addScore();
+            basement.erase(house.begin()+i);
             house.emplace_back(i);
             return;   
         }
@@ -115,8 +187,8 @@ void Player::improve(int position){
             for(int k = 0; i<RESOURCETYPE;i++){
                 resource[k]-=CONSTANTS::TOWERCOST[k];
             }
-            
-            house.erase(i);
+            addScore();
+            house.erase(house.begin()+i);
             tower.emplace_back(i);
             return;   
         }
@@ -166,10 +238,15 @@ int Player::randomLoss(){
 int Player::notify(int target, int eventPara1, int eventPara2){
     if(target == index || target == -1){
         if(eventPara1 == -1){
-            cout<<">";
-            int input;
-            cin>>input;
-            gb->setInput(input);
+            if(eventPara2 == -1){
+                cout<<">";
+                int input;
+                cin>>input;
+                gb->setInput(input);
+            }
+            else{
+                gb->setInput(eventPara2);
+            }
         }
         else if(eventPara1 == 0){//turn start
             turn();
@@ -188,6 +265,15 @@ int Player::notify(int target, int eventPara1, int eventPara2){
                 gb->setInput(randomLoss());
             }
         }
+        else if(eventPara1 <= CONSTANTS::TRADECOMMAND){
+            int proposer = (eventPara1/CONSTANTS::TRADECOMMAND)-1;
+            int resourceOffered,amountOffered,resourceDemanded,amountDemanded;
+            resourceOffered = (eventPara2/1000000)/100;
+            amountOffered = (eventPara2/1000000)%100;
+            resourceDemanded = (eventPara2%1000000)/100;
+            amountDemanded = (eventPara2%1000000)%100;\
+            tradeResponse(proposer,resourceDemanded,resourceOffered,amountDemanded,amountOffered);
+        }
     }
     return 0;
 }
@@ -196,6 +282,7 @@ Player::Player(int index,GameBoard *gb): gb {gb}, index {index} {
     for (int i = 0; i < RESOURCETYPE; ++i) {
         resource[i] = 0;
     }
+    score = 0;
 }
 
 void Player::player_print() {

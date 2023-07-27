@@ -3,18 +3,8 @@
 #include "gameBoard.h"
 #include <string>
 #include <vector>
-#include <iostream>
-#include <vector>
-#include <string>
-#include <random>
-#include <chrono>
-#include <vector>
-#include "const.h"
-#include "dice.h"
-#include "loadedDice.h"
-#include "RandomDice.h"
-
-class Player {
+#include "abstractPlayer.h"
+class Player:public AbstractPlayer{
     GameBoard* gb;
     std::string player_name;
     int index;
@@ -35,11 +25,10 @@ class Player {
     void roadConstruct(int position);//construct road
     void houseConstruct(int position);//construct house
     void improve(int position);
-    void trade();
-    std::vector<int> roads;
-    std::vector<int> basement;
-    std::vector<int> house;
-    std::vector<int> tower;
+    void tradeRequest(int target, int resourceTypeGiven, int resourceTypeDemanded, int amountGiven=1, int amountDemanded=1);
+    void tradeResponse(int target, int resourceTypeGiven, int resourceTypeDemanded, int amountGiven=1, int amountDemanded=1);
+    int score;
+    bool addScore();
     public: 
         int notify (int target, int eventPara1, int eventPara2);//see eventNumber.txt for representations
         Player(int index, GameBoard* gb);

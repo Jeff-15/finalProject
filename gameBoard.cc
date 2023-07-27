@@ -1,6 +1,7 @@
 #include "gameBoard.h"
 
 
+
 void GameBoard::processCommand(int target,int eventPara1, int eventPara2) {
     if(eventPara1 == 0){
         if(eventPara2 == 0){
@@ -22,6 +23,9 @@ void GameBoard::processCommand(int target,int eventPara1, int eventPara2) {
     }
     else if(eventPara1 == CONSTANTS::IMPROVECOMMAND){
         improve_residence(eventPara2);
+    }
+    else if(eventPara1 <= CONSTANTS::TRADECOMMAND){
+        processTrade(target, eventPara1/CONSTANTS::TRADECOMMAND,eventPara2);
     }
 }
 
@@ -130,7 +134,7 @@ void GameBoard::processGeese(int tileIndex, int index, std::string activePlayer)
     std::cout << "." << std::endl;
     std::cout<<">";
     std:: cout << "Choose a builder to steal from." << std::endl;
-    notifyPlayer(index,-1,1);   // get input
+    notifyPlayer(index,-1,-1);   // get input
     
     int steel_index;
     //check if target is available
@@ -165,11 +169,17 @@ void GameBoard::processGeese(int tileIndex, int index, std::string activePlayer)
     std::cout << "." << std::endl;
 }
 
+void GameBoard::processTrade(int index, int target, int given){
+    //input = resourceTypeDemanded*100+amountDemanded
+    int demanded = input;
+    notifyPlayer(target,CONSTANTS::TRADECOMMAND*index,given*1000000+demanded);
+}
+
 void GameBoard::processDice(int index){
     if(diceRoll == 7){
         notifyPlayer(-1,1,0);
-        notifyPlayer(index,-1,0);
-        processGeese(input,index);
+        notifyPlayer(index,-1,-1);
+        processGeese(input,index,index_to_name(index));
         notifyPlayer(index,100+input,1);
     }
     else{
@@ -312,7 +322,7 @@ void GameBoard::initialize() {
     }
 }
 
-GameBoard::GameBoard(): dice {LoadedDice{this, 0}} {
+GameBoard::GameBoard(){
     // tiles
     for (int i = 0; i < 19; ++i) {
         Tile *t1 = new Tile {};
@@ -328,7 +338,8 @@ GameBoard::GameBoard(): dice {LoadedDice{this, 0}} {
         Edge *e1 = new Edge {};
         edges.emplace_back(e1);
     }
+    dice = RandomDice(this,0);
 }
-GameBoard::GameBoard(std::vector <Tile*> t, std::vector <Vertex*> v, std::vector <Edge*> e): dice {LoadedDice{this, 0}}, 
-            edges{e}, tiles{t}, vertices{v} { }
+GameBoard::GameBoard(std::vector <Tile*> t, std::vector <Vertex*> v, std::vector <Edge*> e): 
+            tiles{t}, vertices{v},edges{e} {dice = RandomDice(this,0); }
 
