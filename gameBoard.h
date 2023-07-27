@@ -23,8 +23,8 @@ class GameBoard: public Subject{
         //May throw error (string: )
         //throw "Already build";
         //throw "No neighbour";
-
         // have to garantee player has sufficient money
+        
         void build_residence(int player_id, int vertexIndex);
         void improve_residence(int vertexIndex);
         ////////////////////////////////////////////////
@@ -42,6 +42,9 @@ class GameBoard: public Subject{
         void processCommand(int target,int eventPara1, int eventPara2);
         virtual void initialize();
         int GEESELIMIT = 7;
+        void initialize();
+        GameBoard();
+        GameBoard(std::vector <Tile*> t, std::vector <Vertex*> v, std::vector <Edge*> e);
 };
 
 #endif

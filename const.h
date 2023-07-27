@@ -9,5 +9,9 @@ class CONSTANTS{
         static const int RESOURCE = 100;
         static const int RESOURCETYPE = 5;
         static const int ROADCOMMAND = 2;
+        static const int BASEMENTCOMMAND = 3;
+        static const int IMPROVECOMMAND = 4;
+        static const int TRADECOMMAND = 5;
+        
 };
 #endif

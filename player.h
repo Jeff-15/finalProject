@@ -1,3 +1,5 @@
+#ifndef PLAYER
+#define PLAYER
 #include "gameBoard.h"
 #include <string>
 #include <vector>
@@ -20,15 +22,18 @@ class Player {
     void robberRandomLoss();
     int randomLoss();
     int action();
-    void road();
-
-public: 
-    int notify (int target, int eventPara1, int eventPara2);//see eventNumber.txt for representations
-    Player(int index, GameBoard* gb);
-    void player_print();
-    int* getResources();
-    std::vector <int> getRoad();
-    std::vector <int> getBasement();
-    std::vector <int> getHouse();
-    std::vector <int> getTower();
+    void roadConstruct(int position);//construct road
+    void houseConstruct(int position);//construct house
+    void improve(int position);
+    void trade();
+    public: 
+        int notify (int target, int eventPara1, int eventPara2);//see eventNumber.txt for representations
+        Player(int index, GameBoard* gb);
+        void player_print();
+        int* getResources();
+        std::vector <int> getRoad();
+        std::vector <int> getBasement();
+        std::vector <int> getHouse();
+        std::vector <int> getTower();
 };
+#endif

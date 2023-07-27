@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 #include <string>
 #include <random>
 #include <chrono>
@@ -50,23 +51,88 @@ int Player::action(){
         cin>>command;//Display can handle info output commands on its own or by directly consult player
         //this function will not cover those commands
         if(command == "road"){
-            
+            int position;
+            cin>>position;
+            roadConstruct(position);
         }
     }
 }
 
-void Player::road(){
+//strong guarantee
+void Player::roadConstruct(int position){
     for(int i = 0; i<RESOURCETYPE;i++){
         if(resource[i]<CONSTANTS::ROADCOST[i]){
             cout<<"Not enough minerals"<<endl;//replace with display commands
             return;
         }
-        
-        
     }
-    int position = 0;//input
-    gb->processCommand(index,CONSTANTS::ROADCOMMAND,position);
-    
+    try{
+        gb->processCommand(index,CONSTANTS::ROADCOMMAND,position);
+        for(int i = 0; i<RESOURCETYPE;i++){
+            resource[i]-=CONSTANTS::ROADCOST[i];
+        }
+    }catch(string s){
+        cout<<s<<endl;
+    }
+}
+
+//string guarantee
+void Player::houseConstruct(int position){
+    for(int i = 0; i<RESOURCETYPE;i++){
+        if(resource[i]<CONSTANTS::BASEMENTCOST[i]){
+            cout<<"Not enough minerals"<<endl;//replace with display commands
+            return;
+        }
+    }
+    try{
+        gb->processCommand(index,CONSTANTS::BASEMENTCOMMAND,position);
+        for(int i = 0; i<RESOURCETYPE;i++){
+            resource[i]-=CONSTANTS::BASEMENTCOST[i];
+        }
+        basement.emplace_back(position);
+    }catch(string s){
+        cout<<s<<endl;
+    }
+}
+
+void Player::improve(int position){
+    for(int i = 0; i<basement.size(); i++){
+        if(basement.at(i) == position){
+            for(int k = 0; i<RESOURCETYPE;i++){
+                if(resource[k]<CONSTANTS::HOUSECOST[k]){
+                    cout<<"Not enough minerals"<<endl;//replace with display commands
+                    return;
+                }
+            }
+            gb->processCommand(index,CONSTANTS::IMPROVECOMMAND,position);
+            for(int k = 0; i<RESOURCETYPE;i++){
+                resource[k]-=CONSTANTS::HOUSECOST[k];
+            }
+            
+            basement.erase(house.begin()+i);
+            house.emplace_back(i);
+            return;   
+        }
+    }
+    for(int i = 0; i<house.size(); i++){
+        if(house.at(i) == position){
+            for(int k = 0; i<RESOURCETYPE;i++){
+                if(resource[k]<CONSTANTS::TOWERCOST[k]){
+                    cout<<"Not enough minerals"<<endl;//replace with display commands
+                    return;
+                }
+            }
+            gb->processCommand(index,CONSTANTS::IMPROVECOMMAND,position);
+            for(int k = 0; i<RESOURCETYPE;i++){
+                resource[k]-=CONSTANTS::TOWERCOST[k];
+            }
+            
+            house.erase(house.begin()+i);
+            tower.emplace_back(i);
+            return;   
+        }
+    }
+    cout<<"Cannot improve: No valid building constructed at this position"<<endl;
 }
 
 void Player::robberRandomLoss(){

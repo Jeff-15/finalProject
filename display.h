@@ -1,3 +1,5 @@
+#ifndef DISPLAY
+#define DISPLAY
 #include "subject.h"
 #include "board.h"
 #include "gameBoard.h"
@@ -92,3 +94,4 @@ class display {
     void board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, std::vector <Edge*> edges); 
     // prints the board.
 };
+#endif
