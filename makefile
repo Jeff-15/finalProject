@@ -1,7 +1,7 @@
 CXX = g++
 CXXFLAGS = -std=c++20 -Wall -Werror=vla -MMD
 EXEC = a3q2
-OBJECTS = board.o const.o dice.o display.o gameBoard.o loadedDice.o main.o player.o RandomDice.o RandomizedBoard.o subject.o
+OBJECTS = board.o const.o dice.o display.o gameBoard.o loadedDice.o main.o player.o RandomDice.o abstractPlayer.o subject.o
 DEPENDS = ${OBJECTS:.o=.d}
 
 ${EXEC}: ${OBJECTS}

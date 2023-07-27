@@ -2,7 +2,7 @@
 #include <random>
 #include <chrono>
 
-RandomDice::RandomDice(GameBoard* gb, int index):Dice{gb,index}{ }
+RandomDice::RandomDice(GameBoard* gb, int index):gb{gb},index{index}{ }
 
 int RandomDice::generate() {
     std::mt19937 rng;
