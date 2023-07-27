@@ -2,11 +2,19 @@
 #define GBOARD
 #include <vector>
 #include <string>
+#include <iostream>
+#include <random>
+#include <chrono>
+#include <string>
+#include <iostream>
 #include "dice.h"
 #include "subject.h"
 #include "board.h"
 #include "player.h"
-#include <iostream>
+#include "loadedDice.h"
+#include "RandomDice.h"
+#include "const.h"
+
 
 class GameBoard: public Subject{
     protected:

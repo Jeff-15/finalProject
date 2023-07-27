@@ -3,6 +3,16 @@
 #include "gameBoard.h"
 #include <string>
 #include <vector>
+#include <iostream>
+#include <vector>
+#include <string>
+#include <random>
+#include <chrono>
+#include <vector>
+#include "const.h"
+#include "dice.h"
+#include "loadedDice.h"
+#include "RandomDice.h"
 
 class Player {
     GameBoard* gb;
