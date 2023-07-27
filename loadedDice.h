@@ -6,4 +6,5 @@ class LoadedDice:public Dice{
     public:
         int generate() override;
         LoadedDice(GameBoard* gb,int index);
+        ~LoadedDice(){}
 };

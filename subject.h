@@ -14,7 +14,7 @@ class Subject {
         void setInput(int in);
         int getInput();
         void notifyDisplay();
-        void attachPlayer(AbstractPlayer *p);
+        void attachPlayer(AbstractPlayer *player);
         void start();
         //void attachDisplay(Display*) = 0;
 };

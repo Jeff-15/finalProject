@@ -1,6 +1,6 @@
 CXX = g++
 CXXFLAGS = -std=c++20 -Wall -Werror=vla -MMD
-EXEC = a3q2
+EXEC = constructor
 OBJECTS = board.o const.o dice.o display.o gameBoard.o loadedDice.o main.o player.o RandomDice.o abstractPlayer.o subject.o
 DEPENDS = ${OBJECTS:.o=.d}
 

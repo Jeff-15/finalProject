@@ -15,7 +15,7 @@
 
 class GameBoard: public Subject{
     protected:
-        Dice dice;
+        Dice* dice;
         int diceRoll;//the result of dice roll
         void processDice(int index);
         void processGeese(int tileIndex,int index);//place geese at position tileIndex:: To do
