@@ -9,8 +9,8 @@ int main (int argc, char* argv[]) {
     // print_board();
     GameBoard gb = GameBoard{};
     gb.initialize();
-    AbstractPlayer* p = new Player{0,&gb}
-    gb.attachPlayer();
+    AbstractPlayer* p = new Player{0,&gb};
+    gb.attachPlayer(p);
     gb.start();
 
     return 0;
