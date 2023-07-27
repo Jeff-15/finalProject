@@ -34,6 +34,8 @@ class Player:public AbstractPlayer{
         Player(int index, GameBoard* gb);
         void player_print();
         int* getResources();
+        int getIndex(){return index;}
+        int getNumPoints(){return score;}
         std::vector <int> getRoad();
         std::vector <int> getBasement();
         std::vector <int> getHouse();
