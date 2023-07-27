@@ -13,5 +13,18 @@ class CONSTANTS{
         static const int BASEMENTCOMMAND = 3;
         static const int IMPROVECOMMAND = 4;
         static const int TRADECOMMAND = 5; 
+        static int get_resource_code(std::string s) {
+            if (s == "BRICK") {
+                return 100;
+            } else if (s == "ENERGY") {
+                return 101;
+            } else if (s == "GLASS") {
+                return 102;
+            } else if (s == "HEAT") {
+                return 103;
+            } else {
+                return 104;
+            }
+        }
 };
 #endif

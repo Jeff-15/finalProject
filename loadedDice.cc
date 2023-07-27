@@ -5,3 +5,4 @@ int LoadedDice::generate(){
     gb->notifyPlayer(index,-1,-1);
     return gb->getInput();
 }
+

@@ -3,6 +3,7 @@
 #include "board.h"
 #include "gameBoard.h"
 #include "player.h"
+#include "subject.h"
 #include "abstractPlayer.h"
 
 int main (int argc, char* argv[]) {

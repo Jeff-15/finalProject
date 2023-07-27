@@ -12,14 +12,17 @@
 void GameBoard::processCommand(int target,int eventPara1, int eventPara2) {
     if(eventPara1 == 0){
         if(eventPara2 == 0){
-            dice = LoadedDice{this,target};
+            delete(dice);
+            dice = new LoadedDice{this,target};
         }
         else if(eventPara2 == 1){
-            dice = RandomDice{this,target};
+            delete(dice);
+            dice = new RandomDice{this,target};
         }
         else if(eventPara2 == 2){
-            diceRoll = dice.generate();
+            diceRoll = dice->generate();
             processDice(target);
+            delete(dice);
         }
     }
     else if(eventPara1 == CONSTANTS::ROADCOMMAND){
@@ -63,19 +66,7 @@ std::string GameBoard::index_to_name(int player_index) {
     return out;
 }
 
-int get_resource_code(std::string s) {
-    if (s == "BRICK") {
-        return 100;
-    } else if (s == "ENERGY") {
-        return 101;
-    } else if (s == "GLASS") {
-        return 102;
-    } else if (s == "HEAT") {
-        return 103;
-    } else {
-        return 104;
-    }
-}
+
 
 std::string GameBoard::convert_short_to_full_name(std::string sh) {
     std::string result;
@@ -98,7 +89,7 @@ void GameBoard::player_get_resource () {
         if (tiles[i]->getVal() == diceRoll) {
             if (tiles[i]->getGoose()) continue;
             std::string item = tiles[i]->getType();
-            int code = get_resource_code(item);
+            int code = CONSTANTS::get_resource_code(item);
             for (auto vertex : tiles[i]->getNeighbourVertex()) {
                 if (vertices[vertex]->own()) {
                     int player_num = name_to_index(vertices[vertex]->getOwner());
@@ -345,8 +336,7 @@ GameBoard::GameBoard(){
         Edge *e1 = new Edge {};
         edges.emplace_back(e1);
     }
-    dice = RandomDice(this,0);
 }
 GameBoard::GameBoard(std::vector <Tile*> t, std::vector <Vertex*> v, std::vector <Edge*> e): 
-            tiles{t}, vertices{v},edges{e} {dice = RandomDice(this,0); }
+            tiles{t}, vertices{v},edges{e} { }
 
