@@ -3,8 +3,9 @@
 #include <vector>
 #include <string>
 #include "player.h"
+#include "board.h"
 
-class AbstactDisplay {
+class AbstractDisplay {
     public:
         virtual void invalid() = 0;
         virtual void buildFail() = 0;

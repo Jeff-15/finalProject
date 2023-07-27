@@ -5,7 +5,7 @@
 #include "player.h"
 #include "abstractDisplay.h"
 
-class display: public AbstactDisplay {
+class display: public AbstractDisplay {
 
 
   public:

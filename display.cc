@@ -140,7 +140,7 @@ void display::residence(int builder, std::vector <Player*> p) {
     }  
 }
 
-void trade(int builder, std::string colour, std::string give, std::string take) {
+void display::trade(int builder, std::string colour, std::string give, std::string take) {
     std::vector <std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
     std::string Builder = colours[builder];
     std::cout << Builder << " offers " << colour << " one ";
