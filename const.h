@@ -12,10 +12,6 @@ class CONSTANTS{
         static const int ROADCOMMAND = 2;
         static const int BASEMENTCOMMAND = 3;
         static const int IMPROVECOMMAND = 4;
-<<<<<<< HEAD
-        static const int TRADECOMMAND = 5;     
-
-=======
         static const int TRADECOMMAND = 5; 
         static int get_resource_code(std::string s) {
             if (s == "BRICK") {
