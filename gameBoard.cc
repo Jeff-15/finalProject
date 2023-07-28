@@ -1,7 +1,5 @@
 #include "gameBoard.h"
 
-
-
 void GameBoard::processCommand(int target,int eventPara1, int eventPara2) {
     if(eventPara1 == 0){
         if(eventPara2 == 0){
@@ -10,7 +8,7 @@ void GameBoard::processCommand(int target,int eventPara1, int eventPara2) {
         }
         else if(eventPara2 == 1){
             delete(dice);
-            dice = new RandomDice{this,target};
+            dice = new RandomDice{target};
         }
         else if(eventPara2 == 2){
             diceRoll = dice->generate();
