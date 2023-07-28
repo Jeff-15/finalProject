@@ -4,15 +4,15 @@
 #include <string>
 #include "display.h"
 
-void display::invalid() {
+void display::invalid() {  // 1
     std::cout << "Invalid command." << std::endl;
 }
 
-void display::buildFail() {
+void display::buildFail() { // 2
     std::cout << "You cannot build here." << std::endl;
 }
 
-void display::insufficient() {
+void display::insufficient() { // 3
     std::cout << "You do not have enough resources." << std::endl;
 }
 
@@ -21,15 +21,15 @@ void display::begin(int builder) {
     std::cout << "Builder " << colours[builder] << ", where do you want to build a basement?" << std::endl;
 }
 
-void display::end() {
+void display::end() { // 4
     std::cout << "Would you like play again?" << std::endl;
 }
 
-void display::loadedDice() {
+void display::loadedDice() { // 5
     std::cout << "Input a roll between 2 and 12:" << std::endl;
 }
 
-void display::invalidRoll() {
+void display::invalidRoll() { // 6
     std::cout << "Invalid roll." << std::endl;
 }
 
@@ -46,7 +46,7 @@ void display::gain(std::vector <Player*> p, std::vector <int> num, std::string t
     }
 }
 
-void display::noGain() {
+void display::noGain() { // 7
     std::cout << "No builders gained resources." << std::endl;
 }
 
@@ -66,7 +66,7 @@ void display::geeseSteal(std::vector <Player*> p,
     }
 }
 
-void display::placeGeese() {
+void display::placeGeese() { // 8
     std::cout << "Choose where to place the GEESE." << std::endl;
 }
 
@@ -204,7 +204,7 @@ void display::save(int builder, std::vector <Player*> p, std::vector <Tile*> til
     std::cout << geese << std::endl;
 }
 
-void display::help() { 
+void display::help() {  // 9
     std::cout << "Valid commands:" << std::endl;
     std::cout << "board" << std::endl;
     std::cout << "status" << std::endl;

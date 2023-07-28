@@ -121,21 +121,27 @@ void GameBoard::processGeese(int tileIndex, int index, std::string activePlayer)
         std::cout << " " << i;
     }
     std::cout << "." << std::endl;
-    std::cout<<">";
-    std:: cout << "Choose a builder to steal from." << std::endl;
-    notifyPlayer(index,-1,-1);   // get input
     
-    int steel_index;
-    //check if target is available
+////////////// keep asking
     bool found = false;
-    for (auto i : dest->getNeighbourVertex()) {
-        if (name_to_index(vertices[i]->getOwner()) == input) {
-            found = true;
-            steel_index = i;
-            break;
+    int steel_index;
+    while(!found) {
+        std:: cout << "Choose a builder to steal from." << std::endl;
+        std::cout<<">";
+        notifyPlayer(index,-1,-1);   // get input
+        
+        //check if target is available
+        for (auto i : dest->getNeighbourVertex()) {
+            if (name_to_index(vertices[i]->getOwner()) == input) {
+                found = true;
+                steel_index = i;
+                break;
+            }
         }
     }
-    notifyPlayer(input,1,2);    // set steel which resource
+////////////// end of asking
+
+    notifyPlayer(input,1,2);    // set steel which 1 resource
     int active_player_index = name_to_index(activePlayer);
     notifyPlayer(active_player_index, input + 100, 1);    // give 1 some resource to player
     std::string r_name;         // resource name
@@ -190,7 +196,7 @@ void GameBoard::constructRoad(int player_id, int edgeIndex) {
             break;
         }
     }
-
+    
     // now check vertex
     for (auto i : edges[edgeIndex]->getNeighbourVertex()) {
         int vertex_player_id = name_to_index(vertices[i]->getOwner());
@@ -221,7 +227,6 @@ void GameBoard::build_residence(int player_id, int vertexIndex) {
             return;
         }
     }
-
     // now check if exist an adjacent road
     for (auto i : vertices[vertexIndex]->getNeighbourEdge()) {
         if (edges[i]->own() && player_id == name_to_index(edges[i]->getOwner())) {
