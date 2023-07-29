@@ -83,6 +83,7 @@ int Player::action(){
             break;        
         }
     }
+    return 0;
 }
 
 //strong guarantee
