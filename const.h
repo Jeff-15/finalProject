@@ -26,6 +26,5 @@ class CONSTANTS{
                 return 104;
             }
         }
->>>>>>> main
 };
 #endif
