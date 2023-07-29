@@ -70,13 +70,9 @@ void display::placeGeese() { // 8
     std::cout << "Choose where to place the GEESE." << std::endl;
 }
 
-void display::chooseSteal (int builder, std::vector <AbstractPlayer*> p) {
+void display::chooseSteal (int builder, std::vector<std::string> builders) {
     std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
-    std::vector<std::string> builders;
     std::cout << "Builder " << colours[builder] << " can choose to steal from ";
-    for (size_t i = 0; i < p.size(); ++i) {
-        builders.push_back(colours[p[i]->getIndex()]);
-    }
     for (size_t i = 0; i < builders.size(); ++i) {
         std::cout << builders[i];
         if (i != builders.size() - 1) {
@@ -86,6 +82,7 @@ void display::chooseSteal (int builder, std::vector <AbstractPlayer*> p) {
         }
     }
     std::cout << "Choose a builder to steal from." << std::endl;
+    std::cout << ">";
 }
 
 void display::steal(int builder, int stolen, std::string resource) {

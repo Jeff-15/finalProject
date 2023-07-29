@@ -13,9 +13,12 @@
 #include "loadedDice.h"
 #include "RandomDice.h"
 #include "const.h"
+#include "abstractDisplay.h"
+#include "display.h"
 
 class GameBoard: public Subject{
     protected:
+        
         Dice* dice;
         int diceRoll;//the result of dice roll
         void processDice(int index);

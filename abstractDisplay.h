@@ -19,7 +19,7 @@ class AbstractDisplay {
         virtual void noGain() = 0;
         virtual void geeseSteal(std::vector <AbstractPlayer*> p, std::vector <std::vector <std::pair <int, std::string>> > resourcesLost) = 0;
         virtual void placeGeese() = 0;
-        virtual void chooseSteal(int builder, std::vector <AbstractPlayer*> p) = 0;
+        virtual void chooseSteal(int builder, std::vector <std::string> builders) = 0;
         virtual void steal(int builder, int stolen, std::string resource) = 0;
         virtual void noSteal(int builder) = 0;
         virtual void status(int builder, std::vector <AbstractPlayer*> p) = 0;
