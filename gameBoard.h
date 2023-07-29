@@ -9,7 +9,7 @@
 #include "dice.h"
 #include "subject.h"
 #include "board.h"
-#include "abstractPlayer.h"
+//#include "abstractPlayer.h"
 #include "loadedDice.h"
 #include "RandomDice.h"
 #include "const.h"
