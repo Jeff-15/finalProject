@@ -3,9 +3,17 @@
 #include "gameBoard.h"
 #include <string>
 #include <vector>
+<<<<<<< Updated upstream
 
 class Player {
+=======
+#include "abstractPlayer.h"
+#include "abstractDisplay.h"
+
+class Player:public AbstractPlayer{
+>>>>>>> Stashed changes
     GameBoard* gb;
+    AbstractDisplay* display;
     std::string player_name;
     int index;
     int numPoints;

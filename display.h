@@ -57,7 +57,11 @@ class display {
     void noSteal(int builder);
     // Builder <colour1> has no builders to steal from. \n
 
+<<<<<<< Updated upstream
     void status(int builder, std::vector <Player*> p);
+=======
+    void status(int builder, int numPoints, int* resources);
+>>>>>>> Stashed changes
     // <colour> has <numPoints> building points, <numBrick> brick, <numEnergy> energy,
     // <numGlass> glass, <numHeat> heat, and <numWiFi> WiFi. \n
 
