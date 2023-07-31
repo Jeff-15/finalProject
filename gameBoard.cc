@@ -310,7 +310,7 @@ void GameBoard::initialize() {
     }
 }
 
-GameBoard::GameBoard(){
+GameBoard::GameBoard():dice{new RandomDice(0)}{
     d = new display();
     // tiles
     for (int i = 0; i < 19; ++i) {
@@ -328,7 +328,7 @@ GameBoard::GameBoard(){
         edges.emplace_back(e1);
     }
 }
-GameBoard::GameBoard(std::vector <Tile*> t, std::vector <Vertex*> v, std::vector <Edge*> e): 
+GameBoard::GameBoard(std::vector <Tile*> t, std::vector <Vertex*> v, std::vector <Edge*> e):dice{new RandomDice(0)},
             tiles{t}, vertices{v},edges{e} { }
 
 
@@ -351,9 +351,9 @@ void GameBoard::players_choose_start_index() {
         try {
             this->build_residence(i, in, true);
         }
-        catch(std::string a) {
-            --i;
-            throw a;
+        catch(const char* a) {
+            std::cout<<a<<std::endl;
+            i--;
         }
     }
     for (int i = 0; i < 4; ++i) {
@@ -363,7 +363,7 @@ void GameBoard::players_choose_start_index() {
         try {
             this->build_residence(i, in, true);
         }
-        catch(std::string a) {
+        catch(const char* a) {
             --i;
             throw a;
         }

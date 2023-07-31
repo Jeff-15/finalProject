@@ -82,6 +82,9 @@ int Player::action(){
         else if(command == "next"){
             break;        
         }
+        else if(command == "resources"){
+            cout<<resource[0]<<" "<<resource[1]<<" "<<resource[2]<<" "<<resource[3]<<" "<<resource[4]<<" "<<endl;
+        }
     }
     return 0;
 }
@@ -99,7 +102,7 @@ void Player::roadConstruct(int position){
         for(int i = 0; i<RESOURCETYPE;i++){
             resource[i]-=CONSTANTS::ROADCOST[i];
         }
-    }catch(string s){
+    }catch(const char*s){
         cout<<s<<endl;
     }
 }
@@ -119,7 +122,7 @@ void Player::houseConstruct(int position){
         }
         basement.emplace_back(position);
         addScore();
-    }catch(string s){
+    }catch(const char*s){
         cout<<s<<endl;
     }
 }
@@ -134,7 +137,7 @@ void Player::tradeRequest(int target, int resourceTypeGiven, int resourceTypeDem
         gb->processCommand(index,CONSTANTS::TRADECOMMAND*target,resourceTypeGiven*100+amountGiven);
         resource[resourceTypeGiven]-=amountGiven;
         resource[resourceTypeDemanded]+=resourceTypeDemanded;
-    }catch(string s){
+    }catch(const char*s){
         cout<<s<<endl;
     }
 }
@@ -160,37 +163,37 @@ void Player::tradeResponse(int target, int resourceTypeGiven, int resourceTypeDe
 void Player::improve(int position){
     for(int i = 0; i<basement.size(); i++){
         if(basement.at(i) == position){
-            for(int k = 0; i<RESOURCETYPE;i++){
+            for(int k = 0; k<RESOURCETYPE;k++){
                 if(resource[k]<CONSTANTS::HOUSECOST[k]){
                     cout<<"Not enough minerals"<<endl;//replace with display commands
                     return;
                 }
             }
             gb->processCommand(index,CONSTANTS::IMPROVECOMMAND,position);
-            for(int k = 0; i<RESOURCETYPE;i++){
+            for(int k = 0; k<RESOURCETYPE;k++){
                 resource[k]-=CONSTANTS::HOUSECOST[k];
             }
             addScore();
-            basement.erase(house.begin()+i);
-            house.emplace_back(i);
+            basement.erase(basement.begin()+i);
+            house.emplace_back(position);
             return;   
         }
     }
     for(int i = 0; i<house.size(); i++){
         if(house.at(i) == position){
-            for(int k = 0; i<RESOURCETYPE;i++){
+            for(int k = 0; k<RESOURCETYPE;k++){
                 if(resource[k]<CONSTANTS::TOWERCOST[k]){
                     cout<<"Not enough minerals"<<endl;//replace with display commands
                     return;
                 }
             }
             gb->processCommand(index,CONSTANTS::IMPROVECOMMAND,position);
-            for(int k = 0; i<RESOURCETYPE;i++){
+            for(int k = 0; k<RESOURCETYPE;k++){
                 resource[k]-=CONSTANTS::TOWERCOST[k];
             }
             addScore();
             house.erase(house.begin()+i);
-            tower.emplace_back(i);
+            tower.emplace_back(position);
             return;   
         }
     }
@@ -281,7 +284,7 @@ int Player::notify(int target, int eventPara1, int eventPara2){
 
 Player::Player(int index,GameBoard *gb): gb {gb}, index {index} {
     for (int i = 0; i < RESOURCETYPE; ++i) {
-        resource[i] = 0;
+        resource[i] = 10000;
     }
     score = 0;
 }

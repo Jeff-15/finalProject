@@ -43,16 +43,14 @@ int main (int argc, char* argv[]) {
     gb.attachPlayer(p2);
     AbstractPlayer* p3 = new Player{3,&gb};
     gb.attachPlayer(p3);
-
-    try {
-        gb.players_choose_start_index();
-    } catch (const char* a) {
-        std::cout << a << std::endl;
-    }
-
-    during_turn_cmd(gb);
     
-    gb.start();
+    
+    gb.players_choose_start_index();
+    //during_turn_cmd(gb);
+    try{
+        gb.start();
+    }
+    catch(const char* a){    }
 
     return 0;
 }
