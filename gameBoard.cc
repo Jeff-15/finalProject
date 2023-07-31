@@ -307,7 +307,7 @@ void GameBoard::initialize() {
     }
 }
 
-GameBoard::GameBoard(){
+GameBoard::GameBoard():dice{new RandomDice(0)}{
     d = new display();
     // tiles
     for (int i = 0; i < 19; ++i) {
@@ -325,7 +325,7 @@ GameBoard::GameBoard(){
         edges.emplace_back(e1);
     }
 }
-GameBoard::GameBoard(std::vector <Tile*> t, std::vector <Vertex*> v, std::vector <Edge*> e): 
+GameBoard::GameBoard(std::vector <Tile*> t, std::vector <Vertex*> v, std::vector <Edge*> e):dice{new RandomDice(0)},
             tiles{t}, vertices{v},edges{e} { }
 
 
