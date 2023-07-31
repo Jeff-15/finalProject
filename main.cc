@@ -53,6 +53,8 @@ int main (int argc, char* argv[]) {
     }
     catch(const char* a){    }
 
+    gb.start();
+    //during_turn_cmd(gb);
 
     return 0;
 }
