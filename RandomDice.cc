@@ -1,8 +1,6 @@
 #include "RandomDice.h"
-#include <random>
-#include <chrono>
 
-RandomDice::RandomDice(GameBoard* gb, int index):index{index},gb{gb}{ }
+RandomDice::RandomDice(int index):index{index}{ }
 
 int RandomDice::generate() {
     std::mt19937 rng;

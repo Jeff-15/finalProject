@@ -1,10 +1,15 @@
+#ifndef LOADEDDICE
+#define LOADEDDICE
 #include "dice.h"
-#include "gameBoard.h"
+#include "subject.h"
+
 class LoadedDice:public Dice{
     int index;
-    GameBoard* gb;
+    Subject *s;
     public:
         int generate() override;
-        LoadedDice(GameBoard* gb,int index);
+        LoadedDice(Subject* s,int index);
         ~LoadedDice(){}
 };
+
+#endif

@@ -1,11 +1,15 @@
-#include "dice.h"
-#include "gameBoard.h"
+#ifndef RANDOMDICE
+#define RANDOMDICE
 
+#include "dice.h"
+#include <random>
+#include <chrono>
 
 class RandomDice: public Dice {
     int index;
-    GameBoard* gb;
     public:
         int generate() override;
-        RandomDice(GameBoard* p,int index);
+        RandomDice(int index);
 };
+
+#endif
