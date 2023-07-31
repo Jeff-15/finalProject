@@ -57,7 +57,7 @@ class display: public AbstractDisplay {
     void noSteal(int builder);
     // Builder <colour1> has no builders to steal from. \n
 
-    void status(int builder, std::vector <AbstractPlayer*> p);
+    void status(int builder, int numPoints, int* resources);
     // <colour> has <numPoints> building points, <numBrick> brick, <numEnergy> energy,
     // <numGlass> glass, <numHeat> heat, and <numWiFi> WiFi. \n
 
