@@ -86,6 +86,27 @@ int Player::action(){
         else if(command == "resources"){
             cout<<resource[0]<<" "<<resource[1]<<" "<<resource[2]<<" "<<resource[3]<<" "<<resource[4]<<" "<<endl;
         }
+        else if(command == "board") {
+            gb->display_board();
+        }
+        else if(command == "status") {
+            gb->print_all_player();
+        }
+        else if(command == "residences") {
+            
+        }
+        else if (command == "help") {
+            gb->notifyDisplay("help");
+        }
+        else if (command == "save") {
+
+        }
+        else if (command == "next") {
+            break;
+        }
+        else {
+            break;
+        }
     }
     return 0;
 }
