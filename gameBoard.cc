@@ -238,8 +238,6 @@ void GameBoard::improve_residence(int vertexIndex) {
     return;
 }
 
-
-
 std::vector<int> generateNumbers() {
     // Create a vector with the exact counts of each number
     std::vector<int> numbers = {2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12};
