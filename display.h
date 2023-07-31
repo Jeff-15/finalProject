@@ -2,11 +2,11 @@
 #define DISPLAY
 #include "subject.h"
 #include "board.h"
-#include "gameBoard.h"
-#include "player.h"
+#include "abstractPlayer.h"
+#include "abstractDisplay.h"
 
-class display {
-    GameBoard* gb;
+class display: public AbstractDisplay {
+
 
   public:
     void invalid();
@@ -33,21 +33,21 @@ class display {
     void next(int builder);
     // Builder <colour>’s turn. \n
 
-    void gain(std::vector <Player*> p, std::vector <int> num, std::string type);
+    void gain(std::vector <AbstractPlayer*> p, std::vector <int> num, std::string type);
     // Builder <colour> gained: \n
     // <numResource> <resourceType> \n
 
     void noGain();
     // No builders gained resources. \n
 
-    void geeseSteal(std::vector <Player*> p, std::vector <std::vector <std::pair <int, std::string>> > resourcesLost);
+    void geeseSteal(std::vector <AbstractPlayer*> p, std::vector <std::vector <std::pair <int, std::string>> > resourcesLost);
     // Builder <colour> loses <numResourcesLost> resources to the geese. They lose: \n
     // <numResource> <resourceName> \n
 
     void placeGeese();
     // Choose where to place the GEESE. \n
 
-    void chooseSteal(int builder, std::vector <Player*> p);
+    void chooseSteal(int builder, std::vector <std::string> builders);
     // Builder <colour1> can choose to steal from [builders]. \n
     // Choose a builder to steal from.
 
@@ -57,15 +57,11 @@ class display {
     void noSteal(int builder);
     // Builder <colour1> has no builders to steal from. \n
 
-<<<<<<< Updated upstream
-    void status(int builder, std::vector <Player*> p);
-=======
     void status(int builder, int numPoints, int* resources);
->>>>>>> Stashed changes
     // <colour> has <numPoints> building points, <numBrick> brick, <numEnergy> energy,
     // <numGlass> glass, <numHeat> heat, and <numWiFi> WiFi. \n
 
-    void residence(int builder, std::vector <Player*> p);
+    void residence(int builder, std::vector <AbstractPlayer*> p);
     // <colour> has built: \n
     // <vertex> <buildingType> \n
 
@@ -73,7 +69,7 @@ class display {
     // <colour1> offers <colour2> one <resource1> for one <resource2>. \n
     // Does <colour2> accept this offer? \n
 
-    void save(int builder, std::vector <Player*> p, std::vector <Tile*> tiles);
+    void save(int builder, std::vector <AbstractPlayer*> p, std::vector <Tile*> tiles);
     // <curTurn> \n
     // <builder0Data> \n
     // <builder1Data> \n
@@ -98,4 +94,5 @@ class display {
     void board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, std::vector <Edge*> edges); 
     // prints the board.
 };
+
 #endif

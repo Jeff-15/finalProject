@@ -1,7 +1,7 @@
-#include "gameBoard.h"
 #include "loadedDice.h"
-LoadedDice::LoadedDice(GameBoard* gb,int index):Dice{gb,index}{ }
+LoadedDice::LoadedDice(Subject* s,int index):s{s},index{index}{ }
 int LoadedDice::generate(){
-    gb->notifyPlayer(index,-1,0);
-    return gb->getInput();
+    s->notifyPlayer(index,-1,-1);
+    return s->getInput();
 }
+

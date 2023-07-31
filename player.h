@@ -3,15 +3,10 @@
 #include "gameBoard.h"
 #include <string>
 #include <vector>
-<<<<<<< Updated upstream
-
-class Player {
-=======
 #include "abstractPlayer.h"
 #include "abstractDisplay.h"
 
 class Player:public AbstractPlayer{
->>>>>>> Stashed changes
     GameBoard* gb;
     AbstractDisplay* display;
     std::string player_name;
@@ -33,12 +28,17 @@ class Player:public AbstractPlayer{
     void roadConstruct(int position);//construct road
     void houseConstruct(int position);//construct house
     void improve(int position);
-    void trade();
+    void tradeRequest(int target, int resourceTypeGiven, int resourceTypeDemanded, int amountGiven=1, int amountDemanded=1);
+    void tradeResponse(int target, int resourceTypeGiven, int resourceTypeDemanded, int amountGiven=1, int amountDemanded=1);
+    int score;
+    bool addScore();
     public: 
         int notify (int target, int eventPara1, int eventPara2);//see eventNumber.txt for representations
         Player(int index, GameBoard* gb);
         void player_print();
         int* getResources();
+        int getIndex(){return index;}
+        int getNumPoints(){return score;}
         std::vector <int> getRoad();
         std::vector <int> getBasement();
         std::vector <int> getHouse();

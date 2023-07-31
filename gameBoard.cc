@@ -1,43 +1,35 @@
 #include "gameBoard.h"
-#include "dice.h"
-#include "loadedDice.h"
-#include "RandomDice.h"
-#include "const.h"
-#include <iostream>
-#include <random>
-#include <chrono>
-#include <string>
 
 void GameBoard::processCommand(int target,int eventPara1, int eventPara2) {
     if(eventPara1 == 0){
         if(eventPara2 == 0){
-            dice = LoadedDice{this,target};
+            delete(dice);
+            dice = new LoadedDice{this,target};
         }
         else if(eventPara2 == 1){
-            dice = RandomDice{this,target};
+            delete(dice);
+            dice = new RandomDice{target};
         }
         else if(eventPara2 == 2){
-            diceRoll = dice.generate();
+            diceRoll = dice->generate();
             processDice(target);
+            delete(dice);
         }
     }
     else if(eventPara1 == CONSTANTS::ROADCOMMAND){
         constructRoad(target,eventPara2);
     }
     else if(eventPara1 == CONSTANTS::BASEMENTCOMMAND){
-        build_residence(target,eventPara2);
+        build_residence(target,eventPara2, false);
     }
     else if(eventPara1 == CONSTANTS::IMPROVECOMMAND){
         improve_residence(eventPara2);
     }
-}
-void GameBoard::initialize() {
-    // initialize dice, default random dice
-    for (int i = 0; i < 4; ++i) {
-        Dice* d = new LoadedDice(this, i);
+    else if(eventPara1 <= CONSTANTS::TRADECOMMAND){
+        processTrade(target, eventPara1/CONSTANTS::TRADECOMMAND,eventPara2);
     }
-    return;
 }
+
 
 int GameBoard::name_to_index(std::string player_name) {
     // Blue Red, Orange Yellow
@@ -65,19 +57,7 @@ std::string GameBoard::index_to_name(int player_index) {
     return out;
 }
 
-int get_resource_code(std::string s) {
-    if (s == "BRICK") {
-        return 100;
-    } else if (s == "ENERGY") {
-        return 101;
-    } else if (s == "GLASS") {
-        return 102;
-    } else if (s == "HEAT") {
-        return 103;
-    } else {
-        return 104;
-    }
-}
+
 
 std::string GameBoard::convert_short_to_full_name(std::string sh) {
     std::string result;
@@ -100,7 +80,7 @@ void GameBoard::player_get_resource () {
         if (tiles[i]->getVal() == diceRoll) {
             if (tiles[i]->getGoose()) continue;
             std::string item = tiles[i]->getType();
-            int code = get_resource_code(item);
+            int code = CONSTANTS::get_resource_code(item);
             for (auto vertex : tiles[i]->getNeighbourVertex()) {
                 if (vertices[vertex]->own()) {
                     int player_num = name_to_index(vertices[vertex]->getOwner());
@@ -133,56 +113,56 @@ void GameBoard::processGeese(int tileIndex, int index, std::string activePlayer)
         }
     }
     if (builders.empty()) {
-        std::cout << "Builder " << convert_short_to_full_name(activePlayer) << " has no builders to steal from." << std::endl;
+        d->noSteal(index);
         return;
     }
-    std::cout << "Builder " << index << " can choose to steal from:";
-    for (auto i : builders) {
-        std::cout << " " << i;
-    }
-    std::cout << "." << std::endl;
-    std::cout<<">";
-    std:: cout << "Choose a builder to steal from." << std::endl;
-    notifyPlayer(index,-1,1);   // get input
+    // std::cout << "Builder " << index << " can choose to steal from:";
+    // for (auto i : builders) {
+    //     std::cout << " " << i;
+    // }
+    // std::cout << "." << std::endl;
     
-    int steel_index;
-    //check if target is available
+////////////// keep asking
     bool found = false;
-    for (auto i : dest->getNeighbourVertex()) {
-        if (name_to_index(vertices[i]->getOwner()) == input) {
-            found = true;
-            steel_index = i;
-            break;
+    int steal_index;
+    while(!found) {
+        d->chooseSteal(index, builders);
+        notifyPlayer(index,-1,-1);   // get input
+        //check if target is available
+        for (auto i : dest->getNeighbourVertex()) {
+            if (name_to_index(vertices[i]->getOwner()) == input) {
+                found = true;
+                steal_index = i;
+                break;
+            }
         }
     }
-    notifyPlayer(input,1,2);    // set steel which resource
+////////////// end of asking
+
+    notifyPlayer(input,1,2);    // set steel which 1 resource
     int active_player_index = name_to_index(activePlayer);
     notifyPlayer(active_player_index, input + 100, 1);    // give 1 some resource to player
     std::string r_name;         // resource name
-    if (input == 0) {
-        r_name = "BRICK";
-    } else if (input == 1) {
-        r_name = "ENERGY";
-    } else if (input == 2) {
-        r_name = "GLASS";
-    } else if (input == 3) {
-        r_name = "HEAT";
-    } else if (input == 4) {
-        r_name = "WIFI";
-    } else {
-        // DO SOMETHING HERE!!
-    }
+    r_name = index_to_name(input);
+    r_name = convert_short_to_full_name(r_name);
     std::string curr_player_name = convert_short_to_full_name(activePlayer);
-    std::cout << "Builder " << curr_player_name << " steals " << r_name << " from builder ";
-    vertices[steel_index]->printOwner();
-    std::cout << "." << std::endl;
+    // std::cout << "Builder " << curr_player_name << " steals " << r_name << " from builder ";
+    // vertices[steal_index]->printOwner();
+    // std::cout << "." << std::endl;
+    d->steal(active_player_index, steal_index, r_name);
+}
+
+void GameBoard::processTrade(int index, int target, int given){
+    //input = resourceTypeDemanded*100+amountDemanded
+    int demanded = input;
+    notifyPlayer(target,CONSTANTS::TRADECOMMAND*index,given*1000000+demanded);
 }
 
 void GameBoard::processDice(int index){
     if(diceRoll == 7){
         notifyPlayer(-1,1,0);
-        notifyPlayer(index,-1,0);
-        processGeese(input,index);
+        notifyPlayer(index,-1,-1);
+        processGeese(input,index,index_to_name(index));
         notifyPlayer(index,100+input,1);
     }
     else{
@@ -204,7 +184,7 @@ void GameBoard::constructRoad(int player_id, int edgeIndex) {
             break;
         }
     }
-
+    
     // now check vertex
     for (auto i : edges[edgeIndex]->getNeighbourVertex()) {
         int vertex_player_id = name_to_index(vertices[i]->getOwner());
@@ -223,9 +203,15 @@ void GameBoard::constructRoad(int player_id, int edgeIndex) {
     return;
 }
 
-void GameBoard::build_residence(int player_id, int vertexIndex) {
-    if (vertices[vertexIndex]->own()) {
+void GameBoard::build_residence(int player_id, int vertexIndex, bool start) {
+    if (vertices.at(vertexIndex)->own()) {
         throw "Already build";
+        return;
+    }
+    if (start) {
+        vertices[vertexIndex]->setStatus(true);
+        vertices[vertexIndex]->setOwner(index_to_name(player_id));
+        vertices[vertexIndex]->build(index_to_name(player_id));
         return;
     }
     // check adjacent vertex
@@ -235,7 +221,6 @@ void GameBoard::build_residence(int player_id, int vertexIndex) {
             return;
         }
     }
-
     // now check if exist an adjacent road
     for (auto i : vertices[vertexIndex]->getNeighbourEdge()) {
         if (edges[i]->own() && player_id == name_to_index(edges[i]->getOwner())) {
@@ -325,7 +310,8 @@ void GameBoard::initialize() {
     }
 }
 
-GameBoard::GameBoard(): dice {LoadedDice{this, 0}} {
+GameBoard::GameBoard(){
+    d = new display();
     // tiles
     for (int i = 0; i < 19; ++i) {
         Tile *t1 = new Tile {};
@@ -342,6 +328,44 @@ GameBoard::GameBoard(): dice {LoadedDice{this, 0}} {
         edges.emplace_back(e1);
     }
 }
-GameBoard::GameBoard(std::vector <Tile*> t, std::vector <Vertex*> v, std::vector <Edge*> e): dice {LoadedDice{this, 0}}, 
-            edges{e}, tiles{t}, vertices{v} { }
+GameBoard::GameBoard(std::vector <Tile*> t, std::vector <Vertex*> v, std::vector <Edge*> e): 
+            tiles{t}, vertices{v},edges{e} { }
 
+
+
+void GameBoard::print_all_player() {
+    for (auto i : p) {
+        i->player_print();
+    }
+}
+
+void GameBoard::display_board() {
+    d->board(tiles, vertices, edges);
+}
+
+void GameBoard::players_choose_start_index() {
+    for (int i = 0; i < 4; ++i) {
+        d->begin(i);
+        notifyPlayer(i, -1, -1);
+        int in = this->getInput();
+        try {
+            this->build_residence(i, in, true);
+        }
+        catch(std::string a) {
+            --i;
+            throw a;
+        }
+    }
+    for (int i = 0; i < 4; ++i) {
+        d->begin(i);
+        notifyPlayer(i, -1, -1);
+        int in = this->getInput();
+        try {
+            this->build_residence(i, in, true);
+        }
+        catch(std::string a) {
+            --i;
+            throw a;
+        }
+    }
+}

@@ -1,5 +1,4 @@
 #include "subject.h"
-#include <vector>
 using namespace std;
 void Subject::notifyPlayer(int target, int eventPara1,int eventPara2){
     for(size_t i = 0; i<p.size(); i++){
@@ -10,14 +9,16 @@ void Subject::setInput(int input){this->input = input;}
 int Subject::getInput(){return input;}
 void Subject::start(){
     while(true){
-<<<<<<< Updated upstream
-        for(int i = 0; i<p.size();i++){
-            notifyPlayer(i,0,0);
-=======
         for(size_t i = 0; i<p.size();i++){
             try{notifyPlayer(i,0,0);}
             catch(int){return;}
->>>>>>> Stashed changes
         }
     }
+}
+void Subject::attachPlayer(AbstractPlayer* player){
+    p.emplace_back(player);
+}
+
+void Subject::notifyDisplay(std::string regular_cmd) {
+    return;
 }

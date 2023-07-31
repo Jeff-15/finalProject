@@ -3,13 +3,55 @@
 #include "board.h"
 #include "gameBoard.h"
 #include "player.h"
+#include "subject.h"
+#include "abstractPlayer.h"
 
+
+void during_turn_cmd(GameBoard gb) {
+    std::string cmd;
+    while (std::cin >> cmd) {
+        if (cmd == "board") {
+            gb.display_board();
+        } 
+        else if (cmd == "status") {
+            gb.print_all_player();
+        }
+        else if (cmd == "residences") {
+
+        }
+        else if (cmd == "help") {
+            gb.notifyDisplay(cmd);
+        }
+        else if (cmd == "next") {
+            break;
+        }
+        else {
+            gb.notifyDisplay("invalid");
+        }
+    }
+}
 
 int main (int argc, char* argv[]) {
     // print_board();
     GameBoard gb = GameBoard{};
     gb.initialize();
-    gb.attachPlayer(new Player{0,&gb});
+    AbstractPlayer* p = new Player{0,&gb};
+    gb.attachPlayer(p);
+    AbstractPlayer* p1 = new Player{1,&gb};
+    gb.attachPlayer(p1);
+    AbstractPlayer* p2 = new Player{2,&gb};
+    gb.attachPlayer(p2);
+    AbstractPlayer* p3 = new Player{3,&gb};
+    gb.attachPlayer(p3);
+
+    try {
+        gb.players_choose_start_index();
+    } catch (const char* a) {
+        std::cout << a << std::endl;
+    }
+
+    during_turn_cmd(gb);
+    
     gb.start();
 
     return 0;

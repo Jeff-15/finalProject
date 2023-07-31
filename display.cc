@@ -1,15 +1,18 @@
-#include <bits/stdc++.h>
+
+#include <iostream>
+#include <vector>
+#include <string>
 #include "display.h"
 
-void display::invalid() {
+void display::invalid() {  // 1
     std::cout << "Invalid command." << std::endl;
 }
 
-void display::buildFail() {
+void display::buildFail() { // 2
     std::cout << "You cannot build here." << std::endl;
 }
 
-void display::insufficient() {
+void display::insufficient() { // 3
     std::cout << "You do not have enough resources." << std::endl;
 }
 
@@ -18,15 +21,15 @@ void display::begin(int builder) {
     std::cout << "Builder " << colours[builder] << ", where do you want to build a basement?" << std::endl;
 }
 
-void display::end() {
+void display::end() { // 4
     std::cout << "Would you like play again?" << std::endl;
 }
 
-void display::loadedDice() {
+void display::loadedDice() { // 5
     std::cout << "Input a roll between 2 and 12:" << std::endl;
 }
 
-void display::invalidRoll() {
+void display::invalidRoll() { // 6
     std::cout << "Invalid roll." << std::endl;
 }
 
@@ -35,7 +38,7 @@ void display::next(int builder) {
     int next = (builder + 1) % 4;
     std::cout << "Builder " << colours[next] << "'s turn." << std::endl;
 }
-void display::gain(std::vector <Player*> p, std::vector <int> num, std::string type) {
+void display::gain(std::vector <AbstractPlayer*> p, std::vector <int> num, std::string type) {
     std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
     for (size_t i = 0; i < p.size(); ++i) {
         std::cout << "Builder " << colours[p[i]->getIndex()] << " gained:" << std::endl;
@@ -43,11 +46,11 @@ void display::gain(std::vector <Player*> p, std::vector <int> num, std::string t
     }
 }
 
-void display::noGain() {
+void display::noGain() { // 7
     std::cout << "No builders gained resources." << std::endl;
 }
 
-void display::geeseSteal(std::vector <Player*> p, 
+void display::geeseSteal(std::vector <AbstractPlayer*> p, 
                          std::vector <std::vector<std::pair<int, std::string>> > resourcesLost) {
     std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
     for (size_t i = 0; i < p.size(); ++i) {
@@ -63,17 +66,13 @@ void display::geeseSteal(std::vector <Player*> p,
     }
 }
 
-void display::placeGeese() {
+void display::placeGeese() { // 8
     std::cout << "Choose where to place the GEESE." << std::endl;
 }
 
-void display::chooseSteal (int builder, std::vector <Player*> p) {
+void display::chooseSteal (int builder, std::vector<std::string> builders) {
     std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
-    std::vector<std::string> builders;
     std::cout << "Builder " << colours[builder] << " can choose to steal from ";
-    for (size_t i = 0; i < p.size(); ++i) {
-        builders.push_back(colours[p[i]->getIndex()]);
-    }
     for (size_t i = 0; i < builders.size(); ++i) {
         std::cout << builders[i];
         if (i != builders.size() - 1) {
@@ -83,6 +82,7 @@ void display::chooseSteal (int builder, std::vector <Player*> p) {
         }
     }
     std::cout << "Choose a builder to steal from." << std::endl;
+    std::cout << ">";
 }
 
 void display::steal(int builder, int stolen, std::string resource) {
@@ -96,11 +96,8 @@ void display::noSteal(int builder) {
     std::cout << "Builder " << colours[builder] << " has no builders to steal from." << std::endl;
 }
 
-<<<<<<< Updated upstream
-void display::status(int builder, std::vector <Player*> p) {
-=======
+
 void display::status(int builder, int points, int* resources) {
->>>>>>> Stashed changes
     std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
     std::vector<std::string> resourceTypes = {"brick", "energy", "glass", "heat", "WIFI"};
     std::cout << colours[builder] << " has " << points << " building points, ";
@@ -114,7 +111,7 @@ void display::status(int builder, int points, int* resources) {
     }
 }
 
-void display::residence(int builder, std::vector <Player*> p) {
+void display::residence(int builder, std::vector <AbstractPlayer*> p) {
     std::vector <std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
     std::cout << colours[builder] << " has built: " << std::endl;
     std::vector <int> basement = p[builder]->getBasement();
@@ -140,7 +137,7 @@ void display::residence(int builder, std::vector <Player*> p) {
     }  
 }
 
-void trade(int builder, std::string colour, std::string give, std::string take) {
+void display::trade(int builder, std::string colour, std::string give, std::string take) {
     std::vector <std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
     std::string Builder = colours[builder];
     std::cout << Builder << " offers " << colour << " one ";
@@ -148,7 +145,7 @@ void trade(int builder, std::string colour, std::string give, std::string take) 
     std::cout << "Does " << colour << " accept this offer?" << std::endl;
 }
 
-void display::save(int builder, std::vector <Player*> p, std::vector <Tile*> tiles) {
+void display::save(int builder, std::vector <AbstractPlayer*> p, std::vector <Tile*> tiles) {
     std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
     std::string curTurn = colours[builder];
     int geese; // Must be a number from 0 - 18.
@@ -203,7 +200,7 @@ void display::save(int builder, std::vector <Player*> p, std::vector <Tile*> til
     std::cout << geese << std::endl;
 }
 
-void display::help() { 
+void display::help() {  // 9
     std::cout << "Valid commands:" << std::endl;
     std::cout << "board" << std::endl;
     std::cout << "status" << std::endl;
