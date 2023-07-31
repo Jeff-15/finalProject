@@ -20,7 +20,7 @@ void GameBoard::processCommand(int target,int eventPara1, int eventPara2) {
         constructRoad(target,eventPara2);
     }
     else if(eventPara1 == CONSTANTS::BASEMENTCOMMAND){
-        build_residence(target,eventPara2);
+        build_residence(target,eventPara2,false);
     }
     else if(eventPara1 == CONSTANTS::IMPROVECOMMAND){
         improve_residence(eventPara2);
