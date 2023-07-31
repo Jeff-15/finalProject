@@ -44,10 +44,18 @@ int main (int argc, char* argv[]) {
     AbstractPlayer* p3 = new Player{3,&gb};
     gb.attachPlayer(p3);
 
+    
+    
     gb.players_choose_start_index();
+    //during_turn_cmd(gb);
+    try{
+        gb.start();
+    }
+    catch(const char* a){    }
 
     gb.start();
     //during_turn_cmd(gb);
+
     return 0;
 }
 
