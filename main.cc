@@ -45,8 +45,9 @@ int main (int argc, char* argv[]) {
     gb.attachPlayer(p3);
 
     gb.players_choose_start_index();
-    
+
     gb.start();
     during_turn_cmd(gb);
     return 0;
 }
+
