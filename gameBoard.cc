@@ -20,7 +20,7 @@ void GameBoard::processCommand(int target,int eventPara1, int eventPara2) {
         constructRoad(target,eventPara2);
     }
     else if(eventPara1 == CONSTANTS::BASEMENTCOMMAND){
-        build_residence(target,eventPara2);
+        build_residence(target,eventPara2, false);
     }
     else if(eventPara1 == CONSTANTS::IMPROVECOMMAND){
         improve_residence(eventPara2);
@@ -203,9 +203,15 @@ void GameBoard::constructRoad(int player_id, int edgeIndex) {
     return;
 }
 
-void GameBoard::build_residence(int player_id, int vertexIndex) {
-    if (vertices[vertexIndex]->own()) {
+void GameBoard::build_residence(int player_id, int vertexIndex, bool start) {
+    if (vertices.at(vertexIndex)->own()) {
         throw "Already build";
+        return;
+    }
+    if (start) {
+        vertices[vertexIndex]->setStatus(true);
+        vertices[vertexIndex]->setOwner(index_to_name(player_id));
+        vertices[vertexIndex]->build(index_to_name(player_id));
         return;
     }
     // check adjacent vertex
@@ -340,12 +346,23 @@ void GameBoard::display_board() {
 void GameBoard::players_choose_start_index() {
     for (int i = 0; i < 4; ++i) {
         d->begin(i);
-        notifyPlayer(i, -1, 1);
+        notifyPlayer(i, -1, -1);
         int in = this->getInput();
-        //this->build_residence(i, in);
+        try {
+            this->build_residence(i, in, true);
+        }
+        catch(std::string a) {
+            throw a;
+        }
+        
         // ask twice
         notifyPlayer(i, -1, 1);
         in = this->getInput();
-        //this->build_residence(i, in);
+        try {
+            this->build_residence(i, in, true);
+        }
+        catch(std::string a) {
+            throw a;
+        }
     }
 }
