@@ -208,18 +208,17 @@ void GameBoard::build_residence(int player_id, int vertexIndex, bool start) {
         throw "Already build";
         return;
     }
-    if (start) {
-        vertices[vertexIndex]->setStatus(true);
-        vertices[vertexIndex]->setOwner(index_to_name(player_id));
-        vertices[vertexIndex]->build(index_to_name(player_id));
-        return;
-    }
-    // check adjacent vertex
     for (auto i : vertices[vertexIndex]->getNeighbourVertex()) {
         if (vertices[i]->own()) {
             throw "adjacent to a existing residence";
             return;
         }
+    }
+    if (start) {
+        vertices[vertexIndex]->setStatus(true);
+        vertices[vertexIndex]->setOwner(index_to_name(player_id));
+        vertices[vertexIndex]->build(index_to_name(player_id));
+        return;
     }
     // now check if exist an adjacent road
     for (auto i : vertices[vertexIndex]->getNeighbourEdge()) {
@@ -351,9 +350,9 @@ void GameBoard::players_choose_start_index() {
         try {
             this->build_residence(i, in, true);
         }
-        catch(std::string a) {
+        catch(const char* a) {
             --i;
-            throw a;
+            d->invalid();
         }
     }
     for (int i = 0; i < 4; ++i) {
@@ -363,9 +362,9 @@ void GameBoard::players_choose_start_index() {
         try {
             this->build_residence(i, in, true);
         }
-        catch(std::string a) {
+        catch(const char* a) {
             --i;
-            throw a;
+            d->invalid();
         }
     }
 }
