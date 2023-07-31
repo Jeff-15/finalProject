@@ -47,7 +47,7 @@ class GameBoard: public Subject{
         //throw "No neighbour";
         // have to garantee player has sufficient money
         
-        void build_residence(int player_id, int vertexIndex);
+        void build_residence(int player_id, int vertexIndex, bool start);
         void improve_residence(int vertexIndex);
         void print_all_player();
         void display_board();
