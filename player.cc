@@ -22,7 +22,8 @@ bool Player::addScore(){
 
 void Player::turn(){
     //Set dice
-    cout<<"Builder "<<index<<"'s turn"<<endl;
+    //cout<<"Builder "<<index<<"'s turn"<<endl;
+    display->next(index);
     diceRoll();
     action();
 }
@@ -93,7 +94,7 @@ int Player::action(){
 void Player::roadConstruct(int position){
     for(int i = 0; i<RESOURCETYPE;i++){
         if(resource[i]<CONSTANTS::ROADCOST[i]){
-            cout<<"Not enough minerals"<<endl;//replace with display commands
+            display->insufficient();
             return;
         }
     }
@@ -111,7 +112,7 @@ void Player::roadConstruct(int position){
 void Player::houseConstruct(int position){
     for(int i = 0; i<RESOURCETYPE;i++){
         if(resource[i]<CONSTANTS::BASEMENTCOST[i]){
-            cout<<"Not enough minerals"<<endl;//replace with display commands
+            display->insufficient();
             return;
         }
     }
@@ -142,30 +143,28 @@ void Player::tradeRequest(int target, int resourceTypeGiven, int resourceTypeDem
     }
 }
 
-void Player::tradeResponse(int target, int resourceTypeGiven, int resourceTypeDemanded, int amountGiven, int amountDemanded){
+void Player::tradeRequest(int target, int resourceTypeGiven, int resourceTypeDemanded, int amountGiven, int amountDemanded){
     if(resource[resourceTypeGiven]<amountGiven){
-        throw("not possible, they don't have enough resources");
+        // cout<<"not possible, not enough resource"<<endl;
+        display->insufficient();
+        return;
     }
-    string approve;
-    cin>>approve;
-    if(approve == "y"){
+    gb->setInput(resourceTypeDemanded*100+amountDemanded);
+    try{
+        gb->processCommand(index,CONSTANTS::TRADECOMMAND*target,resourceTypeGiven*100+amountGiven);
         resource[resourceTypeGiven]-=amountGiven;
         resource[resourceTypeDemanded]+=resourceTypeDemanded;
+    }catch(string s){
+        cout<<s<<endl;
     }
-    else{
-        throw("not approved. Try something else");
-    }
-    
-    
 }
 
-
 void Player::improve(int position){
-    for(int i = 0; i<basement.size(); i++){
+    for(size_t i = 0; i<basement.size(); i++){
         if(basement.at(i) == position){
             for(int k = 0; k<RESOURCETYPE;k++){
                 if(resource[k]<CONSTANTS::HOUSECOST[k]){
-                    cout<<"Not enough minerals"<<endl;//replace with display commands
+                    display->insufficient();
                     return;
                 }
             }
@@ -179,11 +178,11 @@ void Player::improve(int position){
             return;   
         }
     }
-    for(int i = 0; i<house.size(); i++){
+    for(size_t i = 0; i<house.size(); i++){
         if(house.at(i) == position){
             for(int k = 0; k<RESOURCETYPE;k++){
                 if(resource[k]<CONSTANTS::TOWERCOST[k]){
-                    cout<<"Not enough minerals"<<endl;//replace with display commands
+                    display->insufficient();
                     return;
                 }
             }
@@ -197,7 +196,8 @@ void Player::improve(int position){
             return;   
         }
     }
-    cout<<"Cannot improve: No valid building constructed at this position"<<endl;
+    // cout<<"Cannot improve: No valid building constructed at this position"<<endl;
+    display->buildFail();
 }
 
 void Player::robberRandomLoss(){
@@ -293,9 +293,7 @@ void Player::player_print() {
     // order: BRICK, ENERGY, GLASS, HEAT, then WIFI.
     // <colour> has <numPoints> building points, <numBrick> brick, <numEnergy> energy,
     // <numGlass> glass, <numHeat> heat, and <numWiFi> WiFi.
-    int i = 0;
-    std::cout << gb->convert_short_to_full_name(gb->index_to_name(index)) << " has " << numPoints << " building points, " << resource[i++] << " brick, " <<  resource[i++] << " energy," << std::endl;
-    std::cout << resource[i++] << " glass, " << resource[i++] << " heat, and " << resource[i++] << " WiFi." << std::endl;
+    display->status(index, numPoints, resource);
 }
 
 int* Player::getResources() { return resource; }

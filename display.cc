@@ -40,7 +40,7 @@ void display::next(int builder) {
 }
 void display::gain(std::vector <AbstractPlayer*> p, std::vector <int> num, std::string type) {
     std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
-    for (int i = 0; i < p.size(); ++i) {
+    for (size_t i = 0; i < p.size(); ++i) {
         std::cout << "Builder " << colours[p[i]->getIndex()] << " gained:" << std::endl;
         std::cout << num[i] << " " << type << std::endl;
     }
@@ -53,7 +53,7 @@ void display::noGain() { // 7
 void display::geeseSteal(std::vector <AbstractPlayer*> p, 
                          std::vector <std::vector<std::pair<int, std::string>> > resourcesLost) {
     std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
-    for (int i = 0; i < p.size(); ++i) {
+    for (size_t i = 0; i < p.size(); ++i) {
         int totalResourcesLost = 0;
         for (auto resource : resourcesLost[i]) {
             totalResourcesLost += resource.first;
@@ -96,12 +96,11 @@ void display::noSteal(int builder) {
     std::cout << "Builder " << colours[builder] << " has no builders to steal from." << std::endl;
 }
 
-void display::status(int builder, std::vector <AbstractPlayer*> p) {
+
+void display::status(int builder, int points, int* resources) {
     std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
     std::vector<std::string> resourceTypes = {"brick", "energy", "glass", "heat", "WIFI"};
-    int points = p[builder]->getNumPoints();
     std::cout << colours[builder] << " has " << points << " building points, ";
-    int* resources = p[builder]->getResources();
     for (size_t i = 0; i < resourceTypes.size(); ++i) {
         std::cout << resources[i] << " " << resourceTypes[i];
         if (i != resourceTypes.size() - 1) {

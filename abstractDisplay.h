@@ -22,7 +22,7 @@ class AbstractDisplay {
         virtual void chooseSteal(int builder, std::vector <std::string> builders) = 0;
         virtual void steal(int builder, int stolen, std::string resource) = 0;
         virtual void noSteal(int builder) = 0;
-        virtual void status(int builder, std::vector <AbstractPlayer*> p) = 0;
+        virtual void status(int builder, int numPoints, int* resources) = 0;
         virtual void residence(int builder, std::vector <AbstractPlayer*> p) = 0;
         virtual void trade(int builder, std::string colour, std::string give, std::string take) = 0; 
         virtual void save(int builder, std::vector <AbstractPlayer*> p, std::vector <Tile*> tiles) = 0;
