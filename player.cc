@@ -291,7 +291,7 @@ void Player::player_print() {
     // <colour> has <numPoints> building points, <numBrick> brick, <numEnergy> energy,
     // <numGlass> glass, <numHeat> heat, and <numWiFi> WiFi.
     int i = 0;
-    std::cout << player_name << " has " << numPoints << " building points, " << resource[i++] << " brick, " <<  resource[i++] << " energy," << std::endl;
+    std::cout << gb->convert_short_to_full_name(gb->index_to_name(index)) << " has " << numPoints << " building points, " << resource[i++] << " brick, " <<  resource[i++] << " energy," << std::endl;
     std::cout << resource[i++] << " glass, " << resource[i++] << " heat, and " << resource[i++] << " WiFi." << std::endl;
 }
 

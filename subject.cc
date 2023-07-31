@@ -19,15 +19,6 @@ void Subject::attachPlayer(AbstractPlayer* player){
     p.emplace_back(player);
 }
 
-void Subject::notifyDisplay(int regular_cmd) {
-    const int r = regular_cmd;
-    if (r > 0) {
-        if (r == 1) {
-
-        } else if (r == 2) {
-            
-        }
-    } else {
-
-    }
+void Subject::notifyDisplay(std::string regular_cmd) {
+    return;
 }

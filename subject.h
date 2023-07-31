@@ -13,7 +13,7 @@ class Subject {
         void notifyPlayer(int target, int eventPara1, int eventPara2);
         void setInput(int in);
         int getInput();
-        void notifyDisplay(int cmd);
+        void notifyDisplay(std::string cmd);
         void attachPlayer(AbstractPlayer *player);
         void start();
         //void attachDisplay(Display*) = 0;

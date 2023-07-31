@@ -326,3 +326,17 @@ GameBoard::GameBoard(std::vector <Tile*> t, std::vector <Vertex*> v, std::vector
             tiles{t}, vertices{v},edges{e} { }
 
 
+
+void GameBoard::print_all_player() {
+    for (auto i : p) {
+        i->player_print();
+    }
+}
+
+void GameBoard::display_board() {
+    d->board(tiles, vertices, edges);
+}
+
+void GameBoard::players_choose_start_index() {
+    
+}
