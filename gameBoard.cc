@@ -352,16 +352,19 @@ void GameBoard::players_choose_start_index() {
             this->build_residence(i, in, true);
         }
         catch(std::string a) {
+            --i;
             throw a;
         }
-        
-        // ask twice
-        notifyPlayer(i, -1, 1);
-        in = this->getInput();
+    }
+    for (int i = 0; i < 4; ++i) {
+        d->begin(i);
+        notifyPlayer(i, -1, -1);
+        int in = this->getInput();
         try {
             this->build_residence(i, in, true);
         }
         catch(std::string a) {
+            --i;
             throw a;
         }
     }
