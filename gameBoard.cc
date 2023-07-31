@@ -113,28 +113,26 @@ void GameBoard::processGeese(int tileIndex, int index, std::string activePlayer)
         }
     }
     if (builders.empty()) {
-        std::cout << "Builder " << convert_short_to_full_name(activePlayer) << " has no builders to steal from." << std::endl;
+        d->noSteal(index);
         return;
     }
-    std::cout << "Builder " << index << " can choose to steal from:";
-    for (auto i : builders) {
-        std::cout << " " << i;
-    }
-    std::cout << "." << std::endl;
+    // std::cout << "Builder " << index << " can choose to steal from:";
+    // for (auto i : builders) {
+    //     std::cout << " " << i;
+    // }
+    // std::cout << "." << std::endl;
     
 ////////////// keep asking
     bool found = false;
-    int steel_index;
+    int steal_index;
     while(!found) {
-        std:: cout << "Choose a builder to steal from." << std::endl;
-        std::cout<<">";
+        d->chooseSteal(index, builders);
         notifyPlayer(index,-1,-1);   // get input
-        
         //check if target is available
         for (auto i : dest->getNeighbourVertex()) {
             if (name_to_index(vertices[i]->getOwner()) == input) {
                 found = true;
-                steel_index = i;
+                steal_index = i;
                 break;
             }
         }
@@ -145,23 +143,13 @@ void GameBoard::processGeese(int tileIndex, int index, std::string activePlayer)
     int active_player_index = name_to_index(activePlayer);
     notifyPlayer(active_player_index, input + 100, 1);    // give 1 some resource to player
     std::string r_name;         // resource name
-    if (input == 0) {
-        r_name = "BRICK";
-    } else if (input == 1) {
-        r_name = "ENERGY";
-    } else if (input == 2) {
-        r_name = "GLASS";
-    } else if (input == 3) {
-        r_name = "HEAT";
-    } else if (input == 4) {
-        r_name = "WIFI";
-    } else {
-        // DO SOMETHING HERE!!
-    }
+    r_name = index_to_name(input);
+    r_name = convert_short_to_full_name(r_name);
     std::string curr_player_name = convert_short_to_full_name(activePlayer);
-    std::cout << "Builder " << curr_player_name << " steals " << r_name << " from builder ";
-    vertices[steel_index]->printOwner();
-    std::cout << "." << std::endl;
+    // std::cout << "Builder " << curr_player_name << " steals " << r_name << " from builder ";
+    // vertices[steal_index]->printOwner();
+    // std::cout << "." << std::endl;
+    d->steal(active_player_index, steal_index, r_name);
 }
 
 void GameBoard::processTrade(int index, int target, int given){
@@ -317,6 +305,7 @@ void GameBoard::initialize() {
 }
 
 GameBoard::GameBoard(){
+    d = new display();
     // tiles
     for (int i = 0; i < 19; ++i) {
         Tile *t1 = new Tile {};
@@ -337,3 +326,26 @@ GameBoard::GameBoard(std::vector <Tile*> t, std::vector <Vertex*> v, std::vector
             tiles{t}, vertices{v},edges{e} { }
 
 
+
+void GameBoard::print_all_player() {
+    for (auto i : p) {
+        i->player_print();
+    }
+}
+
+void GameBoard::display_board() {
+    d->board(tiles, vertices, edges);
+}
+
+void GameBoard::players_choose_start_index() {
+    for (int i = 0; i < 4; ++i) {
+        d->begin(i);
+        notifyPlayer(i, -1, 1);
+        int in = this->getInput();
+        //this->build_residence(i, in);
+        // ask twice
+        notifyPlayer(i, -1, 1);
+        in = this->getInput();
+        //this->build_residence(i, in);
+    }
+}

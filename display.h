@@ -47,7 +47,7 @@ class display: public AbstractDisplay {
     void placeGeese();
     // Choose where to place the GEESE. \n
 
-    void chooseSteal(int builder, std::vector <AbstractPlayer*> p);
+    void chooseSteal(int builder, std::vector <std::string> builders);
     // Builder <colour1> can choose to steal from [builders]. \n
     // Choose a builder to steal from.
 
