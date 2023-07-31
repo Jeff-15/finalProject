@@ -338,5 +338,14 @@ void GameBoard::display_board() {
 }
 
 void GameBoard::players_choose_start_index() {
-    
+    for (int i = 0; i < 4; ++i) {
+        d->begin(i);
+        notifyPlayer(i, -1, 1);
+        int in = this->getInput();
+        //this->build_residence(i, in);
+        // ask twice
+        notifyPlayer(i, -1, 1);
+        in = this->getInput();
+        //this->build_residence(i, in);
+    }
 }
