@@ -130,21 +130,6 @@ void Player::houseConstruct(int position){
 
 void Player::tradeRequest(int target, int resourceTypeGiven, int resourceTypeDemanded, int amountGiven, int amountDemanded){
     if(resource[resourceTypeGiven]<amountGiven){
-        cout<<"not possible, not enough resource"<<endl;
-        return;
-    }
-    gb->setInput(resourceTypeDemanded*100+amountDemanded);
-    try{
-        gb->processCommand(index,CONSTANTS::TRADECOMMAND*target,resourceTypeGiven*100+amountGiven);
-        resource[resourceTypeGiven]-=amountGiven;
-        resource[resourceTypeDemanded]+=resourceTypeDemanded;
-    }catch(const char*s){
-        cout<<s<<endl;
-    }
-}
-
-void Player::tradeRequest(int target, int resourceTypeGiven, int resourceTypeDemanded, int amountGiven, int amountDemanded){
-    if(resource[resourceTypeGiven]<amountGiven){
         // cout<<"not possible, not enough resource"<<endl;
         display->insufficient();
         return;
@@ -157,6 +142,10 @@ void Player::tradeRequest(int target, int resourceTypeGiven, int resourceTypeDem
     }catch(string s){
         cout<<s<<endl;
     }
+}
+
+void Player::tradeResponse(int target, int resourceTypeGiven, int resourceTypeDemanded, int amountGiven, int amountDemanded) {
+    return;
 }
 
 void Player::improve(int position){
