@@ -4,11 +4,15 @@
 #include "board.h"
 #include "abstractPlayer.h"
 #include "abstractDisplay.h"
+#include <fstream>
 
 class Display: public AbstractDisplay {
 
-
   public:
+
+    void input();
+    // > \n
+
     void invalid();
     // Invalid command. \n
 
@@ -21,7 +25,8 @@ class Display: public AbstractDisplay {
     void begin(int builder);
     // Builder <colour>, where do you want to build a basement? \n
 
-    void end();
+    void end(int builder);
+    // Builder <colour> is the winner. \n
     // Would you like play again? \n
 
     void loadedDice(); 
@@ -30,7 +35,7 @@ class Display: public AbstractDisplay {
     void invalidRoll();
     // Invalid roll. \n
 
-    void next(int builder);
+    void turn(int builder);
     // Builder <colour>’s turn. \n
 
     void gain(std::vector <AbstractPlayer*> p, std::vector <int> num, std::string type);
@@ -61,7 +66,7 @@ class Display: public AbstractDisplay {
     // <colour> has <numPoints> building points, <numBrick> brick, <numEnergy> energy,
     // <numGlass> glass, <numHeat> heat, and <numWiFi> WiFi. \n
 
-    void residence(int builder, std::vector <AbstractPlayer*> p);
+    void residence(int builder, std::vector <int> basement, std::vector <int> house, std::vector <int> tower);
     // <colour> has built: \n
     // <vertex> <buildingType> \n
 
@@ -69,7 +74,7 @@ class Display: public AbstractDisplay {
     // <colour1> offers <colour2> one <resource1> for one <resource2>. \n
     // Does <colour2> accept this offer? \n
 
-    void save(int builder, std::vector <AbstractPlayer*> p, std::vector <Tile*> tiles);
+    void save(int builder, std::vector <AbstractPlayer*> p, std::vector <Tile*> tiles, std::ofstream& oss); 
     // <curTurn> \n
     // <builder0Data> \n
     // <builder1Data> \n

@@ -23,7 +23,11 @@ bool Player::addScore(){
 
 void Player::turn(){
     //Set dice
-    display->next(index);
+
+
+    //cout<<"Builder "<<index<<"'s turn"<<endl;
+    gb->d->turn(index);
+
     diceRoll();
     action();
 }
@@ -31,8 +35,9 @@ void Player::turn(){
 void Player::diceRoll(){
     while(true){
         string command = "";
-        cout<<">";
+        gb->d->input();
         cin>>command;
+        if(cin.eof()) gb->end_of_input(index);
         if(command == "load"){
             gb->processCommand(index,0,0);
         }
@@ -51,13 +56,15 @@ int Player::action(){
         string command;
         cin>>command;//Display can handle info output commands on its own or by directly consult player
         //this function will not cover those commands
+        if(cin.eof()) gb->end_of_input(index);
         if(score == 10){
-            cout<<"builder "<<index<<" has won!"<<endl;
+            gb->d->end(index);
             throw(index);
         }
         if(command == "road"){
             int position;
             cin>>position;
+            if(cin.eof()) gb->end_of_input(index);
             roadConstruct(position);
         }
         else if(command == "trade"){
@@ -65,19 +72,28 @@ int Player::action(){
             int resourceTypeGiven;
             int resourceTypeDemanded;
             cin>>target>>resourceTypeGiven>>resourceTypeDemanded;
+            if(cin.eof()) gb->end_of_input(index);
             target++;
             resourceTypeDemanded++;
             resourceTypeGiven++;
             tradeRequest(target,resourceTypeGiven,resourceTypeDemanded);
         }
-        else if(command == "build"){
+        else if(command == "build-res"){
             int target;
             cin>>target;
+            if(cin.eof()) gb->end_of_input(index);
             houseConstruct(target);
+        }
+        else if (command == "build-road") {
+            int target;
+            cin>>target;
+            if(cin.eof()) gb->end_of_input(index);
+            roadConstruct(target);
         }
         else if(command == "improve"){
             int target;
             cin>>target;
+            if(cin.eof()) gb->end_of_input(index);
             improve(target);
         }
         else if(command == "next"){
@@ -93,19 +109,23 @@ int Player::action(){
             gb->print_all_player();
         }
         else if(command == "residences") {
-            
+            gb->d->residence(index, basement, house, tower);
         }
         else if (command == "help") {
-            gb->notifyDisplay("help");
+            gb->d->help();
         }
         else if (command == "save") {
-
+            std::string file_name;
+            cin >> file_name;
+            std::ofstream  oss {file_name};
+            gb->save_game(oss, index);
+            throw -1;
         }
         else if (command == "next") {
             break;
         }
         else {
-            break;
+            continue;
         }
     }
     return 0;
@@ -115,7 +135,7 @@ int Player::action(){
 void Player::roadConstruct(int position){
     for(int i = 0; i<RESOURCETYPE;i++){
         if(resource[i]<CONSTANTS::ROADCOST[i]){
-            display->insufficient();
+            gb->d->insufficient();
             return;
         }
     }
@@ -133,7 +153,7 @@ void Player::roadConstruct(int position){
 void Player::houseConstruct(int position){
     for(int i = 0; i<RESOURCETYPE;i++){
         if(resource[i]<CONSTANTS::BASEMENTCOST[i]){
-            display->insufficient();
+            gb->d->insufficient();
             return;
         }
     }
@@ -151,8 +171,9 @@ void Player::houseConstruct(int position){
 
 void Player::tradeRequest(int target, int resourceTypeGiven, int resourceTypeDemanded, int amountGiven, int amountDemanded){
     if(resource[resourceTypeGiven]<amountGiven){
+
         // cout<<"not possible, not enough resource"<<endl;
-        display->insufficient();
+        gb->d->insufficient();
         return;
     }
     gb->setInput(resourceTypeDemanded*100+amountDemanded);
@@ -160,7 +181,7 @@ void Player::tradeRequest(int target, int resourceTypeGiven, int resourceTypeDem
         gb->processCommand(index,CONSTANTS::TRADECOMMAND*target,resourceTypeGiven*100+amountGiven);
         resource[resourceTypeGiven]-=amountGiven;
         resource[resourceTypeDemanded]+=resourceTypeDemanded;
-    }catch(string s){
+    }catch(const char*s){
         cout<<s<<endl;
     }
 }
@@ -174,7 +195,7 @@ void Player::improve(int position){
         if(basement.at(i) == position){
             for(int k = 0; k<RESOURCETYPE;k++){
                 if(resource[k]<CONSTANTS::HOUSECOST[k]){
-                    display->insufficient();
+                    gb->d->insufficient();
                     return;
                 }
             }
@@ -192,7 +213,7 @@ void Player::improve(int position){
         if(house.at(i) == position){
             for(int k = 0; k<RESOURCETYPE;k++){
                 if(resource[k]<CONSTANTS::TOWERCOST[k]){
-                    display->insufficient();
+                    gb->d->insufficient();
                     return;
                 }
             }
@@ -206,8 +227,7 @@ void Player::improve(int position){
             return;   
         }
     }
-    // cout<<"Cannot improve: No valid building constructed at this position"<<endl;
-    display->buildFail();
+    gb->d->buildFail();
 }
 
 void Player::robberRandomLoss(){
@@ -253,9 +273,10 @@ int Player::notify(int target, int eventPara1, int eventPara2){
     if(target == index || target == -1){
         if(eventPara1 == -1){
             if(eventPara2 == -1){
-                cout<<">";
+                gb->d->input();
                 int input;
                 cin>>input;
+                if(cin.eof()) gb->end_of_input(index);
                 gb->setInput(input);
             }
             else{
@@ -298,7 +319,7 @@ int Player::notify(int target, int eventPara1, int eventPara2){
 
 Player::Player(int index,GameBoard *gb): gb {gb}, display{new Display()}, index {index}{
     for (int i = 0; i < RESOURCETYPE; ++i) {
-        resource[i] = 10000;
+        resource[i] = 0;
     }
     score = 0;
 }
@@ -307,7 +328,10 @@ void Player::player_print() {
     // order: BRICK, ENERGY, GLASS, HEAT, then WIFI.
     // <colour> has <numPoints> building points, <numBrick> brick, <numEnergy> energy,
     // <numGlass> glass, <numHeat> heat, and <numWiFi> WiFi.
-    display->status(index, numPoints, resource);
+    gb->d->status(index, numPoints, resource);
+//     int i = 0;
+//     std::cout << gb->convert_short_to_full_name(gb->index_to_name(index)) << " has " << numPoints << " building points, " << resource[i++] << " brick, " <<  resource[i++] << " energy," << std::endl;
+//     std::cout << resource[i++] << " glass, " << resource[i++] << " heat, and " << resource[i++] << " WiFi." << std::endl;
 }
 
 Player::~Player(){}

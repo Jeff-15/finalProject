@@ -340,6 +340,8 @@ void Vertex::setStatus (bool occupy) { this->occupy = occupy; }
 
 void Vertex::setOwner(std::string owner) { this->owner = owner; }
 
+void Vertex::setLevel(std::string level) { this->level = level; }
+
 void Vertex::setVertex(int num) {
     if (num == 0) {
         neighbourVertex.push_back(1);
@@ -745,15 +747,10 @@ void Vertex::setEdge(int num) {
 }
 
 void Vertex::build (std::string builder) {
-    if (builder != "B" || "R" || "O" || "Y"){
-        return;
-    } 
-    else {
-        occupy = true;
-        owner = builder;
-        level = "B";
-        return;
-    }
+    occupy = true;
+    owner = builder;
+    level = "B";
+    return;
 }
 
 void Vertex::improve () {

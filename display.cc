@@ -4,15 +4,23 @@
 #include <string>
 #include "display.h"
 
-void Display::invalid() {  // 1
+
+
+
+void Display::input() {
+    std::cout << ">";
+}
+
+void Display::invalid() {
     std::cout << "Invalid command." << std::endl;
 }
 
-void Display::buildFail() { // 2
+void Display::buildFail() {
     std::cout << "You cannot build here." << std::endl;
 }
 
-void Display::insufficient() { // 3
+void Display::insufficient() {
+
     std::cout << "You do not have enough resources." << std::endl;
 }
 
@@ -21,22 +29,25 @@ void Display::begin(int builder) {
     std::cout << "Builder " << colours[builder] << ", where do you want to build a basement?" << std::endl;
 }
 
-void Display::end() { // 4
+
+void Display::end(int builder) {
+    std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
+    std::cout << "Builder " << colours[builder] << " is the winner." << std::endl;
     std::cout << "Would you like play again?" << std::endl;
 }
 
-void Display::loadedDice() { // 5
+void Display::loadedDice() {
     std::cout << "Input a roll between 2 and 12:" << std::endl;
 }
 
-void Display::invalidRoll() { // 6
+void Display::invalidRoll() {
     std::cout << "Invalid roll." << std::endl;
 }
 
-void Display::next(int builder) {
+void Display::turn(int builder) {
+
     std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
-    int next = (builder + 1) % 4;
-    std::cout << "Builder " << colours[next] << "'s turn." << std::endl;
+    std::cout << "Builder " << colours[builder] << "'s turn." << std::endl;
 }
 void Display::gain(std::vector <AbstractPlayer*> p, std::vector <int> num, std::string type) {
     std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
@@ -46,7 +57,9 @@ void Display::gain(std::vector <AbstractPlayer*> p, std::vector <int> num, std::
     }
 }
 
+
 void Display::noGain() { // 7
+
     std::cout << "No builders gained resources." << std::endl;
 }
 
@@ -67,6 +80,7 @@ void Display::geeseSteal(std::vector <AbstractPlayer*> p,
 }
 
 void Display::placeGeese() { // 8
+
     std::cout << "Choose where to place the GEESE." << std::endl;
 }
 
@@ -81,8 +95,8 @@ void Display::chooseSteal (int builder, std::vector<std::string> builders) {
             std::cout << '.' << std::endl;
         }
     }
+    std::cout << "0: Blue, 1: Red, 2: Orange, 3: Yellow" << std::endl;
     std::cout << "Choose a builder to steal from." << std::endl;
-    std::cout << ">";
 }
 
 void Display::steal(int builder, int stolen, std::string resource) {
@@ -111,12 +125,11 @@ void Display::status(int builder, int points, int* resources) {
     }
 }
 
-void Display::residence(int builder, std::vector <AbstractPlayer*> p) {
+
+void display::Residence(int builder, std::vector <int> basement, std::vector <int> house, std::vector <int> tower) {
+
     std::vector <std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
     std::cout << colours[builder] << " has built: " << std::endl;
-    std::vector <int> basement = p[builder]->getBasement();
-    std::vector <int> house = p[builder]->getHouse();
-    std::vector <int> tower = p[builder]->getTower();
     if (!basement.empty()) {
         for (auto Basement : basement) {
             std::cout << Basement << ' ';
@@ -145,27 +158,29 @@ void Display::trade(int builder, std::string colour, std::string give, std::stri
     std::cout << "Does " << colour << " accept this offer?" << std::endl;
 }
 
-void Display::save(int builder, std::vector <AbstractPlayer*> p, std::vector <Tile*> tiles) {
+
+void Display::save(int builder, std::vector <AbstractPlayer*> p, std::vector <Tile*> tiles, std::ofstream& oss) {
+
     std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
     std::string curTurn = colours[builder];
     int geese; // Must be a number from 0 - 18.
 
     // prints line 1: <curTurn>
-    std::cout << curTurn << std::endl;
+    oss << curTurn << std::endl;
 
     // prints line 2 - 5: <builder0Data> <builder1Data> <builder2Data> <builder3Data>
     for (int i = 0; i < 4; ++i) {
         int* resources = p.at(i)->getResources();
         for (int j = 0; j < 5; ++j) {
-            std::cout << resources[j] << ' ';
+            oss << resources[j] << ' ';
         }
 
         std::cout << 'r' << ' ';
         for (auto road : p.at(i)->getRoad()) {
-            std::cout << road << ' ';
+            oss << road << ' ';
         }
 
-        std::cout << 'h' << ' ';
+        oss << 'h' << ' ';
 
         std::vector<std::pair<int, char>> residences;
 
@@ -182,10 +197,10 @@ void Display::save(int builder, std::vector <AbstractPlayer*> p, std::vector <Ti
         std::sort(residences.begin(), residences.end()); // Sort residences in ascending order
 
         for (auto residence : residences) {
-            std::cout << residence.first << ' ' << residence.second << ' ';
+            oss << residence.first << ' ' << residence.second << ' ';
         }
 
-        std::cout << std::endl;
+        oss << std::endl;
     }
 
     // prints line 6: <board>

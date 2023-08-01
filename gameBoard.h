@@ -5,6 +5,7 @@
 #include <iostream>
 #include <random>
 #include <chrono>
+#include <fstream>
 #include <string>
 #include "dice.h"
 #include "subject.h"
@@ -54,9 +55,14 @@ class GameBoard: public Subject{
         ////////////////////////////////////////////////
         std::string index_to_name(int player_index); // convert index to name ex) 0 -> R
         std::string convert_short_to_full_name(std::string sh);        // ex) R -> Red
-        void players_choose_start_index();     // 4 player each choose 2 residence
+
 
         ~GameBoard(); 
+
+        void players_choose_start_index();     // 4 player each choose 2 residence 
+        void save_game(std::ofstream& oss, int index);
+        void end_of_input(int index);
+
 };
 
 #endif

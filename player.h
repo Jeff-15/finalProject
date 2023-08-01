@@ -3,8 +3,10 @@
 #include "gameBoard.h"
 #include <string>
 #include <vector>
+#include <iostream>
 #include "abstractPlayer.h"
 #include "abstractDisplay.h"
+#include <fstream>
 
 class Player:public AbstractPlayer{
     GameBoard* gb;

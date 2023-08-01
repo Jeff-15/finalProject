@@ -3,11 +3,11 @@
 void GameBoard::processCommand(int target,int eventPara1, int eventPara2) {
     if(eventPara1 == 0){
         if(eventPara2 == 0){
-            delete(dice);
+            //if (dice) delete dice;
             dice = new LoadedDice{this,target};
         }
         else if(eventPara2 == 1){
-            delete(dice);
+            //if (dice) delete dice;
             dice = new RandomDice{target};
         }
         else if(eventPara2 == 2){
@@ -140,17 +140,14 @@ void GameBoard::processGeese(int tileIndex, int index, std::string activePlayer)
     }
 ////////////// end of asking
 
-    notifyPlayer(input,1,2);    // set steel which 1 resource
     int active_player_index = name_to_index(activePlayer);
-    notifyPlayer(active_player_index, input + 100, 1);    // give 1 some resource to player
     std::string r_name;         // resource name
     r_name = index_to_name(input);
     r_name = convert_short_to_full_name(r_name);
-    std::string curr_player_name = convert_short_to_full_name(activePlayer);
     // std::cout << "Builder " << curr_player_name << " steals " << r_name << " from builder ";
     // vertices[steal_index]->printOwner();
     // std::cout << "." << std::endl;
-    d->steal(active_player_index, steal_index, r_name);
+    d->steal(index, steal_index, r_name);
 }
 
 void GameBoard::processTrade(int index, int target, int given){
@@ -161,8 +158,8 @@ void GameBoard::processTrade(int index, int target, int given){
 
 void GameBoard::processDice(int index){
     if(diceRoll == 7){
+        std::cout << "hello" << std::endl;
         notifyPlayer(-1,1,0);
-        notifyPlayer(index,-1,-1);
         processGeese(input,index,index_to_name(index));
         notifyPlayer(index,100+input,1);
     }
@@ -205,6 +202,10 @@ void GameBoard::constructRoad(int player_id, int edgeIndex) {
 }
 
 void GameBoard::build_residence(int player_id, int vertexIndex, bool start) {
+    if (vertexIndex > 53 || vertexIndex < 0) {
+        throw "Invalid command";
+        return;
+    }
     if (vertices.at(vertexIndex)->own()) {
         throw "Already build";
         return;
@@ -229,7 +230,7 @@ void GameBoard::build_residence(int player_id, int vertexIndex, bool start) {
         if (edges[i]->own() && player_id == name_to_index(edges[i]->getOwner())) {
             vertices[vertexIndex]->setStatus(true);
             vertices[vertexIndex]->setOwner(index_to_name(player_id));
-            vertices[vertexIndex]->build(index_to_name(player_id));
+            //vertices[vertexIndex]->build(index_to_name(player_id));
             return;
         }
     }
@@ -312,8 +313,10 @@ void GameBoard::initialize() {
     display_board();
 }
 
+
 GameBoard::GameBoard():dice{new RandomDice(0)}{
     d = new Display();
+
     // tiles
     for (int i = 0; i < 19; ++i) {
         Tile *t1 = new Tile {};
@@ -359,7 +362,7 @@ void GameBoard::players_choose_start_index() {
         }
         catch(const char* a) {
             --i;
-            d->invalid();
+            d->buildFail();
         }
     }
     for (int i = 0; i < 4; ++i) {
@@ -375,10 +378,11 @@ void GameBoard::players_choose_start_index() {
         }
         catch(const char* a) {
             --i;
-            d->invalid();
+            d->buildFail();
         }
     }
 }
+
 
 
 GameBoard::~GameBoard(){
@@ -395,3 +399,15 @@ GameBoard::~GameBoard(){
         std::vector <Vertex*> vertices;
         std::vector <Edge*> edges;
 }
+
+void GameBoard::save_game(std::ofstream& oss, int index) {
+    this->d->save(index, p, tiles, oss);
+    return;
+}
+
+void GameBoard::end_of_input(int index) {
+    std::ofstream oss {"backup.sv"};
+    this->save_game(oss, index);
+    throw -1;
+}
+
