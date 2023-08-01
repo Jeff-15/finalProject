@@ -308,10 +308,11 @@ void GameBoard::initialize() {
         edges.at(i)->setVertex(i);
         edges.at(i)->setEdge(i);
     }
+    display_board();
 }
 
 GameBoard::GameBoard():dice{new RandomDice(0)}{
-    d = new display();
+    d = new Display();
     // tiles
     for (int i = 0; i < 19; ++i) {
         Tile *t1 = new Tile {};
@@ -376,4 +377,20 @@ void GameBoard::players_choose_start_index() {
             d->invalid();
         }
     }
+}
+
+
+GameBoard::~GameBoard(){
+    for(int i = 0; i<tiles.size(); i++){
+        delete(tiles.at(i));
+    }
+    for(int i = 0; i<vertices.size(); i++){
+        delete(vertices.at(i));
+    }
+    for(int i = 0; i<edges.size(); i++){
+        delete(edges.at(i));
+    }
+    std::vector <Tile*> tiles;
+        std::vector <Vertex*> vertices;
+        std::vector <Edge*> edges;
 }

@@ -1,4 +1,5 @@
 #include "player.h"
+#include "display.h"
 using namespace std;
 //replace all iostream with functions in display and notify display
 
@@ -22,7 +23,6 @@ bool Player::addScore(){
 
 void Player::turn(){
     //Set dice
-    //cout<<"Builder "<<index<<"'s turn"<<endl;
     display->next(index);
     diceRoll();
     action();
@@ -281,6 +281,7 @@ int Player::notify(int target, int eventPara1, int eventPara2){
         }
         else if(eventPara1 == 6){
             basement.push_back(eventPara2);
+            score++;
         }
         else if(eventPara1 <= CONSTANTS::TRADECOMMAND){
             int proposer = (eventPara1/CONSTANTS::TRADECOMMAND)-1;
@@ -288,14 +289,14 @@ int Player::notify(int target, int eventPara1, int eventPara2){
             resourceOffered = (eventPara2/1000000)/100;
             amountOffered = (eventPara2/1000000)%100;
             resourceDemanded = (eventPara2%1000000)/100;
-            amountDemanded = (eventPara2%1000000)%100;\
+            amountDemanded = (eventPara2%1000000)%100;
             tradeResponse(proposer,resourceDemanded,resourceOffered,amountDemanded,amountOffered);
         }
     }
     return 0;
 }
 
-Player::Player(int index,GameBoard *gb): gb {gb}, index {index} {
+Player::Player(int index,GameBoard *gb): gb {gb}, display{new Display()}, index {index}{
     for (int i = 0; i < RESOURCETYPE; ++i) {
         resource[i] = 10000;
     }
@@ -308,6 +309,8 @@ void Player::player_print() {
     // <numGlass> glass, <numHeat> heat, and <numWiFi> WiFi.
     display->status(index, numPoints, resource);
 }
+
+Player::~Player(){}
 
 int* Player::getResources() { return resource; }
 
