@@ -21,8 +21,9 @@ int main (int argc, char* argv[]) {
     gb.attachPlayer(p2);
     AbstractPlayer* p3 = new Player{3,&gb};
     gb.attachPlayer(p3);
-    
+    gb.display_board();
     gb.players_choose_start_index();
+    gb.display_board();
     gb.start();
     //during_turn_cmd(gb);
 

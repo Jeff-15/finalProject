@@ -94,7 +94,7 @@ int Player::action(){
             gb->print_all_player();
         }
         else if(command == "residences") {
-
+            
         }
         else if (command == "help") {
             gb->d->help();
