@@ -7,14 +7,15 @@
 
 class AbstractDisplay {
     public:
+        virtual void input() = 0;
         virtual void invalid() = 0;
         virtual void buildFail() = 0;
         virtual void insufficient() = 0;
         virtual void begin(int builder) = 0;
-        virtual void end() = 0;
+        virtual void end(int builder) = 0;
         virtual void loadedDice() = 0; 
         virtual void invalidRoll() = 0;
-        virtual void next(int builder) = 0;
+        virtual void turn(int builder) = 0;
         virtual void gain(std::vector <AbstractPlayer*> p, std::vector <int> num, std::string type) = 0;
         virtual void noGain() = 0;
         virtual void geeseSteal(std::vector <AbstractPlayer*> p, std::vector <std::vector <std::pair <int, std::string>> > resourcesLost) = 0;
