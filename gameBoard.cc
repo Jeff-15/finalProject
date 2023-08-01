@@ -14,6 +14,7 @@ void GameBoard::processCommand(int target,int eventPara1, int eventPara2) {
             diceRoll = dice->generate();
             processDice(target);
             delete(dice);
+            dice = nullptr;
         }
     }
     else if(eventPara1 == CONSTANTS::ROADCOMMAND){
@@ -308,11 +309,13 @@ void GameBoard::initialize() {
         edges.at(i)->setVertex(i);
         edges.at(i)->setEdge(i);
     }
+    display_board();
 }
 
-GameBoard::GameBoard() {
-    dice = new RandomDice{0};
-    d = new display{};
+
+GameBoard::GameBoard():dice{new RandomDice(0)}{
+    d = new Display();
+
     // tiles
     for (int i = 0; i < 19; ++i) {
         Tile *t1 = new Tile {};
@@ -379,6 +382,23 @@ void GameBoard::players_choose_start_index() {
     }
 }
 
+
+
+GameBoard::~GameBoard(){
+    for(int i = 0; i<tiles.size(); i++){
+        delete(tiles.at(i));
+    }
+    for(int i = 0; i<vertices.size(); i++){
+        delete(vertices.at(i));
+    }
+    for(int i = 0; i<edges.size(); i++){
+        delete(edges.at(i));
+    }
+    std::vector <Tile*> tiles;
+        std::vector <Vertex*> vertices;
+        std::vector <Edge*> edges;
+}
+
 void GameBoard::save_game(std::ofstream& oss, int index) {
     this->d->save(index, p, tiles, oss);
     return;
@@ -389,3 +409,4 @@ void GameBoard::end_of_input(int index) {
     this->save_game(oss, index);
     throw -1;
 }
+

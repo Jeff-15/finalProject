@@ -17,6 +17,7 @@ class Subject {
         void attachPlayer(AbstractPlayer *player);
         void start();
         //void attachDisplay(Display*) = 0;
+        ~Subject();
 };
 
 #endif

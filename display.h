@@ -6,7 +6,7 @@
 #include "abstractDisplay.h"
 #include <fstream>
 
-class display: public AbstractDisplay {
+class Display: public AbstractDisplay {
 
   public:
 
@@ -98,6 +98,8 @@ class display: public AbstractDisplay {
     
     void board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, std::vector <Edge*> edges); 
     // prints the board.
+
+    ~Display();
 };
 
 #endif

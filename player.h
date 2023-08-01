@@ -16,8 +16,6 @@ class Player:public AbstractPlayer{
     int numPoints;
     const int RESOURCETYPE = 5;
     int resource[5];//Order: BRICK, ENERGY,GLASS, HEAT, WIFI.
-    int dice_type; // 0 for loaded dice, 1 for random dice
-    Dice *d;
     std::vector <int> roads;
     std::vector <int> basement;
     std::vector <int> house;
@@ -32,7 +30,7 @@ class Player:public AbstractPlayer{
     void improve(int position);
     void tradeRequest(int target, int resourceTypeGiven, int resourceTypeDemanded, int amountGiven=1, int amountDemanded=1);
     void tradeResponse(int target, int resourceTypeGiven, int resourceTypeDemanded, int amountGiven=1, int amountDemanded=1);
-    int score;
+    int score = 8;
     bool addScore();
     public: 
         int notify (int target, int eventPara1, int eventPara2);//see eventNumber.txt for representations
@@ -45,5 +43,6 @@ class Player:public AbstractPlayer{
         std::vector <int> getBasement();
         std::vector <int> getHouse();
         std::vector <int> getTower();
+        ~Player();
 };
 #endif
