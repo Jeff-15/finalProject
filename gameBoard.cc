@@ -228,7 +228,7 @@ void GameBoard::build_residence(int player_id, int vertexIndex, bool start) {
         if (edges[i]->own() && player_id == name_to_index(edges[i]->getOwner())) {
             vertices[vertexIndex]->setStatus(true);
             vertices[vertexIndex]->setOwner(index_to_name(player_id));
-            vertices[vertexIndex]->build(index_to_name(player_id));
+            //vertices[vertexIndex]->build(index_to_name(player_id));
             return;
         }
     }
@@ -312,7 +312,7 @@ void GameBoard::initialize() {
 
 GameBoard::GameBoard() {
     dice = new RandomDice{0};
-    d = new display();
+    d = new display{};
     // tiles
     for (int i = 0; i < 19; ++i) {
         Tile *t1 = new Tile {};
@@ -377,4 +377,9 @@ void GameBoard::players_choose_start_index() {
             d->invalid();
         }
     }
+}
+
+void GameBoard::save_game(std::ofstream& oss, int index) {
+    this->d->save(index, p, tiles, oss);
+    return;
 }

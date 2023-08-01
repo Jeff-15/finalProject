@@ -54,6 +54,7 @@ class Vertex {
     void setNum(int num);
     void setStatus (bool occupy);
     void setOwner(std::string owner);
+    void setLevel (std::string level);
     void setVertex(int num);
     void setEdge(int num);
     void build(std::string builder); // The string must be either B (Blue), R (Red), O (Orange), Y (Yellow).

@@ -71,10 +71,15 @@ int Player::action(){
             resourceTypeGiven++;
             tradeRequest(target,resourceTypeGiven,resourceTypeDemanded);
         }
-        else if(command == "build"){
+        else if(command == "build-res"){
             int target;
             cin>>target;
             houseConstruct(target);
+        }
+        else if (command == "build-road") {
+            int target;
+            cin>>target;
+            roadConstruct(target);
         }
         else if(command == "improve"){
             int target;
@@ -94,13 +99,17 @@ int Player::action(){
             gb->print_all_player();
         }
         else if(command == "residences") {
-
+            gb->d->residence(index, basement, house, tower);
         }
         else if (command == "help") {
             gb->d->help();
         }
         else if (command == "save") {
-
+            std::string file_name;
+            cin >> file_name;
+            std::ofstream  oss {file_name};
+            gb->save_game(oss, index);
+            throw -1;
         }
         else if (command == "next") {
             break;
@@ -298,7 +307,7 @@ int Player::notify(int target, int eventPara1, int eventPara2){
 
 Player::Player(int index,GameBoard *gb): gb {gb}, index {index} {
     for (int i = 0; i < RESOURCETYPE; ++i) {
-        resource[i] = 1000;
+        resource[i] = 0;
     }
     score = 0;
 }
