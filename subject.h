@@ -17,7 +17,7 @@ class Subject {
         int getInput();
         void notifyDisplay(std::string cmd);
         void attachPlayer(AbstractPlayer *player);
-        void start(size_t curr);
+        void start();
         //void attachDisplay(Display*) = 0;
         ~Subject();
 };

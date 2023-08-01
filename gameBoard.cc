@@ -153,7 +153,7 @@ void GameBoard::processGeese(int tileIndex, int index, std::string activePlayer)
     // std::cout << "Builder " << curr_player_name << " steals " << r_name << " from builder ";
     // vertices[steal_index]->printOwner();
     // std::cout << "." << std::endl;
-    d->steal(index, steal_index, r_name);
+    d->steal(index, convert_short_to_full_name(index_to_name(stolenPlayer)), r_name);
 }
 
 void GameBoard::processTrade(int index, int target, int given){
@@ -165,6 +165,7 @@ void GameBoard::processTrade(int index, int target, int given){
 void GameBoard::processDice(int index){
     std::cout<<"geese process"<<std::endl;
     if(diceRoll == 7){
+        std::cout << "hello" << std::endl;
         notifyPlayer(-1,1,0);
         notifyPlayer(index,-1,-1);
         processGeese(input,index,index_to_name(index));
@@ -250,24 +251,20 @@ void GameBoard::improve_residence(int vertexIndex) {
     return;
 }
 
-std::vector<int> generateNumbers(int seed) {
+std::vector<int> generateNumbers() {
     // Create a vector with the exact counts of each number
     std::vector<int> numbers = {2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12};
 
     // Create a random generator
     std::mt19937 rng(std::random_device{}()); 
-    // Shuffle the vector to randomize the order of the numbers
 
-    if (seed == -1) {
-        std::shuffle(numbers.begin(), numbers.end(), rng);
-    } else {
-        //std::shuffle(numbers.begin(), numbers.end(), seed);
-    }
+    // Shuffle the vector to randomize the order of the numbers
+    std::shuffle(numbers.begin(), numbers.end(), rng);
 
     return numbers;
 }
 
-std::vector<std::string> generateStrings(int seed) {
+std::vector<std::string> generateStrings() {
     // Create a vector with the exact counts of each string
     std::vector<std::string> strings = {"PARK", "BRICK", "BRICK", "BRICK", "BRICK", 
                                         "ENERGY", "ENERGY", "ENERGY", "ENERGY",
@@ -278,23 +275,19 @@ std::vector<std::string> generateStrings(int seed) {
     // Create a random generator
     std::mt19937 rng(std::random_device{}()); 
 
-    if (seed == -1) {
-         // Shuffle the vector to randomize the order of the strings
-        std::shuffle(strings.begin(), strings.end(), rng);
-    } else {
-        //std::shuffle(strings.begin(), strings.end(), seed);
-    }
+    // Shuffle the vector to randomize the order of the strings
+    std::shuffle(strings.begin(), strings.end(), rng);
 
     return strings;
 }
 
-void GameBoard::initialize(int seed) {
+void GameBoard::initialize() {
     const int goose = 7;
     const int tileNum = 19;
     const int vertexNum = 54;
     const int edgeNum = 72;
-    std::vector<int> randomNumber = generateNumbers(seed);
-    std::vector<std::string> randomString = generateStrings(seed);
+    std::vector<int> randomNumber = generateNumbers();
+    std::vector<std::string> randomString = generateStrings();
     for (int i = 0; i < tileNum; ++i) {
         tiles.at(i)->setNum(i);
         tiles.at(i)->setType(randomString.back());
@@ -325,6 +318,7 @@ void GameBoard::initialize(int seed) {
         edges.at(i)->setVertex(i);
         edges.at(i)->setEdge(i);
     }
+    display_board();
 }
 
 
@@ -409,6 +403,9 @@ GameBoard::~GameBoard(){
     for(int i = 0; i<edges.size(); i++){
         delete(edges.at(i));
     }
+    std::vector <Tile*> tiles;
+        std::vector <Vertex*> vertices;
+        std::vector <Edge*> edges;
 }
 
 void GameBoard::save_game(std::ofstream& oss, int index) {
@@ -422,208 +419,3 @@ void GameBoard::end_of_input(int index) {
     throw -1;
 }
 
-
-void GameBoard::read_board_info(std::ifstream &iss) {
-    for (int i = 0; i < 19; ++i) {
-        int resource_name;
-        int value;
-        std::string type;
-        iss >> resource_name;
-        iss >> value;
-        if (resource_name == 0) {
-            type = "BRICK";
-        }
-        else if (resource_name == 1) {
-            type = "ENERGY";
-        }
-        else if (resource_name == 2) {
-            type = "GLASS";
-        }
-        else if (resource_name == 3) {
-            type = "HEAT";
-        }
-        else if (resource_name == 4) {
-            type = "WIFI";
-        }
-        else {
-            type = "PARK";
-        } 
-
-        tiles[i]->setVal(value);
-        tiles[i]->setType(type);
-    }
-}
-
-
-void GameBoard::read_load_info(std::ifstream &ifs, size_t& curTurn) {
-    std::string line, str, type;
-    int element, value;
-    for (int i = 0; i < 7; ++i) {
-        std::getline(ifs, line);
-        std::istringstream iss(line);
-        if (i == 0) {
-            if (line == "Blue") {
-                curTurn = 0;
-            }
-            else if (line == "Red") {
-                curTurn = 1;
-            }
-            else if (line == "Orange") {
-                curTurn = 2;
-            }
-            else {
-                curTurn = 3;
-            }
-        } else if (i == 1) {
-            for (int j = 0; j < 5; ++j) {
-                iss >> element;
-                notifyPlayer(i-1, 100 + j, element);
-            }
-            iss >> str;
-            while (iss >> element) {
-                //p.at(i - 1).roads.push_back(element);
-                notifyPlayer(i -1, 9, element);
-            }
-            iss.clear();
-            iss.ignore();
-            while (iss >> element >> str) {
-                if (str == "B") {
-                    vertices.at(element)->setStatus(true);
-                    vertices.at(element)->setOwner("B");
-                    vertices.at(element)->setLevel("B");
-                    //p.at(i - 1).basement.push_back(element);
-                    notifyPlayer(i - 1, 6, element);
-                } else if (str == "H") {
-                    vertices.at(element)->setStatus(true);
-                    vertices.at(element)->setOwner("B");
-                    vertices.at(element)->setLevel("H");
-                    //p.at(i - 1).house.push_back(element);
-                    notifyPlayer(i - 1, 7, element);
-                } else {
-                    vertices.at(element)->setStatus(true);
-                    vertices.at(element)->setOwner("B");
-                    vertices.at(element)->setLevel("T");
-                    //p.at(i - 1).tower.push_back(element);
-                    notifyPlayer(i - 1, 8, element);
-                }
-            }
-        } else if (i == 2) {
-            for (int j = 0; j < 5; ++j) {
-                iss >> element;
-                //p.at(i - 1).resource[j] = element;
-                notifyPlayer(i - 1, j + 100, element);
-            }
-            iss >> str;
-            while (iss >> element) {
-                //p.at(i - 1).roads.push_back(element);
-                notifyPlayer(i - 1, 9, element);
-            }
-            iss.clear();
-            iss.ignore();
-            while (iss >> element >> str) {
-                if (str == "B") {
-                    vertices.at(element)->setStatus(true);
-                    vertices.at(element)->setOwner("R");
-                    vertices.at(element)->setLevel("B");
-                    notifyPlayer(i - 1, 6, element);
-                } else if (str == "H") {
-                    vertices.at(element)->setStatus(true);
-                    vertices.at(element)->setOwner("R");
-                    vertices.at(element)->setLevel("H");
-                    notifyPlayer(i - 1, 7, element);
-                } else {
-                    vertices.at(element)->setStatus(true);
-                    vertices.at(element)->setOwner("R");
-                    vertices.at(element)->setLevel("T");
-                    notifyPlayer(i - 1, 8, element);
-                }
-            }
-        } else if (i == 3) {
-            for (int j = 0; j < 5; ++j) {
-                iss >> element;
-                notifyPlayer(i - 1, j + 100, element);
-            }
-            iss >> str;
-            while (iss >> element) {
-                notifyPlayer(i - 1, 9, element);
-            }
-            iss.clear();
-            iss.ignore();
-            while (iss >> element >> str) {
-                if (str == "B") {
-                    vertices.at(element)->setStatus(true);
-                    vertices.at(element)->setOwner("O");
-                    vertices.at(element)->setLevel("B");
-                    notifyPlayer(i - 1, 6, element);
-                } else if (str == "H") {
-                    vertices.at(element)->setStatus(true);
-                    vertices.at(element)->setOwner("O");
-                    vertices.at(element)->setLevel("H");
-                    notifyPlayer(i - 1, 7, element);
-                } else {
-                    vertices.at(element)->setStatus(true);
-                    vertices.at(element)->setOwner("O");
-                    vertices.at(element)->setLevel("T");
-                    notifyPlayer(i - 1, 8, element);
-                }
-            }
-        } else if (i == 4) {
-            for (int j = 0; j < 5; ++j) {
-                iss >> element;
-                notifyPlayer(i - 1, j + 100, element);
-            }
-            iss >> str;
-            while (iss >> element) {
-                notifyPlayer(i - 1, 9, element);
-            }
-            iss.clear();
-            iss.ignore();
-            while (iss >> element >> str) {
-                if (str == "B") {
-                    vertices.at(element)->setStatus(true);
-                    vertices.at(element)->setOwner("Y");
-                    vertices.at(element)->setLevel("B");
-                    notifyPlayer(i - 1, 6, element);
-                } else if (str == "H") {
-                    vertices.at(element)->setStatus(true);
-                    vertices.at(element)->setOwner("Y");
-                    vertices.at(element)->setLevel("H");
-                    notifyPlayer(i - 1, 7, element);
-                } else {
-                    vertices.at(element)->setStatus(true);
-                    vertices.at(element)->setOwner("Y");
-                    vertices.at(element)->setLevel("T");
-                    notifyPlayer(i - 1, 8, element);
-                }
-            }
-        } else if (i == 5) {
-            for (int k = 0; k < 19; ++k) {
-                iss >> element >> value;
-                if (element == 0) {
-                    type = "BRICK";
-                }
-                else if (element == 1) {
-                    type = "ENERGY";
-                }
-                else if (element == 2) {
-                    type = "GLASS";
-                }
-                else if (element == 3) {
-                    type = "HEAT";
-                }
-                else if (element == 4) {
-                    type = "WIFI";
-                }
-                else {
-                    type = "PARK";
-                } 
-                tiles[i]->setVal(value);
-                tiles[i]->setType(type);
-            }
-        } else {
-            std::stringstream iss {line};
-            iss >> element;
-            tiles.at(element)->setStatus(true);
-        }
-    }
-}

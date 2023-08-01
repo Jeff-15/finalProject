@@ -217,26 +217,13 @@ void Display::save(int builder, std::vector <AbstractPlayer*> p, std::vector <Ti
     // prints line 6: <board>
     for (int i = 0; i < 19; ++i) {
         if (tiles.at(i)->getGoose()) geese = i;
-        if (tiles.at(i)->getType() == "BRICK") {
-            oss << "0 ";
-        } else if (tiles.at(i)->getType() == "ENERGY") {
-            oss << "1 ";
-        } else if (tiles.at(i)->getType() == "GLASS") {
-            oss << "2 ";
-        } else if (tiles.at(i)->getType() == "HEAT") {
-            oss << "3 ";
-        } else if (tiles.at(i)->getType() == "WIFI") {
-            oss << "4 ";
-        } else {
-            oss << "5 ";
-        }
-        oss << tiles.at(i)->getVal();
-        oss << " ";
+        tiles.at(i)->printNumber();
+        tiles.at(i)->printVal();
     }
-    oss << std::endl;
+    std::cout << std::endl;
     
     // prints line 7: <geese>
-    oss << geese << std::endl;
+    std::cout << geese << std::endl;
 }
 
 void Display::help() {  // 9
