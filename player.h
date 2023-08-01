@@ -22,7 +22,7 @@ class Player:public AbstractPlayer{
     std::vector <int> tower;
     void turn();
     void diceRoll();
-    void robberRandomLoss();
+    int robberRandomLoss();
     int randomLoss();
     int action();
     void roadConstruct(int position);//construct road

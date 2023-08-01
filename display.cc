@@ -7,8 +7,19 @@
 
 
 
-void Display::input() {
+std::string Display::input() {
     std::cout << ">";
+    std::string s;
+    std::cin>>s;
+    std::cout << std::endl;
+    return s;
+}
+
+int Display::readInt(){
+    std::cout << ">";
+    int s;
+    std::cin>>s;
+    return s;
 }
 
 void Display::invalid() {
@@ -99,10 +110,10 @@ void Display::chooseSteal (int builder, std::vector<std::string> builders) {
     std::cout << "Choose a builder to steal from." << std::endl;
 }
 
-void Display::steal(int builder, int stolen, std::string resource) {
+void Display::steal(int builder, std::string stolen, std::string resource) {
     std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
     std::cout << "Builder " << colours[builder] << " steals " << resource;
-    std::cout << " from builder " << colours[stolen] << "." << std::endl;
+    std::cout << " from builder " << stolen << "." << std::endl;
 }
 
 void Display::noSteal(int builder) {
