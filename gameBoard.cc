@@ -157,7 +157,6 @@ void GameBoard::processTrade(int index, int target, int given){
 
 void GameBoard::processDice(int index){
     if(diceRoll == 7){
-        std::cout << "hello" << std::endl;
         notifyPlayer(-1,1,0);
         processGeese(input,index,index_to_name(index));
         notifyPlayer(index,100+input,1);
