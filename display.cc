@@ -86,8 +86,8 @@ void display::chooseSteal (int builder, std::vector<std::string> builders) {
             std::cout << '.' << std::endl;
         }
     }
+    std::cout << "0: Blue, 1: Red, 2: Orange, 3: Yellow" << std::endl;
     std::cout << "Choose a builder to steal from." << std::endl;
-    std::cout << ">";
 }
 
 void display::steal(int builder, int stolen, std::string resource) {

@@ -747,15 +747,10 @@ void Vertex::setEdge(int num) {
 }
 
 void Vertex::build (std::string builder) {
-    if (builder != "B" || builder != "R" || builder != "O" || builder !="Y"){
-        return;
-    } 
-    else {
-        occupy = true;
-        owner = builder;
-        level = "B";
-        return;
-    }
+    occupy = true;
+    owner = builder;
+    level = "B";
+    return;
 }
 
 void Vertex::improve () {
