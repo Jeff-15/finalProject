@@ -28,4 +28,20 @@ Subject::~Subject(){
         delete(p.at(i));
     }
     delete d;
-};
+}
+int Subject::getDigit(int num){
+    int d = 0;
+    while(num/10 != 0){
+        num = num/10;
+        d++;
+    }
+    return d;
+}
+void Subject::appendInput(int num){
+    int i = getDigit(input);
+    for(int k = 0; k<i;k++){
+        this->input*=10;
+    }
+    this->input += input;
+
+}
