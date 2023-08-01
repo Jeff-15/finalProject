@@ -1,17 +1,21 @@
 #include "gameBoard.h"
+#include <iostream>
+#include <string>
+
 
 void GameBoard::processCommand(int target,int eventPara1, int eventPara2) {
     if(eventPara1 == 0){
         if(eventPara2 == 0){
-            //if (dice) delete dice;
+            delete dice;
             dice = new LoadedDice{this,target};
         }
         else if(eventPara2 == 1){
-            //if (dice) delete dice;
+            delete dice;
             dice = new RandomDice{target};
         }
         else if(eventPara2 == 2){
             diceRoll = dice->generate();
+            std::cout<<"dice rolled"<<std::endl;
             processDice(target);
             delete(dice);
             dice = nullptr;
@@ -108,6 +112,8 @@ void GameBoard::processGeese(int tileIndex, int index, std::string activePlayer)
     for (auto vertex : dest->getNeighbourVertex()) {
         if (vertices[vertex]->own()) {
             std::string name = vertices[vertex]->getOwner();
+            notifyPlayer(CONSTANTS::get_Player_code(name),1,1);
+            if(input<=0)continue;
             if (name == activePlayer)continue;
             name = convert_short_to_full_name(name);
             builders.emplace_back(name);
@@ -139,15 +145,15 @@ void GameBoard::processGeese(int tileIndex, int index, std::string activePlayer)
         }
     }
 ////////////// end of asking
-
+    int stolenPlayer = input;
     int active_player_index = name_to_index(activePlayer);
     std::string r_name;         // resource name
-    r_name = index_to_name(input);
-    r_name = convert_short_to_full_name(r_name);
+    notifyPlayer(active_player_index,1,2);
+    r_name = CONSTANTS::get_resource_name(input);
     // std::cout << "Builder " << curr_player_name << " steals " << r_name << " from builder ";
     // vertices[steal_index]->printOwner();
     // std::cout << "." << std::endl;
-    d->steal(index, steal_index, r_name);
+    d->steal(index, convert_short_to_full_name(index_to_name(stolenPlayer)), r_name);
 }
 
 void GameBoard::processTrade(int index, int target, int given){
@@ -157,9 +163,11 @@ void GameBoard::processTrade(int index, int target, int given){
 }
 
 void GameBoard::processDice(int index){
+    std::cout<<"geese process"<<std::endl;
     if(diceRoll == 7){
         std::cout << "hello" << std::endl;
         notifyPlayer(-1,1,0);
+        notifyPlayer(index,-1,-1);
         processGeese(input,index,index_to_name(index));
         notifyPlayer(index,100+input,1);
     }

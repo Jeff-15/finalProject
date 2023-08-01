@@ -34,9 +34,7 @@ void Player::turn(){
 // handles diceRolling
 void Player::diceRoll(){
     while(true){
-        string command = "";
-        gb->d->input();
-        cin>>command;
+        string command = gb->d->input();
         if(cin.eof()) gb->end_of_input(index);
         if(command == "load"){
             gb->processCommand(index,0,0);
@@ -53,8 +51,8 @@ void Player::diceRoll(){
 
 int Player::action(){
     while(true){
-        string command;
-        cin>>command;//Display can handle info output commands on its own or by directly consult player
+        string command = gb->d->input();
+        //Display can handle info output commands on its own or by directly consult player
         //this function will not cover those commands
         if(cin.eof()) gb->end_of_input(index);
         if(score == 10){
@@ -230,15 +228,21 @@ void Player::improve(int position){
     gb->d->buildFail();
 }
 
-void Player::robberRandomLoss(){
+int Player::robberRandomLoss(){
     int total = resource[0]+resource[1]+resource[2]+resource[3]+resource[4];
+    std::cout<<total<<endl;
+    int loss = 0;
     if(total>=gb->GEESELIMIT){
         int lost = total/2;
         for(int i = lost; i>0; i--){
             int k = randomLoss();
             resource[k] -= 1;
+            loss += CONSTANTS::DECIMALPOWER[k];
         }
     }
+    std::cout<<loss<<endl;
+    return loss;
+
 }
 
 int Player::randomLoss(){
@@ -273,9 +277,7 @@ int Player::notify(int target, int eventPara1, int eventPara2){
     if(target == index || target == -1){
         if(eventPara1 == -1){
             if(eventPara2 == -1){
-                gb->d->input();
-                int input;
-                cin>>input;
+                int input = gb->d->readInt();
                 if(cin.eof()) gb->end_of_input(index);
                 gb->setInput(input);
             }

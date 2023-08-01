@@ -5,13 +5,17 @@
 #include "abstractPlayer.h"
 #include "abstractDisplay.h"
 #include <fstream>
+#include <string>
 
 class Display: public AbstractDisplay {
 
   public:
 
-    void input();
-    // > \n
+    std::string input();
+    // > \n, take input 
+
+    int readInt();
+    // > \n, take input
 
     void invalid();
     // Invalid command. \n
@@ -56,7 +60,7 @@ class Display: public AbstractDisplay {
     // Builder <colour1> can choose to steal from [builders]. \n
     // Choose a builder to steal from.
 
-    void steal(int builder, int stolen, std::string resource);
+    void steal(int builder, std::string stolen, std::string resource);
     // Builder <colour1> steals <resource> from builder <colour2>. \n
 
     void noSteal(int builder);

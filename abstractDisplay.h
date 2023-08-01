@@ -8,7 +8,8 @@
 
 class AbstractDisplay {
     public:
-        virtual void input() = 0;
+        virtual std::string input() = 0;
+        virtual int readInt() = 0;
         virtual void invalid() = 0;
         virtual void buildFail() = 0;
         virtual void insufficient() = 0;
@@ -22,7 +23,7 @@ class AbstractDisplay {
         virtual void geeseSteal(std::vector <AbstractPlayer*> p, std::vector <std::vector <std::pair <int, std::string>> > resourcesLost) = 0;
         virtual void placeGeese() = 0;
         virtual void chooseSteal(int builder, std::vector <std::string> builders) = 0;
-        virtual void steal(int builder, int stolen, std::string resource) = 0;
+        virtual void steal(int builder, std::string stolen, std::string resource) = 0;
         virtual void noSteal(int builder) = 0;
         virtual void status(int builder, int numPoints, int* resources) = 0;
         virtual void residence(int builder, std::vector <int> basement, std::vector <int> house, std::vector <int> tower) = 0;
