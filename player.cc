@@ -34,6 +34,7 @@ void Player::diceRoll(){
         string command = "";
         gb->d->input();
         cin>>command;
+        if(cin.eof()) gb->end_of_input(index);
         if(command == "load"){
             gb->processCommand(index,0,0);
         }
@@ -52,6 +53,7 @@ int Player::action(){
         string command;
         cin>>command;//Display can handle info output commands on its own or by directly consult player
         //this function will not cover those commands
+        if(cin.eof()) gb->end_of_input(index);
         if(score == 10){
             gb->d->end(index);
             throw(index);
@@ -59,6 +61,7 @@ int Player::action(){
         if(command == "road"){
             int position;
             cin>>position;
+            if(cin.eof()) gb->end_of_input(index);
             roadConstruct(position);
         }
         else if(command == "trade"){
@@ -66,6 +69,7 @@ int Player::action(){
             int resourceTypeGiven;
             int resourceTypeDemanded;
             cin>>target>>resourceTypeGiven>>resourceTypeDemanded;
+            if(cin.eof()) gb->end_of_input(index);
             target++;
             resourceTypeDemanded++;
             resourceTypeGiven++;
@@ -74,16 +78,19 @@ int Player::action(){
         else if(command == "build-res"){
             int target;
             cin>>target;
+            if(cin.eof()) gb->end_of_input(index);
             houseConstruct(target);
         }
         else if (command == "build-road") {
             int target;
             cin>>target;
+            if(cin.eof()) gb->end_of_input(index);
             roadConstruct(target);
         }
         else if(command == "improve"){
             int target;
             cin>>target;
+            if(cin.eof()) gb->end_of_input(index);
             improve(target);
         }
         else if(command == "next"){
@@ -115,7 +122,7 @@ int Player::action(){
             break;
         }
         else {
-            break;
+            continue;
         }
     }
     return 0;
@@ -266,6 +273,7 @@ int Player::notify(int target, int eventPara1, int eventPara2){
                 gb->d->input();
                 int input;
                 cin>>input;
+                if(cin.eof()) gb->end_of_input(index);
                 gb->setInput(input);
             }
             else{
