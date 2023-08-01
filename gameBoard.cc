@@ -208,12 +208,6 @@ void GameBoard::build_residence(int player_id, int vertexIndex, bool start) {
         throw "Already build";
         return;
     }
-    if (start) {
-        vertices[vertexIndex]->setStatus(true);
-        vertices[vertexIndex]->setOwner(index_to_name(player_id));
-        vertices[vertexIndex]->build(index_to_name(player_id));
-        return;
-    }
     // check adjacent vertex
     for (auto i : vertices[vertexIndex]->getNeighbourVertex()) {
         if (vertices[i]->own()) {
@@ -221,6 +215,14 @@ void GameBoard::build_residence(int player_id, int vertexIndex, bool start) {
             return;
         }
     }
+    //if this is during setup phase, we don't need road adjacency.
+    if (start) {
+        vertices[vertexIndex]->setStatus(true);
+        vertices[vertexIndex]->setOwner(index_to_name(player_id));
+        vertices[vertexIndex]->build(index_to_name(player_id));
+        return;
+    }
+    
     // now check if exist an adjacent road
     for (auto i : vertices[vertexIndex]->getNeighbourEdge()) {
         if (edges[i]->own() && player_id == name_to_index(edges[i]->getOwner())) {
@@ -350,6 +352,10 @@ void GameBoard::players_choose_start_index() {
         int in = this->getInput();
         try {
             this->build_residence(i, in, true);
+            notifyPlayer(i,6,in);
+            /*notifyPlayer(i,-1,-1);
+            int in = this->getInput();
+            this->constructRoad(i,in);*/
         }
         catch(const char* a) {
             std::cout<<a<<std::endl;
@@ -362,6 +368,10 @@ void GameBoard::players_choose_start_index() {
         int in = this->getInput();
         try {
             this->build_residence(i, in, true);
+            notifyPlayer(i,6,in);
+            /*notifyPlayer(i,-1,-1);
+            int in = this->getInput();
+            this->constructRoad(i,in);*/
         }
         catch(const char* a) {
             --i;
