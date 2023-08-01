@@ -24,7 +24,7 @@ void Player::turn(){
     //Set dice
 
     //cout<<"Builder "<<index<<"'s turn"<<endl;
-    gb->d->next(index);
+    gb->d->turn(index);
     diceRoll();
     action();
 }
