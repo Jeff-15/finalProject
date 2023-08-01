@@ -30,7 +30,8 @@ class AbstractDisplay {
         virtual void save(int builder, std::vector <AbstractPlayer*> p, std::vector <Tile*> tiles, std::ofstream& out) = 0;
         virtual void help() = 0; 
         virtual void board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, std::vector <Edge*> edges) = 0;
-        
+        ~AbstractDisplay(){}
+
 };
 
 

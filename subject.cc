@@ -22,3 +22,10 @@ void Subject::attachPlayer(AbstractPlayer* player){
 void Subject::notifyDisplay(std::string regular_cmd) {
     return;
 }
+
+Subject::~Subject(){
+    for(int i = 0; i<p.size(); i++){
+        delete(p.at(i));
+    }
+    delete d;
+};
