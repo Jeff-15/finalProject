@@ -7,6 +7,7 @@
 #include <chrono>
 #include <fstream>
 #include <string>
+#include <sstream>
 #include "dice.h"
 #include "subject.h"
 #include "board.h"
@@ -29,7 +30,7 @@ class GameBoard: public Subject{
         int get_resource_code(std::string s);        // convert resource s to code, ex) brick -> 100           
     public:
         void processCommand(int target,int eventPara1, int eventPara2);
-        virtual void initialize();
+        void initialize(int seed);
         int GEESELIMIT = 7;
         GameBoard();
         GameBoard(std::vector <Tile*> t, std::vector <Vertex*> v, std::vector <Edge*> e);
@@ -62,7 +63,8 @@ class GameBoard: public Subject{
         void players_choose_start_index();     // 4 player each choose 2 residence 
         void save_game(std::ofstream& oss, int index);
         void end_of_input(int index);
-
+        void read_board_info(std::ifstream &iss);
+        void read_load_info(std::ifstream &ifs, size_t& curTurn);
 };
 
 #endif
