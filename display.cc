@@ -126,7 +126,7 @@ void Display::status(int builder, int points, int* resources) {
 }
 
 
-void display::Residence(int builder, std::vector <int> basement, std::vector <int> house, std::vector <int> tower) {
+void Display::residence(int builder, std::vector <int> basement, std::vector <int> house, std::vector <int> tower) {
 
     std::vector <std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
     std::cout << colours[builder] << " has built: " << std::endl;
