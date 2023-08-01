@@ -4,8 +4,11 @@
 #include <string>
 #include <vector>
 #include "abstractPlayer.h"
+#include "abstractDisplay.h"
+
 class Player:public AbstractPlayer{
     GameBoard* gb;
+    AbstractDisplay* display;
     std::string player_name;
     int index;
     int numPoints;

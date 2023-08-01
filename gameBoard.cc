@@ -222,7 +222,7 @@ void GameBoard::build_residence(int player_id, int vertexIndex, bool start) {
         vertices[vertexIndex]->build(index_to_name(player_id));
         return;
     }
-    
+
     // now check if exist an adjacent road
     for (auto i : vertices[vertexIndex]->getNeighbourEdge()) {
         if (edges[i]->own() && player_id == name_to_index(edges[i]->getOwner())) {
@@ -240,8 +240,6 @@ void GameBoard::improve_residence(int vertexIndex) {
     vertices[vertexIndex]->improve();
     return;
 }
-
-
 
 std::vector<int> generateNumbers() {
     // Create a vector with the exact counts of each number
@@ -358,8 +356,8 @@ void GameBoard::players_choose_start_index() {
             this->constructRoad(i,in);*/
         }
         catch(const char* a) {
-            std::cout<<a<<std::endl;
-            i--;
+            --i;
+            d->invalid();
         }
     }
     for (int i = 0; i < 4; ++i) {
@@ -375,7 +373,7 @@ void GameBoard::players_choose_start_index() {
         }
         catch(const char* a) {
             --i;
-            throw a;
+            d->invalid();
         }
     }
 }
