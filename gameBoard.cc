@@ -3,11 +3,11 @@
 void GameBoard::processCommand(int target,int eventPara1, int eventPara2) {
     if(eventPara1 == 0){
         if(eventPara2 == 0){
-            delete(dice);
+            //if (dice) delete dice;
             dice = new LoadedDice{this,target};
         }
         else if(eventPara2 == 1){
-            delete(dice);
+            //if (dice) delete dice;
             dice = new RandomDice{target};
         }
         else if(eventPara2 == 2){
@@ -310,7 +310,8 @@ void GameBoard::initialize() {
     }
 }
 
-GameBoard::GameBoard():dice{new RandomDice(0)}{
+GameBoard::GameBoard() {
+    dice = new RandomDice{0};
     d = new display();
     // tiles
     for (int i = 0; i < 19; ++i) {

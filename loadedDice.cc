@@ -4,4 +4,4 @@ int LoadedDice::generate(){
     s->notifyPlayer(index,-1,-1);
     return s->getInput();
 }
-
+LoadedDice::~LoadedDice() { }
