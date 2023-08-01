@@ -116,12 +116,9 @@ void display::status(int builder, int points, int* resources) {
     }
 }
 
-void display::residence(int builder, std::vector <AbstractPlayer*> p) {
+void display::residence(int builder, std::vector <int> basement, std::vector <int> house, std::vector <int> tower) {
     std::vector <std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
     std::cout << colours[builder] << " has built: " << std::endl;
-    std::vector <int> basement = p[builder]->getBasement();
-    std::vector <int> house = p[builder]->getHouse();
-    std::vector <int> tower = p[builder]->getTower();
     if (!basement.empty()) {
         for (auto Basement : basement) {
             std::cout << Basement << ' ';
@@ -150,27 +147,27 @@ void display::trade(int builder, std::string colour, std::string give, std::stri
     std::cout << "Does " << colour << " accept this offer?" << std::endl;
 }
 
-void display::save(int builder, std::vector <AbstractPlayer*> p, std::vector <Tile*> tiles) {
+void display::save(int builder, std::vector <AbstractPlayer*> p, std::vector <Tile*> tiles, std::ofstream& oss) {
     std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
     std::string curTurn = colours[builder];
     int geese; // Must be a number from 0 - 18.
 
     // prints line 1: <curTurn>
-    std::cout << curTurn << std::endl;
+    oss << curTurn << std::endl;
 
     // prints line 2 - 5: <builder0Data> <builder1Data> <builder2Data> <builder3Data>
     for (int i = 0; i < 4; ++i) {
         int* resources = p.at(i)->getResources();
         for (int j = 0; j < 5; ++j) {
-            std::cout << resources[j] << ' ';
+            oss << resources[j] << ' ';
         }
 
         std::cout << 'r' << ' ';
         for (auto road : p.at(i)->getRoad()) {
-            std::cout << road << ' ';
+            oss << road << ' ';
         }
 
-        std::cout << 'h' << ' ';
+        oss << 'h' << ' ';
 
         std::vector<std::pair<int, char>> residences;
 
@@ -187,10 +184,10 @@ void display::save(int builder, std::vector <AbstractPlayer*> p, std::vector <Ti
         std::sort(residences.begin(), residences.end()); // Sort residences in ascending order
 
         for (auto residence : residences) {
-            std::cout << residence.first << ' ' << residence.second << ' ';
+            oss << residence.first << ' ' << residence.second << ' ';
         }
 
-        std::cout << std::endl;
+        oss << std::endl;
     }
 
     // prints line 6: <board>

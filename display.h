@@ -4,10 +4,12 @@
 #include "board.h"
 #include "abstractPlayer.h"
 #include "abstractDisplay.h"
+#include <fstream>
 
 class display: public AbstractDisplay {
 
   public:
+
     void input();
     // > \n
 
@@ -64,7 +66,7 @@ class display: public AbstractDisplay {
     // <colour> has <numPoints> building points, <numBrick> brick, <numEnergy> energy,
     // <numGlass> glass, <numHeat> heat, and <numWiFi> WiFi. \n
 
-    void residence(int builder, std::vector <AbstractPlayer*> p);
+    void residence(int builder, std::vector <int> basement, std::vector <int> house, std::vector <int> tower);
     // <colour> has built: \n
     // <vertex> <buildingType> \n
 
@@ -72,7 +74,7 @@ class display: public AbstractDisplay {
     // <colour1> offers <colour2> one <resource1> for one <resource2>. \n
     // Does <colour2> accept this offer? \n
 
-    void save(int builder, std::vector <AbstractPlayer*> p, std::vector <Tile*> tiles);
+    void save(int builder, std::vector <AbstractPlayer*> p, std::vector <Tile*> tiles, std::ofstream& oss); 
     // <curTurn> \n
     // <builder0Data> \n
     // <builder1Data> \n
