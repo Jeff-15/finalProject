@@ -7,8 +7,10 @@
 
 class display: public AbstractDisplay {
 
-
   public:
+    void input();
+    // > \n
+
     void invalid();
     // Invalid command. \n
 
@@ -21,7 +23,8 @@ class display: public AbstractDisplay {
     void begin(int builder);
     // Builder <colour>, where do you want to build a basement? \n
 
-    void end();
+    void end(int builder);
+    // Builder <colour> is the winner. \n
     // Would you like play again? \n
 
     void loadedDice(); 
@@ -30,7 +33,7 @@ class display: public AbstractDisplay {
     void invalidRoll();
     // Invalid roll. \n
 
-    void next(int builder);
+    void turn(int builder);
     // Builder <colour>’s turn. \n
 
     void gain(std::vector <AbstractPlayer*> p, std::vector <int> num, std::string type);

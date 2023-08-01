@@ -22,8 +22,7 @@ bool Player::addScore(){
 
 void Player::turn(){
     //Set dice
-    //cout<<"Builder "<<index<<"'s turn"<<endl;
-    display->next(index);
+    display->turn(index);
     diceRoll();
     action();
 }
@@ -31,7 +30,7 @@ void Player::turn(){
 void Player::diceRoll(){
     while(true){
         string command = "";
-        cout<<">";
+        display->input();
         cin>>command;
         if(command == "load"){
             gb->processCommand(index,0,0);
@@ -52,7 +51,7 @@ int Player::action(){
         cin>>command;//Display can handle info output commands on its own or by directly consult player
         //this function will not cover those commands
         if(score == 10){
-            cout<<"builder "<<index<<" has won!"<<endl;
+            display->end(index);
             throw(index);
         }
         if(command == "road"){
@@ -130,7 +129,7 @@ void Player::houseConstruct(int position){
 
 void Player::tradeRequest(int target, int resourceTypeGiven, int resourceTypeDemanded, int amountGiven, int amountDemanded){
     if(resource[resourceTypeGiven]<amountGiven){
-        cout<<"not possible, not enough resource"<<endl;
+        display->insufficient();
         return;
     }
     gb->setInput(resourceTypeDemanded*100+amountDemanded);
@@ -143,20 +142,23 @@ void Player::tradeRequest(int target, int resourceTypeGiven, int resourceTypeDem
     }
 }
 
-void Player::tradeRequest(int target, int resourceTypeGiven, int resourceTypeDemanded, int amountGiven, int amountDemanded){
-    if(resource[resourceTypeGiven]<amountGiven){
-        // cout<<"not possible, not enough resource"<<endl;
-        display->insufficient();
-        return;
-    }
-    gb->setInput(resourceTypeDemanded*100+amountDemanded);
-    try{
-        gb->processCommand(index,CONSTANTS::TRADECOMMAND*target,resourceTypeGiven*100+amountGiven);
-        resource[resourceTypeGiven]-=amountGiven;
-        resource[resourceTypeDemanded]+=resourceTypeDemanded;
-    }catch(string s){
-        cout<<s<<endl;
-    }
+// void Player::tradeRequest(int target, int resourceTypeGiven, int resourceTypeDemanded, int amountGiven, int amountDemanded){
+//     if(resource[resourceTypeGiven]<amountGiven){
+//         display->insufficient();
+//         return;
+//     }
+//     gb->setInput(resourceTypeDemanded*100+amountDemanded);
+//     try{
+//         gb->processCommand(index,CONSTANTS::TRADECOMMAND*target,resourceTypeGiven*100+amountGiven);
+//         resource[resourceTypeGiven]-=amountGiven;
+//         resource[resourceTypeDemanded]+=resourceTypeDemanded;
+//     }catch(string s){
+//         cout<<s<<endl;
+//     }
+// }
+
+void Player::tradeResponse(int target, int resourceTypeGiven, int resourceTypeDemanded, int amountGiven, int amountDemanded) {
+    return;
 }
 
 void Player::improve(int position){
@@ -196,7 +198,6 @@ void Player::improve(int position){
             return;   
         }
     }
-    // cout<<"Cannot improve: No valid building constructed at this position"<<endl;
     display->buildFail();
 }
 
@@ -243,7 +244,7 @@ int Player::notify(int target, int eventPara1, int eventPara2){
     if(target == index || target == -1){
         if(eventPara1 == -1){
             if(eventPara2 == -1){
-                cout<<">";
+                display->input();
                 int input;
                 cin>>input;
                 gb->setInput(input);

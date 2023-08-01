@@ -4,15 +4,19 @@
 #include <string>
 #include "display.h"
 
-void display::invalid() {  // 1
+void display::input() {
+    std::cout << ">" << std::endl;
+}
+
+void display::invalid() {
     std::cout << "Invalid command." << std::endl;
 }
 
-void display::buildFail() { // 2
+void display::buildFail() {
     std::cout << "You cannot build here." << std::endl;
 }
 
-void display::insufficient() { // 3
+void display::insufficient() {
     std::cout << "You do not have enough resources." << std::endl;
 }
 
@@ -21,22 +25,23 @@ void display::begin(int builder) {
     std::cout << "Builder " << colours[builder] << ", where do you want to build a basement?" << std::endl;
 }
 
-void display::end() { // 4
+void display::end(int builder) {
+    std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
+    std::cout << "Builder " << colours[builder] << " is the winner." << std::endl;
     std::cout << "Would you like play again?" << std::endl;
 }
 
-void display::loadedDice() { // 5
+void display::loadedDice() {
     std::cout << "Input a roll between 2 and 12:" << std::endl;
 }
 
-void display::invalidRoll() { // 6
+void display::invalidRoll() {
     std::cout << "Invalid roll." << std::endl;
 }
 
-void display::next(int builder) {
+void display::turn(int builder) {
     std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
-    int next = (builder + 1) % 4;
-    std::cout << "Builder " << colours[next] << "'s turn." << std::endl;
+    std::cout << "Builder " << colours[builder] << "'s turn." << std::endl;
 }
 void display::gain(std::vector <AbstractPlayer*> p, std::vector <int> num, std::string type) {
     std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
@@ -46,7 +51,7 @@ void display::gain(std::vector <AbstractPlayer*> p, std::vector <int> num, std::
     }
 }
 
-void display::noGain() { // 7
+void display::noGain() {
     std::cout << "No builders gained resources." << std::endl;
 }
 
@@ -66,7 +71,7 @@ void display::geeseSteal(std::vector <AbstractPlayer*> p,
     }
 }
 
-void display::placeGeese() { // 8
+void display::placeGeese() {
     std::cout << "Choose where to place the GEESE." << std::endl;
 }
 
