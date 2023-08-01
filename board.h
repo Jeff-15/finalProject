@@ -5,9 +5,9 @@
 #include <vector>
 
 class Tile {
-    int num;
-    std::string type;
-    int val;
+    int num;             // 0-18
+    std::string type;    // energy heat (E)
+    int val;             // 2-12
     bool goose;
     std::vector <int> neighbourVertex;
     std::vector <int> neighbourEdge;
