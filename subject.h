@@ -7,9 +7,9 @@ using namespace std;
 class Subject {
     protected: 
         std::vector<AbstractPlayer*> p;
-        AbstractDisplay* d;
         int input;//All specific number input will be done through this parameter. 
     public:     
+        AbstractDisplay* d;
         void notifyPlayer(int target, int eventPara1, int eventPara2);
         void setInput(int in);
         int getInput();

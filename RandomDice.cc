@@ -12,3 +12,5 @@ int RandomDice::generate() {
     return distribution(rng) + distribution(rng);
 }
 
+RandomDice::~RandomDice(){ }
+

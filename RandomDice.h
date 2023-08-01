@@ -10,6 +10,7 @@ class RandomDice: public Dice {
     public:
         int generate() override;
         RandomDice(int index);
+        ~RandomDice();
 };
 
 #endif
