@@ -14,6 +14,7 @@ void GameBoard::processCommand(int target,int eventPara1, int eventPara2) {
             diceRoll = dice->generate();
             processDice(target);
             delete(dice);
+            dice = nullptr;
         }
     }
     else if(eventPara1 == CONSTANTS::ROADCOMMAND){
