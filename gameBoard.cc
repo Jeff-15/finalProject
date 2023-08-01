@@ -358,7 +358,7 @@ void GameBoard::players_choose_start_index() {
         }
         catch(const char* a) {
             --i;
-            d->invalid();
+            d->buildFail();
         }
     }
     for (int i = 0; i < 4; ++i) {
@@ -374,7 +374,7 @@ void GameBoard::players_choose_start_index() {
         }
         catch(const char* a) {
             --i;
-            d->invalid();
+            d->buildFail();
         }
     }
 }
