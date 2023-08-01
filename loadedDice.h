@@ -9,7 +9,7 @@ class LoadedDice:public Dice{
     public:
         int generate() override;
         LoadedDice(Subject* s,int index);
-        ~LoadedDice(){}
+        ~LoadedDice();
 };
 
 #endif
