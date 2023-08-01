@@ -5,7 +5,7 @@
 #include "display.h"
 
 void display::input() {
-    std::cout << ">" << std::endl;
+    std::cout << ">";
 }
 
 void display::invalid() {
