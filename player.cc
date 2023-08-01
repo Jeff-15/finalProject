@@ -306,6 +306,17 @@ int Player::notify(int target, int eventPara1, int eventPara2){
             basement.push_back(eventPara2);
             score++;
         }
+        else if (eventPara1 == 7) {
+            house.push_back(eventPara2);
+            score += 2;
+        }
+        else if (eventPara1 == 8) {
+            tower.push_back(eventPara2);
+            score += 3;
+        }
+        else if (eventPara1 == 9) {
+            roads.push_back(eventPara2);
+        }
         else if(eventPara1 <= CONSTANTS::TRADECOMMAND){
             int proposer = (eventPara1/CONSTANTS::TRADECOMMAND)-1;
             int resourceOffered,amountOffered,resourceDemanded,amountDemanded;
