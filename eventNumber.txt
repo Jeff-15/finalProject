@@ -9,3 +9,4 @@ notify(target -1, eventPara1 1 eventPara2 0): lose resource from robber
 notify(target (player code), eventPara1 1, eventPara2 1): request number of totalresources
 notify(target (tpc), eventPara1 1, eventPara2 2): request transfer of resource
 processCommand(pc,2,edgeIndex): request construct at target location;
+notify(target, 6, index): confirm construction at location
