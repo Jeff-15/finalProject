@@ -10,6 +10,7 @@
 class Display: public AbstractDisplay {
 
   public:
+    void geeseLose(int colour, int *r);
 
     std::string input();
     // > \n, take input 

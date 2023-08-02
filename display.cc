@@ -4,7 +4,21 @@
 #include <string>
 #include "display.h"
 
-
+void Display::geeseLose(int colour, int *r) {
+    std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
+    std::vector<std::string> resource = {"BRICK", "ENERGY", "GLASS", "HEAT", "WIFI"};
+    int total_los = 0;
+    for (int i = 0; i < 5; ++i) {
+        total_los += r[i];
+    }
+    std::string colour_name = colours[colour];
+    std::cout << "Builder " << colour_name << " loses " << total_los << " resources to the geese. They lose:" << std::endl;
+    for (int i = 0; i < 5; ++i) {
+        if (r[i] != 0) {
+            std::cout << r[i] << " " << resource[i] << std::endl;
+        }
+    }
+}
 
 
 std::string Display::input() {
@@ -56,7 +70,6 @@ void Display::invalidRoll() {
 }
 
 void Display::turn(int builder) {
-
     std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
     std::cout << "Builder " << colours[builder] << "'s turn." << std::endl;
 }
@@ -186,7 +199,7 @@ void Display::save(int builder, std::vector <AbstractPlayer*> p, std::vector <Ti
             oss << resources[j] << ' ';
         }
 
-        std::cout << 'r' << ' ';
+        oss << 'r' << ' ';
         for (auto road : p.at(i)->getRoad()) {
             oss << road << ' ';
         }

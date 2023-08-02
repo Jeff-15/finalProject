@@ -90,10 +90,9 @@ void GameBoard::player_get_resource () {
                 if (vertices[vertex]->own()) {
                     int player_num = name_to_index(vertices[vertex]->getOwner());
                     // notify(target (player code), eventPara1 100~104, eventPara2 1~3): recieve resources (call when giving player resources)
-                    notifyPlayer(0,100,1); // give player index 0 / 1 item of / item 0
-                    if (tiles[i]->getType() == "B") {
+                    if (vertices[vertex]->getLevel() == "B") {
                         notifyPlayer(player_num,code , 1);
-                    } else if (tiles[i]->getType() == "H") {
+                    } else if (vertices[vertex]->getLevel() == "H") {
                         notifyPlayer(player_num,code , 2);
                     } else {
                         notifyPlayer(player_num,code , 3);
@@ -256,14 +255,18 @@ std::vector<int> generateNumbers(int seed) {
     std::vector<int> numbers = {2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12};
 
     // Create a random generator
-    std::mt19937 rng(std::random_device{}()); 
-    // Shuffle the vector to randomize the order of the numbers
+    std::mt19937 rng;
 
     if (seed == -1) {
-        std::shuffle(numbers.begin(), numbers.end(), rng);
+        // Use random_device to generate a seed for the random number generator
+        rng = std::mt19937(std::random_device{}());
     } else {
-        //std::shuffle(numbers.begin(), numbers.end(), seed);
+        // Use the provided seed for reproducibility
+        rng = std::mt19937(seed);
     }
+
+    // Shuffle the vector to randomize the order of the numbers
+    std::shuffle(numbers.begin(), numbers.end(), rng);
 
     return numbers;
 }
@@ -276,15 +279,17 @@ std::vector<std::string> generateStrings(int seed) {
                                         "HEAT", "HEAT", "HEAT",
                                         "WIFI", "WIFI", "WIFI"};
 
-    // Create a random generator
-    std::mt19937 rng(std::random_device{}()); 
-
+    std::mt19937 rng;
     if (seed == -1) {
-         // Shuffle the vector to randomize the order of the strings
-        std::shuffle(strings.begin(), strings.end(), rng);
+        // Create a random generator using a hardware random device
+        rng.seed(std::random_device{}());
     } else {
-        //std::shuffle(strings.begin(), strings.end(), seed);
+        // Use the given seed
+        rng.seed(seed);
     }
+
+    // Shuffle the vector to randomize the order of the strings
+    std::shuffle(strings.begin(), strings.end(), rng);
 
     return strings;
 }
@@ -618,8 +623,8 @@ void GameBoard::read_load_info(std::ifstream &ifs, size_t& curTurn) {
                 else {
                     type = "PARK";
                 } 
-                tiles[i]->setVal(value);
-                tiles[i]->setType(type);
+                tiles[k]->setVal(value);
+                tiles[k]->setType(type);
             }
         } else {
             std::stringstream iss {line};
