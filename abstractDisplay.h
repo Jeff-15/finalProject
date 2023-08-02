@@ -29,7 +29,8 @@ class AbstractDisplay {
         virtual void residence(int builder, std::vector <int> basement, std::vector <int> house, std::vector <int> tower) = 0;
         virtual void trade(int builder, std::string colour, std::string give, std::string take) = 0; 
         virtual void save(int builder, std::vector <AbstractPlayer*> p, std::vector <Tile*> tiles, std::ofstream& out) = 0;
-        virtual void help() = 0; 
+        virtual void help() = 0;
+        virtual void geeseLose(int index, int* losses)=0; 
         virtual void board(std::vector <Tile*> tiles, std::vector <Vertex*> vertices, std::vector <Edge*> edges) = 0;
         ~AbstractDisplay(){}
 

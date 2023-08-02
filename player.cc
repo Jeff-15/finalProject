@@ -243,17 +243,16 @@ void Player::improve(int position){
 }
 
 //returns array of length 5
-int* Player::robberRandomLoss(){
+int* Player::robberRandomLoss(int* a){
     int total = resource[0]+resource[1]+resource[2]+resource[3]+resource[4];
-    int loss[5] = {0,0,0,0,0};
     if(total>=gb->GEESELIMIT){
         int lost = total/2;
         for(int i = lost; i>0; i--){
             int k = randomLoss();
-            loss[k]++;
+            a[k]++;
         }
     }
-    return loss;
+    return a;
 
 }
 
@@ -271,11 +270,11 @@ int Player::randomLoss(){
         resource[1]-=1;
         return 1;
     }
-    else if(r<=resource[0]+resource[1]+resource[1]){
+    else if(r<=resource[0]+resource[1]+resource[2]){
         resource[2]-=1;
         return 2;
     }
-    else if(r<=resource[0]+resource[1]+resource[1]+resource[1]){
+    else if(r<=resource[0]+resource[1]+resource[2]+resource[3]){
         resource[3]-=1;
         return 3;
     }
@@ -304,8 +303,10 @@ int Player::notify(int target, int eventPara1, int eventPara2){
             resource[eventPara1-100] += eventPara2;
         }
         else if(eventPara1 == 1 && eventPara2 == 0){//loss resource to geese
-            int* a = robberRandomLoss();
-            //gb->d->geeseLose(index,a);
+            int a[5] = {0,0,0,0,0}; 
+            robberRandomLoss(a);
+            gb->d->geeseLose(index,a);
+            gb->d->status(index,score,resource);
         }
         else if(eventPara1 == 1){//geese stealing
             if(eventPara2 == 1){
@@ -353,7 +354,7 @@ void Player::player_print() {
     // order: BRICK, ENERGY, GLASS, HEAT, then WIFI.
     // <colour> has <numPoints> building points, <numBrick> brick, <numEnergy> energy,
     // <numGlass> glass, <numHeat> heat, and <numWiFi> WiFi.
-    gb->d->status(index, numPoints, resource);
+    gb->d->status(index, score, resource);
 //     int i = 0;
 //     std::cout << gb->convert_short_to_full_name(gb->index_to_name(index)) << " has " << numPoints << " building points, " << resource[i++] << " brick, " <<  resource[i++] << " energy," << std::endl;
 //     std::cout << resource[i++] << " glass, " << resource[i++] << " heat, and " << resource[i++] << " WiFi." << std::endl;
