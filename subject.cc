@@ -7,9 +7,9 @@ void Subject::notifyPlayer(int target, int eventPara1,int eventPara2){
 }
 void Subject::setInput(int input){this->input = input;}
 int Subject::getInput(){return input;}
-void Subject::start(){
+void Subject::start(size_t curr){
     while(true){
-        for(size_t i = 0; i<p.size();i++){
+        for(size_t i = curr; i<p.size();i++){
             try{notifyPlayer(i,0,0);}
             catch(int){return;}
         }
@@ -43,5 +43,4 @@ void Subject::appendInput(int num){
         this->input*=10;
     }
     this->input += input;
-
 }
