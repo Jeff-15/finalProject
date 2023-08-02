@@ -46,7 +46,7 @@ int main (int argc, char* argv[]) {
     if (argument == "-random-board") {
         gb.initialize(-1);
         gb.display_board();
-        //gb.players_choose_start_index();
+        gb.players_choose_start_index();
         gb.display_board();
         gb.start(0);
     }
@@ -82,6 +82,23 @@ int main (int argc, char* argv[]) {
     } else {
         std::cerr << "Invalid command line." << std::endl;
         return 0;
+    }
+
+    while (1) {
+        std::cout << "Would you like play again?" << std::endl;
+        std::string response;
+        std::cin >> response;
+        if (response == "yes") {
+            gb.initialize(-1);
+            gb.display_board();
+            gb.players_choose_start_index();
+            gb.display_board();
+            gb.start(0);
+        } else if (response == "no") {
+            return 0;
+        } else {
+            gb.d->invalid();
+        }
     }
     return 0;
 }

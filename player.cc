@@ -71,7 +71,6 @@ int Player::action(){
             int resourceTypeDemanded;
             cin>>target>>resourceTypeGiven>>resourceTypeDemanded;
             if(cin.eof()) gb->end_of_input(index);
-            target;
             resourceTypeDemanded++;
             resourceTypeGiven++;
             tradeRequest(target,resourceTypeGiven,resourceTypeDemanded);
