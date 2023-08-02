@@ -46,7 +46,7 @@ int main (int argc, char* argv[]) {
     if (argument == "-random-board") {
         gb.initialize(-1);
         gb.display_board();
-        gb.players_choose_start_index();
+        //gb.players_choose_start_index();
         gb.display_board();
         gb.start(0);
     }
