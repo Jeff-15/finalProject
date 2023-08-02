@@ -352,7 +352,7 @@ void Player::player_print() {
     // order: BRICK, ENERGY, GLASS, HEAT, then WIFI.
     // <colour> has <numPoints> building points, <numBrick> brick, <numEnergy> energy,
     // <numGlass> glass, <numHeat> heat, and <numWiFi> WiFi.
-    gb->d->status(index, numPoints, resource);
+    gb->d->status(index, score, resource);
 //     int i = 0;
 //     std::cout << gb->convert_short_to_full_name(gb->index_to_name(index)) << " has " << numPoints << " building points, " << resource[i++] << " brick, " <<  resource[i++] << " energy," << std::endl;
 //     std::cout << resource[i++] << " glass, " << resource[i++] << " heat, and " << resource[i++] << " WiFi." << std::endl;
