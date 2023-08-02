@@ -20,51 +20,68 @@ int main (int argc, char* argv[]) {
     gb.attachPlayer(p2);
     AbstractPlayer* p3 = new Player{3,&gb};
     gb.attachPlayer(p3);
-    if (argc == 2) {  // random board
-        std::string cmd = argv[1];
-        if (cmd == "-random-board") {
-            gb.initialize(-1);
-            gb.display_board();
-            gb.players_choose_start_index();
-            gb.display_board();
-            gb.start(0);
-        }
-    }
-    else if (argc == 3) {
-        std::string cmd = argv[1];
-        if (cmd == "-seed") {
-            std::string seed = argv[2];
-            std::stringstream oss {seed};
-            int seed_num;
-            oss >> seed_num;
-            gb.initialize(seed_num);
-            gb.display_board();
-            gb.players_choose_start_index();
-            gb.display_board();
-            gb.start(0);  
-        }
-        else if (cmd == "-load") {
-            size_t curr = 0;
-            gb.initialize(-1);
-            std::string file_name = argv[2];
-            std::ifstream iss {file_name};
-            gb.read_load_info(iss, curr);
-            gb.display_board();
-            gb.start(curr);
-        }
-        else if (cmd == "-board") {
-            gb.initialize(-1);
-            std::string file_name = argv[2];
-            std::ifstream iss {file_name};
-            gb.read_board_info(iss);
-            gb.display_board();
-            gb.players_choose_start_index();
-            gb.display_board();
-            gb.start(0);
-        }
-    }
-    else {
 
+
+    std::string argument = "-random-board";
+    std::string arg;
+
+    for (int i = 1; i < argc; ++i) {
+        std::string sb = argv[i];
+        if (sb == "-load") {
+            argument = "-load";
+            arg = argv[i + 1];
+            break;
+        } else if (sb == "-board") {
+            argument = "-board";
+            arg = argv[i + 1];
+            break;
+        } else if (sb == "-seed") {
+            argument = "-seed";
+            arg = argv[i + 1];
+        } else {
+            continue;
+        }
+    }
+
+    if (argument == "-random-board") {
+        gb.initialize(-1);
+        gb.display_board();
+        gb.players_choose_start_index();
+        gb.display_board();
+        gb.start(0);
+    }
+    else if (argument == "-seed") {
+        std::string seed = argv[2];
+        std::stringstream oss {seed};
+        int seed_num;
+        oss >> seed_num;
+        gb.initialize(seed_num);
+        gb.display_board();
+        gb.players_choose_start_index();
+        gb.display_board();
+        gb.start(0);  
+    }
+    else if (argument == "-load") {
+        size_t curr = 0;
+        gb.initialize(-1);
+        std::string file_name = argv[2];
+        std::ifstream iss {file_name};
+        gb.read_load_info(iss, curr);
+        gb.display_board();
+        gb.start(curr);
+    }
+    else if (argument == "-board") {
+        gb.initialize(-1);
+        std::string file_name = argv[2];
+        std::ifstream iss {file_name};
+        gb.read_board_info(iss);
+        gb.display_board();
+        gb.players_choose_start_index();
+        gb.display_board();
+        gb.start(0);
+    } else {
+        std::cerr << "Invalid command line." << std::endl;
+        return 0;
     }
     return 0;
 }
