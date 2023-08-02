@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <sstream>
 #include <vector>
 #include <string>
 #include "display.h"
@@ -38,14 +39,18 @@ std::string Display::input() {
 
 int Display::readInt(){
 
-    std::cout << ">";
-    int s;
-    while(!std::cin>>s){
+    while(true){
+        std::cout << ">>";
+        std::string s;
+        cin>>s;
+        istringstream iss{s};
+        int i = 0;
+        if(iss>>i){
+            return i;
+        }
         invalid();
-        cin.clear();
-        cin.ignore();
     }
-    return s;
+
 }
 
 void Display::invalid() {

@@ -12,5 +12,6 @@ class AbstractPlayer{
         virtual std::vector <int> getBasement() = 0;
         virtual std::vector <int> getHouse() = 0;
         virtual std::vector <int> getTower() = 0;
+        
 };
 #endif
