@@ -23,7 +23,7 @@ int main (int argc, char* argv[]) {
         gb.attachPlayer(p3);
         gb.initialize();
         gb.display_board();
-        gb.players_choose_start_index();
+        //gb.players_choose_start_index();
         gb.display_board();
         gb.start();
     }

@@ -13,7 +13,7 @@ class CONSTANTS{
         static const int ROADCOMMAND = 2;
         static const int BASEMENTCOMMAND = 3;
         static const int IMPROVECOMMAND = 4;
-        static const int TRADECOMMAND = 5; 
+        static const int TRADECOMMAND = -5; 
         static int get_resource_code(std::string s) {
             if (s == "BRICK") {
                 return 100;
@@ -42,16 +42,27 @@ class CONSTANTS{
         }
     static int get_Player_code(std::string s) {
         if (s == "B") {
-            return 100;
+            return 0;
         } else if (s == "R") {
-            return 101;
+            return 1;
         } else if (s == "O") {
-            return 102;
+            return 2;
         } else if (s == "Y") {
-            return 103;
-        } else {
-            return 104;
-       }
+            return 3;
+        }
+    }
+    static std::string get_Player_string(int s) {
+        if (s == 0) {
+            return "Blue";
+        } else if (s == 1) {
+            return "Red";
+        } else if (s == 2) {
+            return "Orange";
+        } else if (s == 3) {
+            return "Yellow";
+        }
+        return "";
+
     }
 };
 #endif

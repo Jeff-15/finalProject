@@ -71,7 +71,7 @@ int Player::action(){
             int resourceTypeDemanded;
             cin>>target>>resourceTypeGiven>>resourceTypeDemanded;
             if(cin.eof()) gb->end_of_input(index);
-            target++;
+            target;
             resourceTypeDemanded++;
             resourceTypeGiven++;
             tradeRequest(target,resourceTypeGiven,resourceTypeDemanded);
@@ -168,24 +168,38 @@ void Player::houseConstruct(int position){
 }
 
 void Player::tradeRequest(int target, int resourceTypeGiven, int resourceTypeDemanded, int amountGiven, int amountDemanded){
-    if(resource[resourceTypeGiven]<amountGiven){
+    if(resource[resourceTypeGiven-1]<amountGiven){
 
         // cout<<"not possible, not enough resource"<<endl;
         gb->d->insufficient();
         return;
     }
-    gb->setInput(resourceTypeDemanded*100+amountDemanded);
+    gb->setInput(resourceTypeDemanded);
     try{
-        gb->processCommand(index,CONSTANTS::TRADECOMMAND*target,resourceTypeGiven*100+amountGiven);
-        resource[resourceTypeGiven]-=amountGiven;
-        resource[resourceTypeDemanded]+=resourceTypeDemanded;
+        gb->processCommand(index,CONSTANTS::TRADECOMMAND*(target+1),resourceTypeGiven);
+        resource[resourceTypeGiven-1]-=amountGiven;
+        resource[resourceTypeDemanded-1]+=amountDemanded;
     }catch(const char*s){
         cout<<s<<endl;
     }
 }
 
 void Player::tradeResponse(int target, int resourceTypeGiven, int resourceTypeDemanded, int amountGiven, int amountDemanded) {
-    return;
+    gb->d->trade(target,CONSTANTS::get_Player_string(index),CONSTANTS::get_resource_name(resourceTypeDemanded),CONSTANTS::get_resource_name(resourceTypeGiven));
+    while(true){
+        int response = gb->d->readInt();
+        std::cout<<response<<std::endl;
+        if( response==1){
+            std::cout<<"recieved"<<std::endl;
+            resource[resourceTypeGiven] -= 1;
+            resource[resourceTypeDemanded] += 1;
+            break;
+        }
+        else if(response == 2){
+            throw "denied";
+        }
+    }
+
 }
 
 void Player::improve(int position){
@@ -228,19 +242,17 @@ void Player::improve(int position){
     gb->d->buildFail();
 }
 
-int Player::robberRandomLoss(){
+//returns array of length 5
+int* Player::robberRandomLoss(){
     int total = resource[0]+resource[1]+resource[2]+resource[3]+resource[4];
-    std::cout<<total<<endl;
-    int loss = 0;
+    int loss[5] = {0,0,0,0,0};
     if(total>=gb->GEESELIMIT){
         int lost = total/2;
         for(int i = lost; i>0; i--){
             int k = randomLoss();
-            resource[k] -= 1;
-            loss += CONSTANTS::DECIMALPOWER[k];
+            loss[k]++;
         }
     }
-    std::cout<<loss<<endl;
     return loss;
 
 }
@@ -292,7 +304,8 @@ int Player::notify(int target, int eventPara1, int eventPara2){
             resource[eventPara1-100] += eventPara2;
         }
         else if(eventPara1 == 1 && eventPara2 == 0){//loss resource to geese
-            robberRandomLoss();
+            int* a = robberRandomLoss();
+            //gb->d->geeseLose(index,a);
         }
         else if(eventPara1 == 1){//geese stealing
             if(eventPara2 == 1){
@@ -308,12 +321,11 @@ int Player::notify(int target, int eventPara1, int eventPara2){
         }
         else if(eventPara1 <= CONSTANTS::TRADECOMMAND){
             int proposer = (eventPara1/CONSTANTS::TRADECOMMAND)-1;
-            int resourceOffered,amountOffered,resourceDemanded,amountDemanded;
-            resourceOffered = (eventPara2/1000000)/100;
-            amountOffered = (eventPara2/1000000)%100;
-            resourceDemanded = (eventPara2%1000000)/100;
-            amountDemanded = (eventPara2%1000000)%100;
-            tradeResponse(proposer,resourceDemanded,resourceOffered,amountDemanded,amountOffered);
+            std::cout<<eventPara2<<std::endl;
+            int resourceOffered,resourceDemanded;
+            resourceOffered = (eventPara2/10)-1;
+            resourceDemanded = eventPara2%10 -1;
+            tradeResponse(proposer,resourceDemanded,resourceOffered,1,1);
         }
     }
     return 0;
@@ -321,7 +333,7 @@ int Player::notify(int target, int eventPara1, int eventPara2){
 
 Player::Player(int index,GameBoard *gb): gb {gb}, display{new Display()}, index {index}{
     for (int i = 0; i < RESOURCETYPE; ++i) {
-        resource[i] = 0;
+        resource[i] = 5;
     }
     score = 0;
 }

@@ -90,10 +90,10 @@ void GameBoard::player_get_resource () {
                 if (vertices[vertex]->own()) {
                     int player_num = name_to_index(vertices[vertex]->getOwner());
                     // notify(target (player code), eventPara1 100~104, eventPara2 1~3): recieve resources (call when giving player resources)
-                    notifyPlayer(0,100,1); // give player index 0 / 1 item of / item 0
-                    if (tiles[i]->getType() == "B") {
+                    // give player index 0 / 1 item of / item 0
+                    if (vertices[vertex]->getLevel() == "B") {
                         notifyPlayer(player_num,code , 1);
-                    } else if (tiles[i]->getType() == "H") {
+                    } else if (vertices[vertex]->getLevel() == "H") {
                         notifyPlayer(player_num,code , 2);
                     } else {
                         notifyPlayer(player_num,code , 3);
@@ -113,10 +113,11 @@ void GameBoard::processGeese(int tileIndex, int index, std::string activePlayer)
         if (vertices[vertex]->own()) {
             std::string name = vertices[vertex]->getOwner();
             notifyPlayer(CONSTANTS::get_Player_code(name),1,1);
-            if(input<=0)continue;
+            
             if (name == activePlayer)continue;
-            name = convert_short_to_full_name(name);
-            builders.emplace_back(name);
+            if(input>0){
+                name = convert_short_to_full_name(name);
+                builders.emplace_back(name);}
         }
     }
     if (builders.empty()) {
@@ -148,7 +149,8 @@ void GameBoard::processGeese(int tileIndex, int index, std::string activePlayer)
     int stolenPlayer = input;
     int active_player_index = name_to_index(activePlayer);
     std::string r_name;         // resource name
-    notifyPlayer(active_player_index,1,2);
+    notifyPlayer(stolenPlayer,1,2);
+    notifyPlayer(active_player_index,100+input,1);
     r_name = CONSTANTS::get_resource_name(input);
     // std::cout << "Builder " << curr_player_name << " steals " << r_name << " from builder ";
     // vertices[steal_index]->printOwner();
@@ -159,13 +161,11 @@ void GameBoard::processGeese(int tileIndex, int index, std::string activePlayer)
 void GameBoard::processTrade(int index, int target, int given){
     //input = resourceTypeDemanded*100+amountDemanded
     int demanded = input;
-    notifyPlayer(target,CONSTANTS::TRADECOMMAND*index,given*1000000+demanded);
+    notifyPlayer(target-1,CONSTANTS::TRADECOMMAND*(index+1),given*10+demanded);
 }
 
 void GameBoard::processDice(int index){
-    std::cout<<"geese process"<<std::endl;
     if(diceRoll == 7){
-        std::cout << "hello" << std::endl;
         notifyPlayer(-1,1,0);
         notifyPlayer(index,-1,-1);
         processGeese(input,index,index_to_name(index));
