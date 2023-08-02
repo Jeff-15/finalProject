@@ -24,6 +24,7 @@ int main (int argc, char* argv[]) {
         std::string cmd = argv[1];
         if (cmd == "-random-board") {
             gb.initialize(-1);
+            gb.display_board();
             gb.players_choose_start_index();
             gb.display_board();
             gb.start(0);
@@ -37,6 +38,7 @@ int main (int argc, char* argv[]) {
             int seed_num;
             oss >> seed_num;
             gb.initialize(seed_num);
+            gb.display_board();
             gb.players_choose_start_index();
             gb.display_board();
             gb.start(0);  
@@ -48,7 +50,6 @@ int main (int argc, char* argv[]) {
             std::ifstream iss {file_name};
             gb.read_load_info(iss, curr);
             gb.display_board();
-            gb.players_choose_start_index();
             gb.start(curr);
         }
         else if (cmd == "-board") {
@@ -58,6 +59,7 @@ int main (int argc, char* argv[]) {
             gb.read_board_info(iss);
             gb.display_board();
             gb.players_choose_start_index();
+            gb.display_board();
             gb.start(0);
         }
     }

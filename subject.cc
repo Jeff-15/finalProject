@@ -43,5 +43,4 @@ void Subject::appendInput(int num){
         this->input*=10;
     }
     this->input += input;
-
 }
