@@ -10,6 +10,9 @@
 class Display: public AbstractDisplay {
 
   public:
+    // order: "Blue", "Red", "Orange", "Yellow", 0, 1, 2, 3
+    void trading(int curr, int other_player, int give, int get);
+
     void geeseLose(int colour, int *r);
 
     std::string input();

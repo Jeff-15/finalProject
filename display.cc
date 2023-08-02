@@ -4,6 +4,13 @@
 #include <string>
 #include "display.h"
 
+void Display::trading(int curr, int other_player, int give, int get) {
+    std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
+    std::vector<std::string> resource = {"BRICK", "ENERGY", "GLASS", "HEAT", "WIFI"};
+    std::cout << colours[curr] << " offers " << colours[other_player] << " one " << resource[give] << " for one " << resource[get] << "." << std::endl;
+    std::cout << "Does " << colours[other_player] << " accept this offer?" << std::endl;
+}
+
 void Display::geeseLose(int colour, int *r) {
     std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
     std::vector<std::string> resource = {"BRICK", "ENERGY", "GLASS", "HEAT", "WIFI"};
@@ -30,9 +37,14 @@ std::string Display::input() {
 }
 
 int Display::readInt(){
+
     std::cout << ">";
     int s;
-    std::cin>>s;
+    while(!std::cin>>s){
+        invalid();
+        cin.clear();
+        cin.ignore();
+    }
     return s;
 }
 
@@ -58,7 +70,6 @@ void Display::begin(int builder) {
 void Display::end(int builder) {
     std::vector<std::string> colours = {"Blue", "Red", "Orange", "Yellow"};
     std::cout << "Builder " << colours[builder] << " is the winner." << std::endl;
-    std::cout << "Would you like play again?" << std::endl;
 }
 
 void Display::loadedDice() {
@@ -179,7 +190,7 @@ void Display::trade(int builder, std::string colour, std::string give, std::stri
     std::string Builder = colours[builder];
     std::cout << Builder << " offers " << colour << " one ";
     std::cout << give << " for one " << take << "." << std::endl;
-    std::cout << "Does " << colour << " accept this offer?" << std::endl;
+    std::cout << "Does " << colour << " accept this offer? (yes: 1, no: 2)" << std::endl;
 }
 
 
